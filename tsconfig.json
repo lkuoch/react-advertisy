@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "baseUrl": ".",
+    "moduleResolution": "Node",
+    "module": "es6",
+    "target": "es5",
+    "downlevelIteration": true,
+    "paths": {
+      "@AppTypes": ["./src/types"],
+      "@Components/*": ["./src/Components/*"],
+      "@Config": ["./src/Config/app.json"],
+      "@Containers/*": ["./src/Containers/*"],
+      "@Mock/*" : ["./src/Mock/*"],
+      "@Core/*": ["src/Core/*"],
+      "@Services/*": ["./src/Services/*"],
+      "@Styles/*": ["./src/Styles/*"],
+    },
+    "allowSyntheticDefaultImports": true,
+    "jsx": "react",
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "resolveJsonModule": true,
+    "pretty": true,
+    "sourceMap": true
+  },
+  "include": ["./src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
