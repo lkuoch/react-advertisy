@@ -4,10 +4,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import MockProducts from "@Mock/products.json";
 import { actions, selectors } from "./redux";
 import * as services from "./services";
-import {
-  actions as customerActions,
-  selectors as customerSelectors,
-} from "@Containers/Customer/redux";
+import { actions as customerActions, selectors as customerSelectors } from "@Containers/Customer/redux";
 import * as customerServices from "@Containers/Customer/services";
 import { ProductResponse } from "./models";
 import type { ICart, ICustomer } from "@AppTypes";
@@ -17,21 +14,14 @@ export function* initCartSaga() {
   const { products }: ProductResponse = MockProducts;
   const mappedProducts = yield* call(services.createMappedProducts, products);
 
-  yield* all([
-    put(actions.updateProducts(products)),
-    put(actions.updateMappedProducts(mappedProducts)),
-  ]);
+  yield* all([put(actions.updateProducts(products)), put(actions.updateMappedProducts(mappedProducts))]);
 }
 
 export function* handleOffersSaga() {
   const customerId = yield* select(customerSelectors.selectCurrentCustomer);
   const customerMeta = yield* select(customerSelectors.selectCustomerMeta);
 
-  const discountApplied = yield* call(
-    customerServices.discountApplied,
-    customerMeta,
-    customerId
-  );
+  const discountApplied = yield* call(customerServices.discountApplied, customerMeta, customerId);
 
   // Only need to calculate discounts once
   if (!discountApplied) {
@@ -39,31 +29,22 @@ export function* handleOffersSaga() {
   }
 }
 
-export function* handleProductSelectionSaga(
-  action: PayloadAction<ICart.IProductSelectionPayload>
-) {
+export function* handleProductSelectionSaga(action: PayloadAction<ICart.IProductSelectionPayload>) {
   // Retrieve information
   const { id: productId, type } = action.payload;
   const customerId = yield* select(customerSelectors.selectCurrentCustomer);
-  const customerSelections = yield* select(
-    customerSelectors.selectCustomerSelections
-  );
+  const customerSelections = yield* select(customerSelectors.selectCustomerSelections);
 
   // Calculate new cart values
-  const updatedCustomerSelections = yield* call(
-    services.handleCustomerSelection,
-    {
-      type,
-      customerSelections,
-      customerId,
-      productId,
-    }
-  );
+  const updatedCustomerSelections = yield* call(services.handleCustomerSelection, {
+    type,
+    customerSelections,
+    customerId,
+    productId,
+  });
 
   // Update new cart values
-  yield* put(
-    customerActions.updateCustomerSelections(updatedCustomerSelections)
-  );
+  yield* put(customerActions.updateCustomerSelections(updatedCustomerSelections));
 }
 
 function* applyDiscountsSaga({
@@ -73,29 +54,19 @@ function* applyDiscountsSaga({
   customerId: number;
   customerMeta: ICustomer.ICustomerMeta;
 }) {
-  const customerSelections = yield* select(
-    customerSelectors.selectCustomerSelections
-  );
-  const currentOffers = yield* select(
-    customerSelectors.selectCurrentOffers,
-    customerId
-  );
+  const customerSelections = yield* select(customerSelectors.selectCustomerSelections);
+  const currentOffers = yield* select(customerSelectors.selectCurrentOffers, customerId);
   const products = yield* select(selectors.selectProducts);
 
-  const updatedCustomerSelections = yield* call(
-    services.calculateCustomerSpecialPrices,
-    {
-      customerId,
-      customerSelections,
-      currentOffers,
-      products,
-    }
-  );
+  const updatedCustomerSelections = yield* call(services.calculateCustomerSpecialPrices, {
+    customerId,
+    customerSelections,
+    currentOffers,
+    products,
+  });
 
   if (updatedCustomerSelections) {
-    yield* put(
-      customerActions.updateCustomerSelections(updatedCustomerSelections)
-    );
+    yield* put(customerActions.updateCustomerSelections(updatedCustomerSelections));
   }
 
   const updatedCustomerMeta = yield* call(customerServices.updateCustomerMeta, {

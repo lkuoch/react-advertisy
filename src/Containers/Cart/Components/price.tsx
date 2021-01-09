@@ -9,11 +9,7 @@ interface IPriceProps extends ICart.IProps {
 }
 
 export default function Price(props: IPriceProps) {
-  const customerPrice = get(
-    props.customerSelections,
-    [props.currentCustomer, props.item.id, "customerPrice"],
-    null
-  );
+  const customerPrice = get(props.customerSelections, [props.currentCustomer, props.item.id, "customerPrice"], null);
   const retailPrice = props.item.RetailPrice;
 
   return (

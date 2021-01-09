@@ -12,10 +12,7 @@ const mapStateToProps = (state: IRootState): ICart.IStateProps => {
   const currentCustomer = customerSelectors.selectCurrentCustomer(state);
   const customerSelections = customerSelectors.selectCustomerSelections(state);
   const products = selectors.selectProducts(state);
-  const currentOffers = customerSelectors.selectCurrentOffers(
-    state,
-    currentCustomer
-  );
+  const currentOffers = customerSelectors.selectCurrentOffers(state, currentCustomer);
 
   return {
     appConfig,
@@ -27,8 +24,7 @@ const mapStateToProps = (state: IRootState): ICart.IStateProps => {
 };
 
 const mapDispatchToProps = (dispatch: Dispatch): ICart.IDispatchProps => ({
-  handleProductSelection: (payload) =>
-    dispatch(actions.handleProductSelection(payload)),
+  handleProductSelection: (payload) => dispatch(actions.handleProductSelection(payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartComponent);

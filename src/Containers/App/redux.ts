@@ -23,7 +23,7 @@ export namespace IApp {
 
   export interface IOwnProps {}
 
-  export interface IProps extends IStateProps, IDispatchProps, IOwnProps {};
+  export interface IProps extends IStateProps, IDispatchProps, IOwnProps {}
 }
 
 // Slice details

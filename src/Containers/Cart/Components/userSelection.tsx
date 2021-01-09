@@ -10,11 +10,7 @@ interface IUserSelectionProps extends ICart.IProps {
 
 export default function UserSelection(props: IUserSelectionProps) {
   const id = props.item.id;
-  const qty = get(
-    props.customerSelections,
-    [props.currentCustomer, id, "qty"],
-    0
-  );
+  const qty = get(props.customerSelections, [props.currentCustomer, id, "qty"], 0);
 
   return (
     <div className="number-input ui form">

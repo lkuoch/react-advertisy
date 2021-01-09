@@ -20,9 +20,7 @@ export default function Description(props: IDescriptionProps) {
       {availableOffers.length > 0 && (
         <div className="special-offer-section">
           <p>
-            <span className="special-offer-title ui red text">
-              SPECIAL OFFER:
-            </span>
+            <span className="special-offer-title ui red text">SPECIAL OFFER:</span>
           </p>
 
           <ul>

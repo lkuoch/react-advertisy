@@ -9,10 +9,7 @@ export function* initCustomersSaga() {
   // Fetch and put data in store
   const { customers }: CustomerResponse = MockCustomers;
 
-  const mappedCustomers = yield* call(
-    services.createMappedCustomers,
-    customers
-  );
+  const mappedCustomers = yield* call(services.createMappedCustomers, customers);
 
   const currCust = yield* call(services.retrieveFirstCustomer, customers);
 

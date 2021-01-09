@@ -8,11 +8,6 @@ const mapStateToProps = (state: IRootState): IPriceSummary.IStateProps => ({
   prices: selectors.selectPrices(state),
 });
 
-const mapDispatchToProps = (
-  _dispatch: Dispatch
-): IPriceSummary.IDispatchProps => ({});
+const mapDispatchToProps = (_dispatch: Dispatch): IPriceSummary.IDispatchProps => ({});
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PriceSummaryComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(PriceSummaryComponent);

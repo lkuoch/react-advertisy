@@ -14,9 +14,7 @@ export default function PriceSummary(props: IPriceSummary.IProps) {
 
         {props.prices.discountPrice > 0 && (
           <>
-            <h3 className="ui dividing header right aligned red">
-              Your Savings
-            </h3>
+            <h3 className="ui dividing header right aligned red">Your Savings</h3>
             <h4 id="discount-price" className="ui header right aligned red">
               ${props.prices.discountPrice.toFixed(2)}
             </h4>

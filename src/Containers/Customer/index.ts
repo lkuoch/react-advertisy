@@ -12,8 +12,7 @@ const mapStateToProps = (state: IRootState): ICustomer.IStateProps => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): ICustomer.IDispatchProps => ({
-  updateCurrentCustomer: (payload) =>
-    dispatch(actions.updateCurrentCustomer(payload)),
+  updateCurrentCustomer: (payload) => dispatch(actions.updateCurrentCustomer(payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CustomerComponent);

@@ -19,10 +19,7 @@ export namespace ICustomer {
     updateCustomers: CaseReducer<IState, PayloadAction<Customer[]>>;
     updateMappedCustomers: CaseReducer<IState, PayloadAction<MappedCustomer>>;
     updateCurrentCustomer: CaseReducer<IState, PayloadAction<number>>;
-    updateCustomerSelections: CaseReducer<
-      IState,
-      PayloadAction<ICustomerSelection>
-    >;
+    updateCustomerSelections: CaseReducer<IState, PayloadAction<ICustomerSelection>>;
     updateCustomerMeta: CaseReducer<IState, PayloadAction<ICustomerMeta>>;
   }
 
@@ -38,7 +35,7 @@ export namespace ICustomer {
 
   export interface IOwnProps {}
 
-  export interface IProps extends IStateProps, IDispatchProps, IOwnProps {};
+  export interface IProps extends IStateProps, IDispatchProps, IOwnProps {}
 
   export interface ICustomerSelection {
     [cusID: number]: {
@@ -95,8 +92,7 @@ const selectors = {
   selectCustomers: (state: IRootState) => state[name].customers,
   selectMappedCustomers: (state: IRootState) => state[name].mappedCustomers,
   selectCurrentCustomer: (state: IRootState) => state[name].currentCustomer,
-  selectCustomerSelections: (state: IRootState) =>
-    state[name].customerSelections,
+  selectCustomerSelections: (state: IRootState) => state[name].customerSelections,
   selectCurrentOffers: (state: IRootState, currentCustomer: number) =>
     state[name].mappedCustomers[currentCustomer]?.Offers,
   selectCustomerMeta: (state: IRootState) => state[name].meta,

@@ -1,11 +1,7 @@
 import * as _ from "lodash";
 
 import { MappedProduct } from "@Containers/Cart/models";
-import {
-  Offer,
-  Offers,
-  ProductDiscountType,
-} from "@Containers/Customer/models";
+import { Offer, Offers, ProductDiscountType } from "@Containers/Customer/models";
 import type { ICustomer, IPriceSummary } from "@AppTypes";
 
 export function calculateNewTotals(input: {
@@ -14,12 +10,7 @@ export function calculateNewTotals(input: {
   currentOffers: Offers | undefined;
   mappedProducts: MappedProduct;
 }): IPriceSummary.IPrices {
-  const {
-    currentCustomer,
-    customerSelections,
-    currentOffers,
-    mappedProducts,
-  } = _.cloneDeep(input);
+  const { currentCustomer, customerSelections, currentOffers, mappedProducts } = _.cloneDeep(input);
 
   const currCustSelects = _.get(customerSelections, [currentCustomer], null);
 
@@ -55,11 +46,7 @@ export function calculateNewTotals(input: {
   };
 }
 
-function calculateDiscountedPrices(input: {
-  productOffers: Offer[];
-  custQty: number;
-  retailPrice: number;
-}): number {
+function calculateDiscountedPrices(input: { productOffers: Offer[]; custQty: number; retailPrice: number }): number {
   const { custQty, productOffers, retailPrice } = _.cloneDeep(input);
 
   for (let productOffer of productOffers) {
@@ -94,7 +81,7 @@ function calculateXYDeal([x, y]: [number, number], qty: number, price: number) {
   }
 
   const quotient = Math.floor(qty / x);
-  const remainder = x % qty;
+  const remainder = qty % x;
 
   return quotient * y * price + remainder * price;
 }

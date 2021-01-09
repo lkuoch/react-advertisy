@@ -24,9 +24,6 @@ export function updateCustomerMeta(input: {
   return customerMeta;
 }
 
-export function discountApplied(
-  customerMeta: ICustomer.ICustomerMeta,
-  customerId: number
-) {
+export function discountApplied(customerMeta: ICustomer.ICustomerMeta, customerId: number) {
   return _.get(customerMeta, [customerId, "discountsApplied"], false);
 }

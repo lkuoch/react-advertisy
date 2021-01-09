@@ -1,9 +1,4 @@
-import {
-  CaseReducer,
-  createSlice,
-  PayloadAction,
-  SliceCaseReducers,
-} from "@reduxjs/toolkit";
+import { CaseReducer, createSlice, PayloadAction, SliceCaseReducers } from "@reduxjs/toolkit";
 
 import { MappedProduct, Product, ProductSelectionType } from "./models";
 import { Offers } from "@Containers/Customer/models";
@@ -17,10 +12,7 @@ export namespace ICart {
 
   export interface IActions extends SliceCaseReducers<IState> {
     initCart: CaseReducer<IState>;
-    handleProductSelection: CaseReducer<
-      IState,
-      PayloadAction<IProductSelectionPayload>
-    >;
+    handleProductSelection: CaseReducer<IState, PayloadAction<IProductSelectionPayload>>;
 
     updateProducts: CaseReducer<IState, PayloadAction<Product[]>>;
     updateMappedProducts: CaseReducer<IState, PayloadAction<MappedProduct>>;

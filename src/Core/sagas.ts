@@ -7,10 +7,5 @@ import priceSummarySagas from "@Containers/PriceSummary/sagas";
 
 // Global registration of saga components
 export default function* rootSagas() {
-  yield* all([
-    ...appSagas,
-    ...cartSagas,
-    ...customerSagas,
-    ...priceSummarySagas,
-  ]);
+  yield* all([...appSagas, ...cartSagas, ...customerSagas, ...priceSummarySagas]);
 }

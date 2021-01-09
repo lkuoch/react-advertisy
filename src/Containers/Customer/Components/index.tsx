@@ -16,11 +16,7 @@ export default function Customer(props: ICustomer.IProps) {
             "red active": x.id === props.currentCustomer,
             item: true,
           })}
-          onClick={() =>
-            props.currentCustomer !== x.id
-              ? props.updateCurrentCustomer(x.id)
-              : null
-          }
+          onClick={() => (props.currentCustomer !== x.id ? props.updateCurrentCustomer(x.id) : null)}
         >
           {x.Name}
         </a>

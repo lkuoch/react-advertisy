@@ -42,10 +42,7 @@ const initialState: IPriceSummary.IState = {
   },
 };
 
-const { actions, reducer } = createSlice<
-  IPriceSummary.IState,
-  IPriceSummary.IActions
->({
+const { actions, reducer } = createSlice<IPriceSummary.IState, IPriceSummary.IActions>({
   name,
   initialState,
   reducers: {

@@ -14,12 +14,7 @@ export function calculateCustomerSpecialPrices(input: {
   currentOffers: Offers | undefined;
   products: Product[];
 }) {
-  const {
-    currentOffers,
-    customerId,
-    customerSelections,
-    products,
-  } = _.cloneDeep(input);
+  const { currentOffers, customerId, customerSelections, products } = _.cloneDeep(input);
 
   if (currentOffers) {
     for (let product of products) {
@@ -30,17 +25,10 @@ export function calculateCustomerSpecialPrices(input: {
 
         switch (offerType) {
           case ProductDiscountType.NewPrice: {
-            const updatedCustomerSelection = _.cloneDeep(customerSelections);
             const [newPrice] = offer.values;
 
-            _.setWith(
-              updatedCustomerSelection,
-              [customerId, product.id, "customerPrice"],
-              newPrice,
-              Object
-            );
-
-            return updatedCustomerSelection;
+            _.setWith(customerSelections, [customerId, product.id, "customerPrice"], newPrice, Object);
+            return customerSelections;
           }
 
           default: {
@@ -60,16 +48,10 @@ export function handleCustomerSelection(input: {
   customerId: number;
   productId: number;
 }) {
-  const { customerId, customerSelections, productId, type } = _.cloneDeep(
-    input
-  );
+  const { customerId, customerSelections, productId, type } = _.cloneDeep(input);
 
   // See if current customer has product in cart
-  const currentCustomerQty = _.get(
-    customerSelections,
-    [customerId, productId, "qty"],
-    null
-  );
+  const currentCustomerQty = _.get(customerSelections, [customerId, productId, "qty"], null);
 
   // Set initial value
   if (currentCustomerQty === null) {
@@ -81,20 +63,12 @@ export function handleCustomerSelection(input: {
   // Handle increment / decrement
   switch (type) {
     case ProductSelectionType.Increment: {
-      _.update(
-        customerSelections,
-        [customerId, productId, "qty"],
-        (n) => n + 1
-      );
+      _.update(customerSelections, [customerId, productId, "qty"], (n) => n + 1);
       break;
     }
     case ProductSelectionType.Decrement: {
       if (currentCustomerQty > 0) {
-        _.update(
-          customerSelections,
-          [customerId, productId, "qty"],
-          (n) => n - 1
-        );
+        _.update(customerSelections, [customerId, productId, "qty"], (n) => n - 1);
       }
       break;
     }

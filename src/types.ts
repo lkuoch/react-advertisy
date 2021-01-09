@@ -1,13 +1,7 @@
 import type { IApp, name as AppName } from "@Containers/App/redux";
 import type { ICart, name as CartName } from "@Containers/Cart/redux";
-import type {
-  ICustomer,
-  name as CustomerName,
-} from "@Containers/Customer/redux";
-import type {
-  IPriceSummary,
-  name as PriceSummaryName,
-} from "@Containers/PriceSummary/redux";
+import type { ICustomer, name as CustomerName } from "@Containers/Customer/redux";
+import type { IPriceSummary, name as PriceSummaryName } from "@Containers/PriceSummary/redux";
 
 // Config file
 interface IConfig {
