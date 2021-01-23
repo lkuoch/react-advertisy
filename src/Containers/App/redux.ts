@@ -12,18 +12,6 @@ export namespace IApp {
   export interface IActions extends SliceCaseReducers<IState> {
     initApp: CaseReducer<IState>;
   }
-
-  export interface IStateProps {
-    appConfig: IConfig;
-  }
-
-  export interface IDispatchProps {
-    initApp: () => void;
-  }
-
-  export interface IOwnProps {}
-
-  export interface IProps extends IStateProps, IDispatchProps, IOwnProps {}
 }
 
 // Slice details

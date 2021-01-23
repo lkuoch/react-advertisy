@@ -1,16 +1,22 @@
 import React from "react";
 import { get } from "lodash";
+import { useDispatch, useSelector } from "react-redux";
 
+import { selectors as customerSelectors } from "@Containers/Customer/redux";
+import { actions } from "@Containers/Cart/redux";
 import { Product, ProductSelectionType } from "@Containers/Cart/models";
-import type { ICart } from "@AppTypes";
 
-interface IUserSelectionProps extends ICart.IProps {
+interface IUserSelectionProps {
   item: Product;
 }
 
 export default function UserSelection(props: IUserSelectionProps) {
+  const dispatch = useDispatch();
+  const customerSelections = useSelector(customerSelectors.selectCustomerSelections);
+  const currentCustomer = useSelector(customerSelectors.selectCurrentCustomer);
+
   const id = props.item.id;
-  const qty = get(props.customerSelections, [props.currentCustomer, id, "qty"], 0);
+  const qty = get(customerSelections, [currentCustomer, id, "qty"], 0);
 
   return (
     <div className="number-input ui form">
@@ -23,10 +29,12 @@ export default function UserSelection(props: IUserSelectionProps) {
           <button
             className="ui negative basic button"
             onClick={() =>
-              props.handleProductSelection({
-                id,
-                type: ProductSelectionType.Decrement,
-              })
+              dispatch(
+                actions.handleProductSelection({
+                  id,
+                  type: ProductSelectionType.Decrement,
+                })
+              )
             }
           >
             -
@@ -37,10 +45,12 @@ export default function UserSelection(props: IUserSelectionProps) {
           <button
             className="ui positive basic button"
             onClick={() =>
-              props.handleProductSelection({
-                id,
-                type: ProductSelectionType.Increment,
-              })
+              dispatch(
+                actions.handleProductSelection({
+                  id,
+                  type: ProductSelectionType.Increment,
+                })
+              )
             }
           >
             +

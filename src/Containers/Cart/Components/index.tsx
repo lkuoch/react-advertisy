@@ -1,12 +1,15 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 import Header from "./header";
 import Description from "./description";
 import Price from "./price";
 import UserSelection from "./userSelection";
-import type { ICart } from "@AppTypes";
+import { selectors } from "@Containers/Cart/redux";
 
-export default function Cart(props: ICart.IProps) {
+export default function Cart() {
+  const products = useSelector(selectors.selectProducts);
+
   return (
     <div id="cart">
       <div className="center-panel ui segment">
@@ -23,20 +26,20 @@ export default function Cart(props: ICart.IProps) {
           </thead>
 
           <tbody>
-            {props.products.map((x) => (
+            {products.map((x) => (
               <tr key={x.id}>
                 <td data-label="name">{x.Name}</td>
 
                 <td data-label="description">
-                  <Description {...props} item={x} />
+                  <Description item={x} />
                 </td>
 
                 <td data-label="retail-price">
-                  <Price {...props} item={x} />
+                  <Price item={x} />
                 </td>
 
                 <td data-label="select-quantity">
-                  <UserSelection {...props} item={x} />
+                  <UserSelection item={x} />
                 </td>
               </tr>
             ))}

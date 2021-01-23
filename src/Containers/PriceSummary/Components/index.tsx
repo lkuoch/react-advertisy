@@ -1,27 +1,30 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
-import type { IPriceSummary } from "@AppTypes";
+import { selectors } from "@Containers/PriceSummary/redux";
 
-export default function PriceSummary(props: IPriceSummary.IProps) {
+export default function PriceSummary() {
+  const prices = useSelector(selectors.selectPrices);
+
   return (
     <div id="price-summary">
       <div className="price-summary-wrapper ui clearing segment">
         <h3 className="ui dividing header right aligned">Item Totals</h3>
 
         <h4 id="total-price" className="ui header right aligned">
-          ${props.prices.totalPrice.toFixed(2)}
+          ${prices.totalPrice.toFixed(2)}
         </h4>
 
-        {props.prices.discountPrice > 0 && (
+        {prices.discountPrice > 0 && (
           <>
             <h3 className="ui dividing header right aligned red">Your Savings</h3>
             <h4 id="discount-price" className="ui header right aligned red">
-              ${props.prices.discountPrice.toFixed(2)}
+              ${prices.discountPrice.toFixed(2)}
             </h4>
 
             <h2 className="ui dividing header right aligned">Final Price</h2>
             <h3 id="discount-price" className="ui header right aligned">
-              ${props.prices.finalTotalPrice.toFixed(2)}
+              ${prices.finalTotalPrice.toFixed(2)}
             </h3>
           </>
         )}

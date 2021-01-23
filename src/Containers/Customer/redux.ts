@@ -23,20 +23,6 @@ export namespace ICustomer {
     updateCustomerMeta: CaseReducer<IState, PayloadAction<ICustomerMeta>>;
   }
 
-  export interface IStateProps {
-    customers: Customer[];
-    currentCustomer: number;
-    customerSelections: ICustomerSelection;
-  }
-
-  export interface IDispatchProps {
-    updateCurrentCustomer: (payload: number) => void;
-  }
-
-  export interface IOwnProps {}
-
-  export interface IProps extends IStateProps, IDispatchProps, IOwnProps {}
-
   export interface ICustomerSelection {
     [cusID: number]: {
       [prodID: number]: {
@@ -93,8 +79,10 @@ const selectors = {
   selectMappedCustomers: (state: IRootState) => state[name].mappedCustomers,
   selectCurrentCustomer: (state: IRootState) => state[name].currentCustomer,
   selectCustomerSelections: (state: IRootState) => state[name].customerSelections,
-  selectCurrentOffers: (state: IRootState, currentCustomer: number) =>
-    state[name].mappedCustomers[currentCustomer]?.Offers,
+  selectCurrentOffers: (state: IRootState) => {
+    const currentCustomer = state[name].currentCustomer;
+    return state[name].mappedCustomers[currentCustomer]?.Offers;
+  },
   selectCustomerMeta: (state: IRootState) => state[name].meta,
 };
 

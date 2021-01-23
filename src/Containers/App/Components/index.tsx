@@ -1,26 +1,30 @@
 import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
+import { actions, selectors } from "@Containers/App/redux";
 import Header from "./header";
-import CustomerContainer from "@Containers/Customer";
-import CartContainer from "@Containers/Cart";
-import PriceSummaryContainer from "@Containers/PriceSummary";
-import type { IApp } from "@AppTypes";
+import Customer from "@Containers/Customer/Components";
+import Cart from "@Containers/Cart/Components";
+import PriceSummary from "@Containers/PriceSummary/Components";
 
-export default function App(props: IApp.IProps) {
+export default function App() {
+  const dispatch = useDispatch();
+  const appConfig = useSelector(selectors.selectAppConfig);
+
   useEffect(() => {
-    props.initApp();
+    dispatch(actions.initApp());
   }, []);
 
   return (
     <div id="app">
-      <Header title={props.appConfig.translation.appTitle} />
+      <Header title={appConfig.translation.appTitle} />
 
       <div id="content">
-        <CustomerContainer />
+        <Customer />
 
         <div id="checkout">
-          <CartContainer />
-          <PriceSummaryContainer />
+          <Cart />
+          <PriceSummary />
         </div>
       </div>
     </div>

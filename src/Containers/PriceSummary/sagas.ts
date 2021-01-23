@@ -10,7 +10,7 @@ export function* updatePriceSummarySaga() {
   // Retrieve info
   const customerSelections = yield* select(customerSelectors.selectCustomerSelections);
   const currentCustomer = yield* select(customerSelectors.selectCurrentCustomer);
-  const currentOffers = yield* select(customerSelectors.selectCurrentOffers, currentCustomer);
+  const currentOffers = yield* select(customerSelectors.selectCurrentOffers);
   const mappedProducts = yield* select(cartSelectors.selectMappedProducts);
 
   // Calculate new totals

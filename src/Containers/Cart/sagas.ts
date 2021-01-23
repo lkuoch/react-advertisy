@@ -55,7 +55,7 @@ function* applyDiscountsSaga({
   customerMeta: ICustomer.ICustomerMeta;
 }) {
   const customerSelections = yield* select(customerSelectors.selectCustomerSelections);
-  const currentOffers = yield* select(customerSelectors.selectCurrentOffers, customerId);
+  const currentOffers = yield* select(customerSelectors.selectCurrentOffers);
   const products = yield* select(selectors.selectProducts);
 
   const updatedCustomerSelections = yield* call(services.calculateCustomerSpecialPrices, {

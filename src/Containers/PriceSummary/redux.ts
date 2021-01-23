@@ -14,16 +14,6 @@ export namespace IPriceSummary {
     updatePrices: CaseReducer<IState, PayloadAction<IPrices>>;
   }
 
-  export interface IStateProps {
-    prices: IPrices;
-  }
-
-  export interface IDispatchProps {}
-
-  export interface IOwnProps {}
-
-  export interface IProps extends IStateProps, IDispatchProps, IOwnProps {}
-
   export interface IPrices {
     totalPrice: number;
     discountPrice: number;

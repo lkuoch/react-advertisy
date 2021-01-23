@@ -18,22 +18,6 @@ export namespace ICart {
     updateMappedProducts: CaseReducer<IState, PayloadAction<MappedProduct>>;
   }
 
-  export interface IStateProps {
-    appConfig: IConfig;
-    products: Product[];
-    currentCustomer: number;
-    customerSelections: ICustomer.ICustomerSelection;
-    currentOffers?: Offers;
-  }
-
-  export interface IDispatchProps {
-    handleProductSelection: (payload: IProductSelectionPayload) => void;
-  }
-
-  export interface IOwnProps {}
-
-  export interface IProps extends IStateProps, IDispatchProps, IOwnProps {}
-
   export interface IProductSelectionPayload {
     id: number;
     type: ProductSelectionType;

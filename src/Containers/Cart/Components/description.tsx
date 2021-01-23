@@ -1,17 +1,20 @@
 import React from "react";
 import { get } from "lodash";
+import { useSelector } from "react-redux";
+
+import { selectors as customerSelectors } from "@Containers/Customer/redux";
 
 import SpecialOffer from "@Components/specialOffer";
 import { Product } from "@Containers/Cart/models";
-import type { ICart } from "@AppTypes";
 import { Offer } from "@Containers/Customer/models";
 
-interface IDescriptionProps extends ICart.IProps {
+interface IDescriptionProps {
   item: Product;
 }
 
 export default function Description(props: IDescriptionProps) {
-  const availableOffers = get(props.currentOffers, [props.item.id], []);
+  const currentOffers = useSelector(customerSelectors.selectCurrentOffers);
+  const availableOffers = get(currentOffers, [props.item.id], []);
 
   return (
     <div className="description">

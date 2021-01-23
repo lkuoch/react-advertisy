@@ -10,7 +10,9 @@ const getEnhancers = (middleWares: Array<Middleware>) => {
   }
 
   // Use redux devtools in development environment
-  return composeWithDevTools(applyMiddleware(...middleWares));
+  return composeWithDevTools({
+    trace: true,
+  })(applyMiddleware(...middleWares));
 };
 
 export default function configureStore(initialState = {}) {
