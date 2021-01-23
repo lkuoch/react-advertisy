@@ -1,4 +1,4 @@
-import { all, call, put, takeEvery } from "typed-redux-saga";
+import { all, call, put, takeEvery } from "typed-redux-saga/macro";
 
 import MockCustomers from "@Mock/customers.json";
 import { actions } from "./redux";

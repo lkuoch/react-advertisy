@@ -1,4 +1,4 @@
-import { all, call, fork, put, select, takeEvery } from "typed-redux-saga";
+import { all, call, fork, put, select, takeEvery } from "typed-redux-saga/macro";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 import MockProducts from "@Mock/products.json";

@@ -19,12 +19,22 @@ module.exports = {
         exclude: /node_modules/,
         use: [
           {
+            loader: "babel-loader",
+          },
+          {
             loader: "ts-loader",
             options: {
               configFile: tsConfigFile,
             },
           },
         ],
+      },
+      {
+        test: /\.js$/,
+        exclude: /(node_modules|webpack)/,
+        use: {
+          loader: "babel-loader",
+        },
       },
       {
         test: /\.less$/,

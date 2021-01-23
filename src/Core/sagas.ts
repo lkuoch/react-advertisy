@@ -1,4 +1,4 @@
-import { all } from "typed-redux-saga";
+import { all } from "typed-redux-saga/macro";
 
 import appSagas from "@Core/App/sagas";
 import cartSagas from "@Core/Cart/sagas";

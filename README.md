@@ -32,7 +32,7 @@ Browse to https://localhost:3000
 
 - Used prettier as the default ts/tsx formatter.
 
-  - It's extremely opinionated but at least it enforces a strict style for all the code although I do believe the 80 character max width limit is a bit too strict.
+  ~~- It's extremely opinionated but at least it enforces a strict style for all the code although I do believe the 80 character max width limit is a bit too strict.~~
 
 - Configured webpack manually due to personal preference. Since I am in charge of how the app is bundled transpiled I know every step of the process.
 
@@ -50,19 +50,19 @@ Browse to https://localhost:3000
 
         - This follows the Clean Architecture modelto an extent
 
-  - I am a big fan of presentational and container components.
+  ~~- I am a big fan of presentational and container components.~~
 
-    - I know this can be achieved with hooks but with sagas middleware it's easier to compose complex logic both sync and async.
+    ~~- I know this can be achieved with hooks but with sagas middleware it's easier to compose complex logic both sync and async.~~
 
     - I can give examples where this paradigm was extremely pivotal to deliver top quality features in a timely manner.
 
 ## Potential Improvements:
 
-- Currently Typescript is in charge of transpiling down to es5 syntax.
+~~- Currently Typescript is in charge of transpiling down to es5 syntax.~~
 
-  - This misses out on potential better optimizations present in the babel ecosystem such as bundle size and tree shaking.
+  ~~- This misses out on potential better optimizations present in the babel ecosystem such as bundle size and tree shaking.~~
 
-    - The solution would be just to transpile down to esnext and have a extra stage in webpack to use babel to optimize and tree shake the final produced javascript.
+    ~~- The solution would be just to transpile down to esnext and have a extra stage in webpack to use babel to optimize and tree shake the final produced javascript.~~
 
 - Add more tests
 
