@@ -48,19 +48,19 @@ Browse to https://localhost:3000
 
       - Sagas acts a a orchestrator (thin imperative shell) that calls pure functions (services).
 
-        - This follows the Clean Architecture modelto an extent
+        - This follows the Clean Architecture model to an extent
 
   ~~- I am a big fan of presentational and container components.~~
 
-    ~~- I know this can be achieved with hooks but with sagas middleware it's easier to compose complex logic both sync and async.~~
+  ~~- I know this can be achieved with hooks but with sagas middleware it's easier to compose complex logic both sync and async.~~
 
-    - I can give examples where this paradigm was extremely pivotal to deliver top quality features in a timely manner.
+  - I can give examples where this paradigm was extremely pivotal to deliver top quality features in a timely manner.
 
 ## Potential Improvements:
 
 ~~- Currently Typescript is in charge of transpiling down to es5 syntax.~~
 
-  ~~- This misses out on potential better optimizations present in the babel ecosystem such as bundle size and tree shaking.~~
+~~- This misses out on potential better optimizations present in the babel ecosystem such as bundle size and tree shaking.~~
 
     ~~- The solution would be just to transpile down to esnext and have a extra stage in webpack to use babel to optimize and tree shake the final produced javascript.~~
 

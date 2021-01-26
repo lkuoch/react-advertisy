@@ -4,9 +4,9 @@ import { useSelector } from "react-redux";
 
 import { selectors as customerSelectors } from "@Core/Customer/redux";
 
-import PriceSpecialOffer from "@Components/Generic/priceSpecialOffer";
-import { Product } from "@Core/Cart/models";
-import { Offer } from "@Core/Customer/models";
+import PriceSpecialOffer from "@Components/Shared/priceSpecialOffer";
+import type { Product } from "@Core/Cart/models";
+import type { Offer } from "@Core/Customer/models";
 
 interface IDescriptionProps {
   item: Product;
@@ -23,7 +23,9 @@ export default function Description(props: IDescriptionProps) {
       {availableOffers.length > 0 && (
         <div className="special-offer-section">
           <p>
-            <span className="special-offer-title ui red text">SPECIAL OFFER:</span>
+            <span className="special-offer-title ui red text">
+              SPECIAL OFFER:
+            </span>
           </p>
 
           <ul>

@@ -1,19 +1,20 @@
-export interface ProductResponse {
+export type ProductResponse = {
   products: Product[];
-}
+};
 
-export interface Product {
+export type Product = {
   id: number;
   Name: string;
   Description: string;
   RetailPrice: number;
-}
-
-export interface MappedProduct {
-  [k: number]: Product;
-}
+};
 
 export enum ProductSelectionType {
   Increment,
   Decrement,
 }
+
+export type ProductSelectionPayload = {
+  id: number;
+  type: ProductSelectionType;
+};

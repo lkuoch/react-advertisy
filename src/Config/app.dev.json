@@ -1,0 +1,11 @@
+{
+  "translation": {
+    "appTitle": "Advertisy"
+  },
+
+  "features": {
+    "header": {
+      "enabled": true
+    }
+  }
+}

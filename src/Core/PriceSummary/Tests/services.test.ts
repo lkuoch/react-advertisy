@@ -1,33 +1,32 @@
 import * as services from "@Core/PriceSummary/services";
-import { Offers } from "@Core/Customer/models";
-import { MappedProduct } from "@Core/Cart/models";
-
-import { ICustomer, IPriceSummary } from "@Core/types";
+import { CustomerSelection, Offers } from "@Core/Customer/models";
+import { Prices } from "../models";
+import { Product } from "@Core/Cart/models";
 
 describe("PriceSummary Service Tests", () => {
-  let customerSelections: ICustomer.ICustomerSelection;
+  let customerSelections: CustomerSelection;
   let currentCustomer: number;
   let currentOffers: Offers | undefined;
-  let mappedProducts: MappedProduct;
+  let products: Product[];
 
   describe("[calculateNewTotals]", () => {
     beforeEach(() => {
       customerSelections = {};
       currentCustomer = 0;
       currentOffers = undefined;
-      mappedProducts = {
-        "0": {
+      products = [
+        {
           id: 0,
           Name: "Test Product",
           Description: "Test Product Description",
           RetailPrice: 100.0,
         },
-      };
+      ];
     });
 
     describe("customerSelections and currentOffers not initialized", () => {
       it("calculates default result", () => {
-        const expectedResult: IPriceSummary.IPrices = {
+        const expectedResult: Prices = {
           totalPrice: 0,
           discountPrice: 0,
           finalTotalPrice: 0,
@@ -38,7 +37,7 @@ describe("PriceSummary Service Tests", () => {
             customerSelections,
             currentCustomer,
             currentOffers,
-            mappedProducts,
+            products,
           })
         ).toEqual(expectedResult);
       });
@@ -54,7 +53,7 @@ describe("PriceSummary Service Tests", () => {
           },
         };
 
-        const expectedResult: IPriceSummary.IPrices = {
+        const expectedResult: Prices = {
           totalPrice: 100.0,
           discountPrice: 0,
           finalTotalPrice: 100.0,
@@ -65,7 +64,7 @@ describe("PriceSummary Service Tests", () => {
             customerSelections,
             currentCustomer,
             currentOffers,
-            mappedProducts,
+            products,
           })
         ).toEqual(expectedResult);
       });
@@ -79,7 +78,7 @@ describe("PriceSummary Service Tests", () => {
           },
         };
 
-        const expectedResult: IPriceSummary.IPrices = {
+        const expectedResult: Prices = {
           totalPrice: 300.0,
           discountPrice: 0,
           finalTotalPrice: 300.0,
@@ -90,7 +89,7 @@ describe("PriceSummary Service Tests", () => {
             customerSelections,
             currentCustomer,
             currentOffers,
-            mappedProducts,
+            products,
           })
         ).toEqual(expectedResult);
       });
@@ -118,7 +117,7 @@ describe("PriceSummary Service Tests", () => {
             },
           };
 
-          const expectedResult: IPriceSummary.IPrices = {
+          const expectedResult: Prices = {
             totalPrice: 100.0,
             discountPrice: 25.0,
             finalTotalPrice: 75.0,
@@ -129,7 +128,7 @@ describe("PriceSummary Service Tests", () => {
               customerSelections,
               currentCustomer,
               currentOffers,
-              mappedProducts,
+              products,
             })
           );
         });
@@ -143,7 +142,7 @@ describe("PriceSummary Service Tests", () => {
             },
           };
 
-          const expectedResult: IPriceSummary.IPrices = {
+          const expectedResult: Prices = {
             totalPrice: 300.0,
             discountPrice: 75.0,
             finalTotalPrice: 225.0,
@@ -154,7 +153,7 @@ describe("PriceSummary Service Tests", () => {
               customerSelections,
               currentCustomer,
               currentOffers,
-              mappedProducts,
+              products,
             })
           );
         });
@@ -181,7 +180,7 @@ describe("PriceSummary Service Tests", () => {
             },
           };
 
-          const expectedResult: IPriceSummary.IPrices = {
+          const expectedResult: Prices = {
             totalPrice: 100.0,
             discountPrice: 0.0,
             finalTotalPrice: 100.0,
@@ -192,7 +191,7 @@ describe("PriceSummary Service Tests", () => {
               customerSelections,
               currentCustomer,
               currentOffers,
-              mappedProducts,
+              products,
             })
           ).toEqual(expectedResult);
         });
@@ -206,7 +205,7 @@ describe("PriceSummary Service Tests", () => {
             },
           };
 
-          const expectedResult: IPriceSummary.IPrices = {
+          const expectedResult: Prices = {
             totalPrice: 500.0,
             discountPrice: 200.0,
             finalTotalPrice: 300.0,
@@ -217,7 +216,7 @@ describe("PriceSummary Service Tests", () => {
               customerSelections,
               currentCustomer,
               currentOffers,
-              mappedProducts,
+              products,
             })
           ).toEqual(expectedResult);
         });

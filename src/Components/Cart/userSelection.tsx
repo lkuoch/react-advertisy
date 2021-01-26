@@ -12,7 +12,9 @@ interface IUserSelectionProps {
 
 export default function UserSelection(props: IUserSelectionProps) {
   const dispatch = useDispatch();
-  const customerSelections = useSelector(customerSelectors.selectCustomerSelections);
+  const customerSelections = useSelector(
+    customerSelectors.selectCustomerSelections
+  );
   const currentCustomer = useSelector(customerSelectors.selectCurrentCustomer);
 
   const id = props.item.id;

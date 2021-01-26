@@ -1,30 +1,14 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import type { SliceCaseReducers, CaseReducer } from "@reduxjs/toolkit";
-
-import type { IRootState } from "@Core/types";
-
-export namespace IPriceSummary {
-  export interface IState {
-    totals: IPrices;
-  }
-
-  export interface IActions extends SliceCaseReducers<IState> {
-    initPriceSummary: CaseReducer<IState>;
-
-    updatePrices: CaseReducer<IState, PayloadAction<IPrices>>;
-  }
-
-  export interface IPrices {
-    totalPrice: number;
-    discountPrice: number;
-    finalTotalPrice: number;
-  }
-}
+import { createSlice } from "@reduxjs/toolkit";
+import { Prices } from "./models";
 
 // Slice details
 const name = "PRICE_SUMMARY";
 
-const initialState: IPriceSummary.IState = {
+interface IState {
+  totals: Prices;
+}
+
+const initialState: IState = {
   totals: {
     totalPrice: 0,
     discountPrice: 0,
@@ -32,7 +16,7 @@ const initialState: IPriceSummary.IState = {
   },
 };
 
-const { actions, reducer } = createSlice<IPriceSummary.IState, IPriceSummary.IActions>({
+const { actions, reducer } = createSlice({
   name,
   initialState,
   reducers: {

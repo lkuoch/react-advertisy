@@ -1,40 +1,25 @@
-const webpack = require("webpack");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CompressionPlugin = require("compression-webpack-plugin");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
+const { generateAppConfig } = require("./utility/generateConfig");
 const path = require("path");
 
-// Config
-const tsConfigFile = path.resolve("./tsconfig.json");
-
 // App variables
-const appVars = require("./app.json");
+const buildConfig = require("./app.json");
 
-module.exports = {
+module.exports = (env) => ({
   entry: "./src/index.tsx",
   module: {
     rules: [
       {
-        test: /\.(ts|tsx)$/,
+        test: /\.(js|ts|tsx)$/,
         exclude: /node_modules/,
         use: [
           {
             loader: "babel-loader",
           },
-          {
-            loader: "ts-loader",
-            options: {
-              configFile: tsConfigFile,
-            },
-          },
         ],
-      },
-      {
-        test: /\.js$/,
-        exclude: /(node_modules|webpack)/,
-        use: {
-          loader: "babel-loader",
-        },
       },
       {
         test: /\.less$/,
@@ -76,13 +61,14 @@ module.exports = {
     stats: "errors-warnings",
   },
   plugins: [
+    generateAppConfig(env),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: appVars.app.title,
+      title: buildConfig.app.title,
       favicon: path.resolve("./src/Assets/favicon.ico"),
       template: path.resolve("./src/index.html"),
     }),
-    new webpack.HotModuleReplacementPlugin(),
+    new CompressionPlugin(),
   ],
   output: {
     path: path.resolve(__dirname, "../dist"),
@@ -90,7 +76,4 @@ module.exports = {
     sourceMapFilename: "[name].map",
     chunkFilename: "[id].[chunkhash].js",
   },
-  optimization: {
-    usedExports: true,
-  },
-};
+});

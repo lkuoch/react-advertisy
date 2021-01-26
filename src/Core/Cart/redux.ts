@@ -1,55 +1,44 @@
-import { CaseReducer, createSlice, PayloadAction, SliceCaseReducers } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  createEntityAdapter,
+  PayloadAction,
+} from "@reduxjs/toolkit";
 
-import { MappedProduct, Product, ProductSelectionType } from "./models";
-import type { IRootState } from "@Core/types";
-
-export namespace ICart {
-  export interface IState {
-    products: Product[];
-    mappedProducts: MappedProduct;
-  }
-
-  export interface IActions extends SliceCaseReducers<IState> {
-    initCart: CaseReducer<IState>;
-    handleProductSelection: CaseReducer<IState, PayloadAction<IProductSelectionPayload>>;
-
-    updateProducts: CaseReducer<IState, PayloadAction<Product[]>>;
-    updateMappedProducts: CaseReducer<IState, PayloadAction<MappedProduct>>;
-  }
-
-  export interface IProductSelectionPayload {
-    id: number;
-    type: ProductSelectionType;
-  }
-}
+import { Product, ProductSelectionPayload } from "./models";
 
 // Slice details
 const name = "CART";
 
-const initialState: ICart.IState = {
-  products: [],
-  mappedProducts: {},
-};
+const adapter = createEntityAdapter<Product>({
+  selectId: (product) => product.id,
+  sortComparer: false,
+});
 
-const { actions, reducer } = createSlice<ICart.IState, ICart.IActions>({
+const slice = adapter.getSelectors<IRootState>((state) => state[name]);
+
+const { actions, reducer } = createSlice({
   name,
-  initialState,
+  initialState: adapter.getInitialState({}),
   reducers: {
     initCart: (state) => state,
-    handleProductSelection: (state) => state,
+    handleProductSelection: (
+      state,
+      _action: PayloadAction<ProductSelectionPayload>
+    ) => state,
 
-    updateProducts: (state, { payload }) => {
-      state.products = payload;
-    },
-    updateMappedProducts: (state, { payload }) => {
-      state.mappedProducts = payload;
-    },
+    // CRUD
+    addProduct: adapter.addOne,
+    addProducts: adapter.addMany,
   },
 });
 
 const selectors = {
-  selectProducts: (state: IRootState) => state[name].products,
-  selectMappedProducts: (state: IRootState) => state[name].mappedProducts,
+  selectProductsState: (state: IRootState) => ({
+    ids: slice.selectIds(state),
+    entities: slice.selectAll(state),
+  }),
+  selectProducts: (state: IRootState) => slice.selectAll(state),
+  selectProductIds: (state: IRootState) => slice.selectIds(state),
 };
 
-export { initialState, actions, reducer, selectors, name };
+export { actions, reducer, selectors, name };

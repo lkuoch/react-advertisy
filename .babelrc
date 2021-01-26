@@ -1,5 +1,7 @@
 {
   "plugins": [
+    "lodash",
+    ["@babel/plugin-transform-typescript", { "allowNamespaces": true }],
     "babel-plugin-macros",
     [
       "@babel/plugin-transform-runtime",
@@ -8,5 +10,9 @@
       }
     ]
   ],
-  "presets": ["@babel/preset-typescript", "@babel/preset-react", "@babel/preset-env"]
+  "presets": [
+    ["@babel/preset-env", { "modules": false }],
+    "@babel/preset-react",
+    "@babel/preset-typescript"
+  ]
 }

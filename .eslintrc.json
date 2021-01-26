@@ -1,17 +1,12 @@
 {
-  "extends": [
-    "prettier"
-  ],
-  "plugins": [
-    "prettier"
-  ],
+  "extends": ["prettier", "prettier/react"],
+  "plugins": ["prettier"],
   "rules": {
-    "prettier/prettier": [
-      "error"
-    ]
+    "prettier/prettier": ["error"]
   },
   "parserOptions": {
-    "ecmaVersion": 2017
+    "ecmaVersion": 2017,
+    "sourceType": "module"
   },
   "env": {
     "es6": true

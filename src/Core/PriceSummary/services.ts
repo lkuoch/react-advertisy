@@ -1,16 +1,26 @@
 import * as _ from "lodash";
 
-import { MappedProduct } from "@Core/Cart/models";
-import { Offer, Offers, ProductDiscountType } from "@Core/Customer/models";
-import type { ICustomer, IPriceSummary } from "@Core/types";
+import { Product } from "@Core/Cart/models";
+import {
+  CustomerSelection,
+  Offer,
+  Offers,
+  ProductDiscountType,
+} from "@Core/Customer/models";
+import { Prices } from "./models";
 
 export function calculateNewTotals(input: {
-  customerSelections: ICustomer.ICustomerSelection;
+  customerSelections: CustomerSelection;
   currentCustomer: number;
   currentOffers: Offers | undefined;
-  mappedProducts: MappedProduct;
-}): IPriceSummary.IPrices {
-  const { currentCustomer, customerSelections, currentOffers, mappedProducts } = _.cloneDeep(input);
+  products: Product[];
+}): Prices {
+  const {
+    currentCustomer,
+    customerSelections,
+    currentOffers,
+    products,
+  } = _.cloneDeep(input);
 
   const currCustSelects = _.get(customerSelections, [currentCustomer], null);
 
@@ -26,7 +36,7 @@ export function calculateNewTotals(input: {
   let totalPriceWithDiscount = 0;
 
   for (let prodId in currCustSelects) {
-    const retailPrice = mappedProducts[prodId].RetailPrice;
+    const retailPrice = products[prodId].RetailPrice;
     const productOffers = _.get(currentOffers, [prodId], []);
     const custQty = _.get(currCustSelects, [prodId, "qty"], 0);
 
@@ -46,7 +56,11 @@ export function calculateNewTotals(input: {
   };
 }
 
-function calculateDiscountedPrices(input: { productOffers: Offer[]; custQty: number; retailPrice: number }): number {
+function calculateDiscountedPrices(input: {
+  productOffers: Offer[];
+  custQty: number;
+  retailPrice: number;
+}): number {
   const { custQty, productOffers, retailPrice } = _.cloneDeep(input);
 
   for (let productOffer of productOffers) {

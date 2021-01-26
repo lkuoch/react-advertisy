@@ -1,34 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { SliceCaseReducers, CaseReducer } from "@reduxjs/toolkit";
 
-import config from "@Config";
-import type { IRootState } from "@Core/types";
-
-export namespace IApp {
-  export interface IState {
-    appConfig: IConfig;
-  }
-
-  export interface IActions extends SliceCaseReducers<IState> {
-    initApp: CaseReducer<IState>;
-  }
-
-  // Config file
-  interface IConfig {
-    readonly translation: {
-      readonly appTitle: string;
-    };
-  }
+declare global {
+  // Make CONFIG globally available
+  var CONFIG: typeof import("@Config");
 }
+
+interface IState {}
 
 // Slice details
 const name = "APP";
 
-const initialState: IApp.IState = {
-  appConfig: config,
-};
+const initialState: IState = {};
 
-const { actions, reducer } = createSlice<IApp.IState, IApp.IActions>({
+const { actions, reducer } = createSlice({
   name,
   initialState,
   reducers: {
@@ -36,8 +20,6 @@ const { actions, reducer } = createSlice<IApp.IState, IApp.IActions>({
   },
 });
 
-const selectors = {
-  selectAppConfig: (state: IRootState) => state[name].appConfig,
-};
+const selectors = {};
 
 export { initialState, actions, reducer, selectors, name };

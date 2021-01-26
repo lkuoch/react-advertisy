@@ -1,11 +1,9 @@
 import * as services from "@Core/Cart/services";
-import { Offers } from "@Core/Customer/models";
+import { CustomerSelection, Offers } from "@Core/Customer/models";
 import { Product } from "@Core/Cart/models";
 
-import { ICustomer } from "@Core/types";
-
 describe("Cart Service Tests", () => {
-  let customerSelections: ICustomer.ICustomerSelection;
+  let customerSelections: CustomerSelection;
   let customerId: number;
   let currentOffers: Offers | undefined;
   let products: Product[];
@@ -53,7 +51,7 @@ describe("Cart Service Tests", () => {
       });
 
       it("SHOULD return updated price", () => {
-        const expectedResult: ICustomer.ICustomerSelection = {
+        const expectedResult: CustomerSelection = {
           0: {
             0: {
               customerPrice: 75,

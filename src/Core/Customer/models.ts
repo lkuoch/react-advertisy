@@ -3,25 +3,36 @@ export enum ProductDiscountType {
   NewPrice = "NewPrice",
 }
 
-export interface CustomerResponse {
+export type CustomerResponse = {
   customers: Customer[];
-}
+};
 
-export interface Customer {
+export type Customer = {
   id: number;
   Name: string;
   Offers?: Offers;
-}
+};
 
-export interface Offers {
+export type Offers = {
   [productId: string]: Offer[] | undefined;
-}
+};
 
-export interface Offer {
+export type Offer = {
   type: string;
   values: number[];
-}
+};
 
-export interface MappedCustomer {
-  [k: number]: Customer;
-}
+export type CustomerSelection = {
+  [cusID: number]: {
+    [prodID: number]: {
+      qty?: number;
+      customerPrice?: number;
+    };
+  };
+};
+
+export type CustomerMeta = {
+  [cusID: number]: {
+    discountsApplied: boolean;
+  };
+};

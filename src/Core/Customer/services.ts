@@ -1,18 +1,13 @@
 import * as _ from "lodash";
 
-import { Customer, MappedCustomer } from "./models";
-import { ICustomer } from "@Core/types";
-
-export function createMappedCustomers(customers: Customer[]): MappedCustomer {
-  return _.keyBy(customers, "id");
-}
+import { Customer, CustomerMeta } from "./models";
 
 export function retrieveFirstCustomer(customers: Customer[]): number {
   return _.get(customers, [0, "id"], 0);
 }
 
 export function updateCustomerMeta(input: {
-  customerMeta: ICustomer.ICustomerMeta;
+  customerMeta: CustomerMeta;
   customerId: number;
   key: string;
   value: any;
@@ -24,6 +19,9 @@ export function updateCustomerMeta(input: {
   return customerMeta;
 }
 
-export function discountApplied(customerMeta: ICustomer.ICustomerMeta, customerId: number) {
+export function discountApplied(
+  customerMeta: CustomerMeta,
+  customerId: number
+) {
   return _.get(customerMeta, [customerId, "discountsApplied"], false);
 }

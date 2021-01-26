@@ -2,10 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 
-import configureStore from "@Core/store";
-import App from "@Components";
+import configureStore from "@Store/index";
+import App from "@Components/index";
 
-import "fomantic-ui-css/semantic.css";
 import "@Styles/app.less";
 
 ReactDOM.render(

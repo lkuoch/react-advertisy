@@ -15,7 +15,9 @@ export default function PriceSpecialOffer(props: ISpecialOfferProps) {
     case ProductDiscountType.XYDeal: {
       const [x, y] = props.offer.values;
 
-      return <span className="special-offer ui blue text">{`Buy ${x} for the price of ${y}`}</span>;
+      return (
+        <span className="special-offer ui blue text">{`Buy ${x} for the price of ${y}`}</span>
+      );
     }
 
     case ProductDiscountType.NewPrice: {

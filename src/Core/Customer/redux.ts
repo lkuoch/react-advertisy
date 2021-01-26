@@ -1,89 +1,69 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import type { SliceCaseReducers, CaseReducer } from "@reduxjs/toolkit";
+import {
+  createEntityAdapter,
+  createSlice,
+  PayloadAction,
+} from "@reduxjs/toolkit";
 
-import { Customer, MappedCustomer } from "./models";
-import type { IRootState } from "@Core/types";
-
-export namespace ICustomer {
-  export interface IState {
-    currentCustomer: number;
-    customers: Customer[];
-    mappedCustomers: MappedCustomer;
-    customerSelections: ICustomerSelection;
-    meta: ICustomerMeta;
-  }
-
-  export interface IActions extends SliceCaseReducers<IState> {
-    initCustomer: CaseReducer<IState>;
-
-    updateCustomers: CaseReducer<IState, PayloadAction<Customer[]>>;
-    updateMappedCustomers: CaseReducer<IState, PayloadAction<MappedCustomer>>;
-    updateCurrentCustomer: CaseReducer<IState, PayloadAction<number>>;
-    updateCustomerSelections: CaseReducer<IState, PayloadAction<ICustomerSelection>>;
-    updateCustomerMeta: CaseReducer<IState, PayloadAction<ICustomerMeta>>;
-  }
-
-  export interface ICustomerSelection {
-    [cusID: number]: {
-      [prodID: number]: {
-        qty?: number;
-        customerPrice?: number;
-      };
-    };
-  }
-
-  export interface ICustomerMeta {
-    [cusID: number]: {
-      discountsApplied: boolean;
-    };
-  }
-}
+import { Customer, CustomerMeta, CustomerSelection } from "./models";
 
 // Slice details
 const name = "CUSTOMER";
 
-const initialState: ICustomer.IState = {
-  customers: [],
-  mappedCustomers: {},
-  currentCustomer: 0,
-  customerSelections: {},
-  meta: {},
-};
+interface IState {
+  current: number;
+  selections: CustomerSelection;
+  meta: CustomerMeta;
+}
 
-const { actions, reducer } = createSlice<ICustomer.IState, ICustomer.IActions>({
+const adapter = createEntityAdapter<Customer>({
+  selectId: (customer) => customer.id,
+  sortComparer: false,
+});
+
+const slice = adapter.getSelectors<IRootState>((state) => state[name]);
+
+const { actions, reducer } = createSlice({
   name,
-  initialState,
+  initialState: adapter.getInitialState<IState>({
+    current: 0,
+    selections: {},
+    meta: {},
+  }),
   reducers: {
     initCustomer: (state) => state,
 
-    updateCustomers: (state, { payload }) => {
-      state.customers = payload;
+    updateCurrentCustomer: (state, action: PayloadAction<number>) => {
+      state.current = action.payload;
     },
-    updateMappedCustomers: (state, { payload }) => {
-      state.mappedCustomers = payload;
+    updateCustomerSelections: (
+      state,
+      action: PayloadAction<CustomerSelection>
+    ) => {
+      state.selections = action.payload;
     },
-    updateCurrentCustomer: (state, { payload }) => {
-      state.currentCustomer = payload;
+    updateCustomerMeta: (state, action: PayloadAction<CustomerMeta>) => {
+      state.meta = action.payload;
     },
-    updateCustomerSelections: (state, { payload }) => {
-      state.customerSelections = payload;
-    },
-    updateCustomerMeta: (state, { payload }) => {
-      state.meta = payload;
-    },
+
+    // CRUD
+    addCustomer: adapter.addOne,
+    addCustomers: adapter.addMany,
   },
 });
 
 const selectors = {
-  selectCustomers: (state: IRootState) => state[name].customers,
-  selectMappedCustomers: (state: IRootState) => state[name].mappedCustomers,
-  selectCurrentCustomer: (state: IRootState) => state[name].currentCustomer,
-  selectCustomerSelections: (state: IRootState) => state[name].customerSelections,
-  selectCurrentOffers: (state: IRootState) => {
-    const currentCustomer = state[name].currentCustomer;
-    return state[name].mappedCustomers[currentCustomer]?.Offers;
-  },
+  selectCurrentCustomer: (state: IRootState) => state[name].current,
+  selectCurrentOffers: (state: IRootState) =>
+    state[name].entities[state[name].current]?.Offers,
   selectCustomerMeta: (state: IRootState) => state[name].meta,
+  selectCustomerSelections: (state: IRootState) => state[name].selections,
+
+  selectCustomersState: (state: IRootState) => ({
+    ids: slice.selectIds(state),
+    entities: slice.selectAll(state),
+  }),
+  selectCustomers: (state: IRootState) => slice.selectEntities(state),
+  selectCustomerIds: (state: IRootState) => slice.selectIds(state),
 };
 
-export { initialState, actions, reducer, selectors, name };
+export { actions, reducer, selectors, name };
