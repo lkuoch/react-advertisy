@@ -1,3 +1,4 @@
+import { apiMiddleware } from "redux-api-middleware";
 import createSagaMiddleWare from "redux-saga";
 import { applyMiddleware, createStore, Middleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
@@ -19,7 +20,7 @@ export default function configureStore(initialState = {}) {
   const sagaMiddleWare = createSagaMiddleWare();
 
   // Default middlewares
-  const middleWares = [sagaMiddleWare];
+  const middleWares = [apiMiddleware, sagaMiddleWare];
 
   // Link enhancers depending on environment
   const enhancers = getEnhancers(middleWares);

@@ -1,3 +1,5 @@
+import { ApiResult } from "@Middlewares/api";
+
 export enum ProductDiscountType {
   XYDeal = "XYDeal",
   NewPrice = "NewPrice",
@@ -36,3 +38,5 @@ export type CustomerMeta = {
     discountsApplied: boolean;
   };
 };
+
+export const fetchMovieResult = ApiResult("fetchCustomerMovie");
