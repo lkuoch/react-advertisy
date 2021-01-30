@@ -4,7 +4,7 @@ import {
   fork,
   put,
   select,
-  takeEvery,
+  takeLatest,
 } from "typed-redux-saga/macro";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
@@ -107,8 +107,10 @@ function* applyDiscountsSaga({
   yield* put(customerActions.updateCustomerMeta(updatedCustomerMeta));
 }
 
-export default [
-  takeEvery(actions.initCart, initCartSaga),
-  takeEvery(actions.handleProductSelection, handleProductSelectionSaga),
-  takeEvery(customerActions.updateCurrentCustomer, handleOffersSaga),
-];
+export default function* () {
+  yield* all([
+    takeLatest(actions.initCart, initCartSaga),
+    takeLatest(actions.handleProductSelection, handleProductSelectionSaga),
+    takeLatest(customerActions.updateCurrentCustomer, handleOffersSaga),
+  ]);
+}

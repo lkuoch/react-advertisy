@@ -1,4 +1,4 @@
-import { takeEvery, put } from "typed-redux-saga/macro";
+import { all, put, takeLatest } from "typed-redux-saga/macro";
 
 import { actions } from "./redux";
 import { actions as cartActions } from "@Core/Cart/redux";
@@ -9,4 +9,6 @@ export function* initAppSaga() {
   yield* put(customerActions.initCustomer());
 }
 
-export default [takeEvery(actions.initApp, initAppSaga)];
+export default function* () {
+  yield* all([takeLatest(actions.initApp, initAppSaga)]);
+}

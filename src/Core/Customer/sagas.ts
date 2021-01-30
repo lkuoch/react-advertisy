@@ -1,4 +1,4 @@
-import { all, call, put, takeEvery } from "typed-redux-saga/macro";
+import { all, call, put, takeLatest } from "typed-redux-saga/macro";
 
 import MockCustomers from "@Mock/customers.json";
 import { actions } from "./redux";
@@ -15,7 +15,7 @@ export function* initCustomersSaga() {
     put(actions.updateCurrentCustomer(currCust)),
   ]);
 
-  yield* put<any>(services.buildFetchMovieRequest());
+  yield* put<any>(services.fetchMovieAction());
 }
 
 function* fetchMoviewHandlerSaga(action: IMiddlewareActionResult) {
@@ -26,10 +26,12 @@ function* fetchMoviewHandlerSaga(action: IMiddlewareActionResult) {
   }
 }
 
-export default [
-  takeEvery(actions.initCustomer, initCustomersSaga),
-  takeEvery(
-    [fetchMovieResult.SUCCESS, fetchMovieResult.FAILURE],
-    fetchMoviewHandlerSaga
-  ),
-];
+export default function* () {
+  yield* all([
+    takeLatest(actions.initCustomer, initCustomersSaga),
+    takeLatest(
+      [fetchMovieResult.SUCCESS, fetchMovieResult.FAILURE],
+      fetchMoviewHandlerSaga
+    ),
+  ]);
+}

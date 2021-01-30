@@ -1,4 +1,4 @@
-import { call, put, select, takeEvery } from "typed-redux-saga/macro";
+import { all, call, put, select, takeLatest } from "typed-redux-saga/macro";
 
 import { actions } from "./redux";
 import * as services from "./services";
@@ -35,15 +35,17 @@ export function* updatePriceSummarySaga() {
   yield* put(actions.updatePrices(updatedPrices));
 }
 
-export default [
-  takeEvery(
-    [
-      customerActions.updateCurrentCustomer,
-      customerActions.updateCustomerSelections,
-      cartActions.addProduct,
-      cartActions.addProducts,
-      cartActions.handleProductSelection,
-    ],
-    updatePriceSummarySaga
-  ),
-];
+export default function* () {
+  yield* all([
+    takeLatest(
+      [
+        customerActions.updateCurrentCustomer,
+        customerActions.updateCustomerSelections,
+        cartActions.addProduct,
+        cartActions.addProducts,
+        cartActions.handleProductSelection,
+      ],
+      updatePriceSummarySaga
+    ),
+  ]);
+}

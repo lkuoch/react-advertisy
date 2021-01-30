@@ -27,7 +27,7 @@ export function discountApplied(
   return _.get(customerMeta, [customerId, "discountsApplied"], false);
 }
 
-export function buildFetchMovieRequest() {
+export function fetchMovieAction() {
   return createAction({
     endpoint:
       "https://ghibliapi.herokuapp.com/films/58611129-2dbc-4a81-a72f-77ddfc1b1b49",
