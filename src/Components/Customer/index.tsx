@@ -6,24 +6,24 @@ import { actions, selectors } from "@Core/Customer/redux";
 
 export default function Customer() {
   const dispatch = useDispatch();
-  const state = useSelector(selectors.selectCustomersState);
-  const currentCustomer = useSelector(selectors.selectCurrentCustomer);
+  const { ids, entities } = useSelector(selectors.selectAdapted);
+  const { current } = useSelector(selectors.selectState);
 
   return (
     <div id="customers" className="left-panel ui vertical menu">
       <Header />
 
-      {state.ids.map((x) => (
+      {ids.map((x) => (
         <a
           key={x}
-          className={`item ${x === currentCustomer ? "red active" : ""}`}
+          className={`item ${x === current ? "red active" : ""}`}
           onClick={() =>
-            currentCustomer !== x
+            current !== x
               ? dispatch(actions.updateCurrentCustomer(x as number))
               : null
           }
         >
-          {state.entities[x as number].Name}
+          {entities[x]!.Name}
         </a>
       ))}
     </div>

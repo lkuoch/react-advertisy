@@ -4,11 +4,11 @@ import { Prices } from "./models";
 // Slice details
 const name = "PRICE_SUMMARY";
 
-interface IState {
+export interface IPriceSummaryState {
   totals: Prices;
 }
 
-const initialState: IState = {
+const initialState: IPriceSummaryState = {
   totals: {
     totalPrice: 0,
     discountPrice: 0,
@@ -20,15 +20,17 @@ const { actions, reducer } = createSlice({
   name,
   initialState,
   reducers: {
-    initPriceSummary: (state) => state,
+    initPriceSummary: (slice) => slice,
 
-    updatePrices: (state, { payload }) => {
-      state.totals = payload;
+    updatePrices: (slice, { payload }) => {
+      slice.totals = payload;
     },
   },
 });
 
 const selectors = {
+  selectState: (state: IRootState) => state[name],
+
   selectPrices: (state: IRootState) => state[name].totals,
 };
 

@@ -5,18 +5,18 @@ declare global {
   var CONFIG: typeof import("@Config");
 }
 
-interface IState {}
+export interface IAppState {}
 
 // Slice details
 const name = "APP";
 
-const initialState: IState = {};
+const initialState: IAppState = {};
 
 const { actions, reducer } = createSlice({
   name,
   initialState,
   reducers: {
-    initApp: (state) => state,
+    initApp: (slice) => slice,
   },
 });
 

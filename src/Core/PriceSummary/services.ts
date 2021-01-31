@@ -1,28 +1,20 @@
 import * as _ from "lodash";
 
 import { Product } from "@Core/Cart/models";
-import {
-  CustomerSelection,
-  Offer,
-  Offers,
-  ProductDiscountType,
-} from "@Core/Customer/models";
+import { Offer, Offers, ProductDiscountType } from "@Core/Customer/models";
 import { Prices } from "./models";
+import { ICustomerState } from "@Core/Customer/redux";
 
 export function calculateNewTotals(input: {
-  customerSelections: CustomerSelection;
-  currentCustomer: number;
+  customerState: ICustomerState;
   currentOffers: Offers | undefined;
   products: Product[];
 }): Prices {
-  const {
-    currentCustomer,
-    customerSelections,
-    currentOffers,
-    products,
-  } = _.cloneDeep(input);
+  const { customerState, currentOffers, products } = _.cloneDeep(input);
 
-  const currCustSelects = _.get(customerSelections, [currentCustomer], null);
+  const { current, selections } = customerState;
+
+  const currCustSelects = _.get(selections, [current], null);
 
   if (currCustSelects === null)
     return {

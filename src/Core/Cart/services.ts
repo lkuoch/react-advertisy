@@ -1,24 +1,16 @@
 import * as _ from "lodash";
 
 import { Product, ProductSelectionType } from "./models";
-import {
-  CustomerSelection,
-  Offers,
-  ProductDiscountType,
-} from "@Core/Customer/models";
+import { Offers, ProductDiscountType } from "@Core/Customer/models";
+import { ICustomerState } from "@Core/Customer/redux";
 
 export function calculateCustomerSpecialPrices(input: {
-  customerSelections: CustomerSelection;
-  customerId: number;
+  customerState: ICustomerState;
   currentOffers: Offers | undefined;
   products: Product[];
 }) {
-  const {
-    currentOffers,
-    customerId,
-    customerSelections,
-    products,
-  } = _.cloneDeep(input);
+  const { customerState, currentOffers, products } = _.cloneDeep(input);
+  const { selections, current } = customerState;
 
   if (currentOffers) {
     for (let product of products) {
@@ -32,12 +24,12 @@ export function calculateCustomerSpecialPrices(input: {
             const [newPrice] = offer.values;
 
             _.setWith(
-              customerSelections,
-              [customerId, product.id, "customerPrice"],
+              selections,
+              [current, product.id, "customerPrice"],
               newPrice,
               Object
             );
-            return customerSelections;
+            return selections;
           }
 
           default: {
@@ -52,46 +44,36 @@ export function calculateCustomerSpecialPrices(input: {
 }
 
 export function handleCustomerSelection(input: {
+  customerState: ICustomerState;
   type: ProductSelectionType;
-  customerSelections: CustomerSelection;
-  customerId: number;
   productId: number;
 }) {
-  const { customerId, customerSelections, productId, type } = _.cloneDeep(
-    input
-  );
+  const { customerState, productId, type } = _.cloneDeep(input);
+  const { selections, current } = customerState;
 
   // See if current customer has product in cart
   const currentCustomerQty = _.get(
-    customerSelections,
-    [customerId, productId, "qty"],
+    selections,
+    [current, productId, "qty"],
     null
   );
 
   // Set initial value
   if (currentCustomerQty === null) {
-    _.setWith(customerSelections, [customerId, productId, "qty"], 1, Object);
+    _.setWith(selections, [current, productId, "qty"], 1, Object);
 
-    return customerSelections;
+    return selections;
   }
 
   // Handle increment / decrement
   switch (type) {
     case ProductSelectionType.Increment: {
-      _.update(
-        customerSelections,
-        [customerId, productId, "qty"],
-        (n) => n + 1
-      );
+      _.update(selections, [current, productId, "qty"], (n) => n + 1);
       break;
     }
     case ProductSelectionType.Decrement: {
       if (currentCustomerQty > 0) {
-        _.update(
-          customerSelections,
-          [customerId, productId, "qty"],
-          (n) => n - 1
-        );
+        _.update(selections, [current, productId, "qty"], (n) => n - 1);
       }
       break;
     }
@@ -99,5 +81,5 @@ export function handleCustomerSelection(input: {
       break;
   }
 
-  return customerSelections;
+  return selections;
 }

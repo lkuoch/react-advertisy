@@ -8,7 +8,7 @@ import UserSelection from "./userSelection";
 import { selectors } from "@Core/Cart/redux";
 
 export default function Cart() {
-  const products = useSelector(selectors.selectProducts);
+  const { entities } = useSelector(selectors.selectAdapted);
 
   return (
     <div id="cart">
@@ -26,7 +26,7 @@ export default function Cart() {
           </thead>
 
           <tbody>
-            {products.map((x) => (
+            {entities.map((x) => (
               <tr key={x.id}>
                 <td data-label="name">{x.Name}</td>
 

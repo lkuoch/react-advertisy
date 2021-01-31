@@ -1,18 +1,21 @@
 import * as services from "@Core/PriceSummary/services";
-import { CustomerSelection, Offers } from "@Core/Customer/models";
-import { Prices } from "../models";
+import { Prices } from "@Core/PriceSummary/models";
+import { ICustomerState } from "@Core/Customer/redux";
+import { Offers } from "@Core/Customer/models";
 import { Product } from "@Core/Cart/models";
 
 describe("PriceSummary Service Tests", () => {
-  let customerSelections: CustomerSelection;
-  let currentCustomer: number;
+  let customerState: ICustomerState;
   let currentOffers: Offers | undefined;
   let products: Product[];
 
   describe("[calculateNewTotals]", () => {
     beforeEach(() => {
-      customerSelections = {};
-      currentCustomer = 0;
+      customerState = {
+        current: 0,
+        selections: {},
+        meta: {},
+      };
       currentOffers = undefined;
       products = [
         {
@@ -34,8 +37,7 @@ describe("PriceSummary Service Tests", () => {
 
         expect(
           services.calculateNewTotals({
-            customerSelections,
-            currentCustomer,
+            customerState,
             currentOffers,
             products,
           })
@@ -45,7 +47,7 @@ describe("PriceSummary Service Tests", () => {
 
     describe("customerSelections initialized and currentOffers not initialized", () => {
       it("calculates 1 item result", () => {
-        customerSelections = {
+        customerState.selections = {
           "0": {
             "0": {
               qty: 1,
@@ -61,8 +63,7 @@ describe("PriceSummary Service Tests", () => {
 
         expect(
           services.calculateNewTotals({
-            customerSelections,
-            currentCustomer,
+            customerState,
             currentOffers,
             products,
           })
@@ -70,7 +71,7 @@ describe("PriceSummary Service Tests", () => {
       });
 
       it("calculates n item result", () => {
-        customerSelections = {
+        customerState.selections = {
           "0": {
             "0": {
               qty: 3,
@@ -86,8 +87,7 @@ describe("PriceSummary Service Tests", () => {
 
         expect(
           services.calculateNewTotals({
-            customerSelections,
-            currentCustomer,
+            customerState,
             currentOffers,
             products,
           })
@@ -109,7 +109,7 @@ describe("PriceSummary Service Tests", () => {
         });
 
         it("calculates 1 item discount result", () => {
-          customerSelections = {
+          customerState.selections = {
             "0": {
               "0": {
                 qty: 1,
@@ -125,8 +125,7 @@ describe("PriceSummary Service Tests", () => {
 
           expect(expectedResult).toEqual(
             services.calculateNewTotals({
-              customerSelections,
-              currentCustomer,
+              customerState,
               currentOffers,
               products,
             })
@@ -134,7 +133,7 @@ describe("PriceSummary Service Tests", () => {
         });
 
         it("calculates n item discount result", () => {
-          customerSelections = {
+          customerState.selections = {
             "0": {
               "0": {
                 qty: 3,
@@ -150,8 +149,7 @@ describe("PriceSummary Service Tests", () => {
 
           expect(expectedResult).toEqual(
             services.calculateNewTotals({
-              customerSelections,
-              currentCustomer,
+              customerState,
               currentOffers,
               products,
             })
@@ -172,7 +170,7 @@ describe("PriceSummary Service Tests", () => {
         });
 
         it("calculates n < XYDeal discount result", () => {
-          customerSelections = {
+          customerState.selections = {
             "0": {
               "0": {
                 qty: 1,
@@ -188,8 +186,7 @@ describe("PriceSummary Service Tests", () => {
 
           expect(
             services.calculateNewTotals({
-              customerSelections,
-              currentCustomer,
+              customerState,
               currentOffers,
               products,
             })
@@ -197,7 +194,7 @@ describe("PriceSummary Service Tests", () => {
         });
 
         it("calculates n >= XYDeal discount result", () => {
-          customerSelections = {
+          customerState.selections = {
             "0": {
               "0": {
                 qty: 5,
@@ -213,8 +210,7 @@ describe("PriceSummary Service Tests", () => {
 
           expect(
             services.calculateNewTotals({
-              customerSelections,
-              currentCustomer,
+              customerState,
               currentOffers,
               products,
             })

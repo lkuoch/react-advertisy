@@ -13,20 +13,13 @@ import {
 
 // Update price summary
 export function* updatePriceSummarySaga() {
-  // Retrieve info
-  const customerSelections = yield* select(
-    customerSelectors.selectCustomerSelections
-  );
-  const currentCustomer = yield* select(
-    customerSelectors.selectCurrentCustomer
-  );
+  const { entities: products } = yield* select(cartSelectors.selectAdapted);
+  const customerState = yield* select(customerSelectors.selectState);
   const currentOffers = yield* select(customerSelectors.selectCurrentOffers);
-  const products = yield* select(cartSelectors.selectProducts);
 
   // Calculate new totals
   const updatedPrices = yield* call(services.calculateNewTotals, {
-    customerSelections,
-    currentCustomer,
+    customerState,
     currentOffers,
     products,
   });

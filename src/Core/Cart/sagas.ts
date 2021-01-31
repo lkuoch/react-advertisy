@@ -17,7 +17,6 @@ import {
 } from "@Core/Customer/redux";
 import * as customerServices from "@Core/Customer/services";
 import { ProductResponse, ProductSelectionPayload } from "./models";
-import { CustomerMeta } from "@Core/Customer/models";
 
 export function* initCartSaga() {
   // Fetch and put data in store
@@ -27,39 +26,27 @@ export function* initCartSaga() {
 }
 
 export function* handleOffersSaga() {
-  const customerId = yield* select(customerSelectors.selectCurrentCustomer);
-  const customerMeta = yield* select(customerSelectors.selectCustomerMeta);
-
-  const discountApplied = yield* call(
-    customerServices.discountApplied,
-    customerMeta,
-    customerId
-  );
+  const customerState = yield* select(customerSelectors.selectState);
 
   // Only need to calculate discounts once
-  if (!discountApplied) {
-    yield* fork(applyDiscountsSaga, { customerId, customerMeta });
+  if (!customerState.meta[customerState.current]?.discountsApplied) {
+    yield* fork(applyDiscountsSaga);
   }
 }
 
 export function* handleProductSelectionSaga(
   action: PayloadAction<ProductSelectionPayload>
 ) {
-  // Retrieve information
   const { id: productId, type } = action.payload;
-  const customerId = yield* select(customerSelectors.selectCurrentCustomer);
-  const customerSelections = yield* select(
-    customerSelectors.selectCustomerSelections
-  );
+  const customerState = yield* select(customerSelectors.selectState);
 
   // Calculate new cart values
   const updatedCustomerSelections = yield* call(
     services.handleCustomerSelection,
     {
       type,
-      customerSelections,
-      customerId,
       productId,
+      customerState,
     }
   );
 
@@ -69,24 +56,15 @@ export function* handleProductSelectionSaga(
   );
 }
 
-function* applyDiscountsSaga({
-  customerId,
-  customerMeta,
-}: {
-  customerId: number;
-  customerMeta: CustomerMeta;
-}) {
-  const customerSelections = yield* select(
-    customerSelectors.selectCustomerSelections
-  );
+function* applyDiscountsSaga() {
+  const { entities: products } = yield* select(selectors.selectAdapted);
+  const customerState = yield* select(customerSelectors.selectState);
   const currentOffers = yield* select(customerSelectors.selectCurrentOffers);
-  const products = yield* select(selectors.selectProducts);
 
   const updatedCustomerSelections = yield* call(
     services.calculateCustomerSpecialPrices,
     {
-      customerId,
-      customerSelections,
+      customerState,
       currentOffers,
       products,
     }
@@ -98,12 +76,16 @@ function* applyDiscountsSaga({
     );
   }
 
-  const updatedCustomerMeta = yield* call(customerServices.updateCustomerMeta, {
-    customerMeta,
-    customerId,
-    key: "discountsApplied",
-    value: true,
-  });
+  const updatedCustomerMeta = yield* call(
+    customerServices.mergeCustomerMeta,
+    customerState.meta,
+    {
+      [customerState.current]: {
+        discountsApplied: true,
+      },
+    }
+  );
+
   yield* put(customerActions.updateCustomerMeta(updatedCustomerMeta));
 }
 

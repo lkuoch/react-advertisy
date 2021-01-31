@@ -9,40 +9,46 @@ import { Customer, CustomerMeta, CustomerSelection } from "./models";
 // Slice details
 const name = "CUSTOMER";
 
-interface IState {
-  current: number;
-  selections: CustomerSelection;
-  meta: CustomerMeta;
-}
-
 const adapter = createEntityAdapter<Customer>({
   selectId: (customer) => customer.id,
   sortComparer: false,
 });
 
-const slice = adapter.getSelectors<IRootState>((state) => state[name]);
+const selector = adapter.getSelectors<IRootState>((state) => state[name]);
+
+interface IState {
+  state: ICustomerState;
+}
+
+export interface ICustomerState {
+  current: number;
+  selections: CustomerSelection;
+  meta: CustomerMeta;
+}
 
 const { actions, reducer } = createSlice({
   name,
   initialState: adapter.getInitialState<IState>({
-    current: 0,
-    selections: {},
-    meta: {},
+    state: {
+      current: 0,
+      selections: {},
+      meta: {},
+    },
   }),
   reducers: {
-    initCustomer: (state) => state,
+    initCustomer: (slice) => slice,
 
-    updateCurrentCustomer: (state, action: PayloadAction<number>) => {
-      state.current = action.payload;
+    updateCurrentCustomer: (slice, action: PayloadAction<number>) => {
+      slice.state.current = action.payload;
     },
     updateCustomerSelections: (
-      state,
+      slice,
       action: PayloadAction<CustomerSelection>
     ) => {
-      state.selections = action.payload;
+      slice.state.selections = action.payload;
     },
-    updateCustomerMeta: (state, action: PayloadAction<CustomerMeta>) => {
-      state.meta = action.payload;
+    updateCustomerMeta: (slice, action: PayloadAction<CustomerMeta>) => {
+      slice.state.meta = action.payload;
     },
 
     // CRUD
@@ -52,18 +58,14 @@ const { actions, reducer } = createSlice({
 });
 
 const selectors = {
-  selectCurrentCustomer: (state: IRootState) => state[name].current,
+  selectState: (state: IRootState) => state[name].state,
   selectCurrentOffers: (state: IRootState) =>
-    state[name].entities[state[name].current]?.Offers,
-  selectCustomerMeta: (state: IRootState) => state[name].meta,
-  selectCustomerSelections: (state: IRootState) => state[name].selections,
+    state[name].entities[state[name].state.current]?.Offers,
 
-  selectCustomersState: (state: IRootState) => ({
-    ids: slice.selectIds(state),
-    entities: slice.selectAll(state),
+  selectAdapted: (state: IRootState) => ({
+    ids: selector.selectIds(state),
+    entities: selector.selectEntities(state),
   }),
-  selectCustomers: (state: IRootState) => slice.selectEntities(state),
-  selectCustomerIds: (state: IRootState) => slice.selectIds(state),
 };
 
 export { actions, reducer, selectors, name };

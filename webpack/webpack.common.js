@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 const { generateAppConfig } = require("./utility/generateConfig");
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const path = require("path");
 
 // App variables
@@ -62,6 +63,7 @@ module.exports = (env) => ({
   },
   plugins: [
     generateAppConfig(env),
+    new ForkTsCheckerWebpackPlugin(),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       title: buildConfig.app.title,

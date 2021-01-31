@@ -10,13 +10,10 @@ interface IPriceProps {
 }
 
 export default function Price(props: IPriceProps) {
-  const customerSelections = useSelector(
-    customerSelectors.selectCustomerSelections
-  );
-  const currentCustomer = useSelector(customerSelectors.selectCurrentCustomer);
+  const { selections, current } = useSelector(customerSelectors.selectState);
   const customerPrice = get(
-    customerSelections,
-    [currentCustomer, props.item.id, "customerPrice"],
+    selections,
+    [current, props.item.id, "customerPrice"],
     null
   );
   const retailPrice = props.item.RetailPrice;

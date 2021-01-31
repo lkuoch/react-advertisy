@@ -1,17 +1,21 @@
 import * as services from "@Core/Cart/services";
-import { CustomerSelection, Offers } from "@Core/Customer/models";
 import { Product } from "@Core/Cart/models";
+import { CustomerSelection, Offers } from "@Core/Customer/models";
+import { ICustomerState } from "@Core/Customer/redux";
 
 describe("Cart Service Tests", () => {
-  let customerSelections: CustomerSelection;
-  let customerId: number;
+  let customerState: ICustomerState;
   let currentOffers: Offers | undefined;
   let products: Product[];
 
   describe("[calculateCustomerSpecialPrices]", () => {
     beforeEach(() => {
-      customerId = 0;
-      customerSelections = {};
+      customerState = {
+        current: 0,
+        selections: {},
+        meta: {},
+      };
+
       currentOffers = undefined;
       products = [
         {
@@ -29,9 +33,8 @@ describe("Cart Service Tests", () => {
 
         expect(
           services.calculateCustomerSpecialPrices({
-            customerSelections,
+            customerState,
             currentOffers,
-            customerId,
             products,
           })
         ).toEqual(expectedResult);
@@ -61,9 +64,8 @@ describe("Cart Service Tests", () => {
 
         expect(
           services.calculateCustomerSpecialPrices({
-            customerSelections,
+            customerState,
             currentOffers,
-            customerId,
             products,
           })
         ).toEqual(expectedResult);

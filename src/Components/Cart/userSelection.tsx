@@ -12,13 +12,10 @@ interface IUserSelectionProps {
 
 export default function UserSelection(props: IUserSelectionProps) {
   const dispatch = useDispatch();
-  const customerSelections = useSelector(
-    customerSelectors.selectCustomerSelections
-  );
-  const currentCustomer = useSelector(customerSelectors.selectCurrentCustomer);
+  const { selections, current } = useSelector(customerSelectors.selectState);
 
   const id = props.item.id;
-  const qty = get(customerSelections, [currentCustomer, id, "qty"], 0);
+  const qty = get(selections, [current, id, "qty"], 0);
 
   return (
     <div className="number-input ui form">

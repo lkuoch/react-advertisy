@@ -14,17 +14,25 @@ const adapter = createEntityAdapter<Product>({
   sortComparer: false,
 });
 
-const slice = adapter.getSelectors<IRootState>((state) => state[name]);
+const selector = adapter.getSelectors<IRootState>((state) => state[name]);
+
+interface IState {
+  state: ICartState;
+}
+
+export interface ICartState {}
 
 const { actions, reducer } = createSlice({
   name,
-  initialState: adapter.getInitialState({}),
+  initialState: adapter.getInitialState<IState>({
+    state: {},
+  }),
   reducers: {
-    initCart: (state) => state,
+    initCart: (slice) => slice,
     handleProductSelection: (
-      state,
+      slice,
       _action: PayloadAction<ProductSelectionPayload>
-    ) => state,
+    ) => slice,
 
     // CRUD
     addProduct: adapter.addOne,
@@ -33,12 +41,12 @@ const { actions, reducer } = createSlice({
 });
 
 const selectors = {
-  selectProductsState: (state: IRootState) => ({
-    ids: slice.selectIds(state),
-    entities: slice.selectAll(state),
+  selectState: (state: IRootState) => state[name].state,
+
+  selectAdapted: (state: IRootState) => ({
+    ids: selector.selectIds(state),
+    entities: selector.selectAll(state),
   }),
-  selectProducts: (state: IRootState) => slice.selectAll(state),
-  selectProductIds: (state: IRootState) => slice.selectIds(state),
 };
 
 export { actions, reducer, selectors, name };
