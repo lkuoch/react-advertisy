@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-declare global {
-  // Make CONFIG globally available
-  var CONFIG: typeof import("@Config");
-}
+// declare global {
+//   // Make CONFIG globally available
+//   var CONFIG: typeof import("@Config");
+// }
 
 export interface IAppState {}
 

@@ -1,35 +1,19 @@
-import { apiMiddleware } from "redux-api-middleware";
-import createSagaMiddleWare from "redux-saga";
-import { applyMiddleware, createStore, Middleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
-import rootReducers from "./redux";
-import rootSagas from "./sagas";
+import { wrapStore } from "redux-in-worker";
 
-const getEnhancers = (middleWares: Array<Middleware>) => {
-  if (process.env.NODE_ENV === "production") {
-    return applyMiddleware(...middleWares);
+import workerInit from "worker-loader!@Store/store.worker";
+import { configureStore } from "./store";
+import { initialState } from "./redux";
+
+export function getStore() {
+  if (CONFIG.features.serviceWorker.enabled) {
+    return wrapStore(
+      workerInit(),
+      initialState,
+
+      process.env.NODE_ENV !== "production" ? composeWithDevTools() : undefined
+    );
   }
 
-  // Use redux devtools in development environment
-  return composeWithDevTools({
-    trace: true,
-  })(applyMiddleware(...middleWares));
-};
-
-export default function configureStore(initialState = {}) {
-  const sagaMiddleWare = createSagaMiddleWare();
-
-  // Default middlewares
-  const middleWares = [apiMiddleware, sagaMiddleWare];
-
-  // Link enhancers depending on environment
-  const enhancers = getEnhancers(middleWares);
-
-  // Init store
-  const store = createStore(rootReducers, initialState, enhancers);
-
-  // Run sagas
-  sagaMiddleWare.run(rootSagas);
-
-  return store;
+  return configureStore();
 }
