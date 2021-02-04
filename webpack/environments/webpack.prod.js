@@ -35,6 +35,7 @@ module.exports = {
           name: "vend",
           test: /[\\/]node_modules[\\/]/,
           chunks: "all",
+          minSize: 0,
         },
       },
     },

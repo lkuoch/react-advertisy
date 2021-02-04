@@ -34,7 +34,3 @@ export const rootReducer = combineReducers({
   [customerName]: customerReducer,
   [priceSummaryName]: priceSummaryNameReducer,
 });
-
-declare global {
-  type IRootState = ReturnType<typeof rootReducer>;
-}

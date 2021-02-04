@@ -6,7 +6,7 @@
   "features": {
     "serviceWorker": {
       "__description__": "Allow offloading of redux to a service worker",
-      "enabled": false
+      "enabled": true
     },
 
     "header": {
