@@ -4,6 +4,8 @@ const CompressionPlugin = require("compression-webpack-plugin");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 const { generateAppConfig } = require("./utility/generateConfig");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+
+const WorkerPlugin = require("worker-plugin");
 const path = require("path");
 
 // App variables
@@ -14,7 +16,7 @@ module.exports = (env) => ({
   module: {
     rules: [
       {
-        test: /\.(js|ts|tsx)$/,
+        test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
         use: [
           {
@@ -71,10 +73,12 @@ module.exports = (env) => ({
       template: path.resolve("./src/index.html"),
     }),
     new CompressionPlugin(),
+    new WorkerPlugin(),
   ],
   output: {
     path: path.resolve(__dirname, "../dist"),
     filename: "[name].[fullhash:8].js",
+    publicPath: "/",
     sourceMapFilename: "[name].map",
     chunkFilename: "[id].[chunkhash].js",
   },

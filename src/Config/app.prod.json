@@ -4,7 +4,13 @@
   },
 
   "features": {
+    "serviceWorker": {
+      "__description__": "Allow offloading of redux to a service worker",
+      "enabled": false
+    },
+
     "header": {
+      "__description__": "Shows the header on the main cart page",
       "enabled": false
     }
   }

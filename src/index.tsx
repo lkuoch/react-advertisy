@@ -2,13 +2,15 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 
-import configureStore from "@Store/index";
+import { getStore } from "@Store/index";
 import App from "@Components/index";
 
 import "@Styles/app.less";
 
+const store = getStore();
+
 ReactDOM.render(
-  <Provider store={configureStore()}>
+  <Provider store={store}>
     <App />
   </Provider>,
   document.getElementById("root")

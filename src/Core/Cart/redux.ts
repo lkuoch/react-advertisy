@@ -6,6 +6,12 @@ import {
 
 import { Product, ProductSelectionPayload } from "./models";
 
+interface IState {
+  state: ICartState;
+}
+
+export interface ICartState {}
+
 // Slice details
 const name = "CART";
 
@@ -16,17 +22,13 @@ const adapter = createEntityAdapter<Product>({
 
 const selector = adapter.getSelectors<IRootState>((state) => state[name]);
 
-interface IState {
-  state: ICartState;
-}
-
-export interface ICartState {}
+const initialState = adapter.getInitialState<IState>({
+  state: {},
+});
 
 const { actions, reducer } = createSlice({
   name,
-  initialState: adapter.getInitialState<IState>({
-    state: {},
-  }),
+  initialState,
   reducers: {
     initCart: (slice) => slice,
     handleProductSelection: (
@@ -49,4 +51,4 @@ const selectors = {
   }),
 };
 
-export { actions, reducer, selectors, name };
+export { initialState, actions, reducer, selectors, name };

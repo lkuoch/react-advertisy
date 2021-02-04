@@ -6,16 +6,6 @@ import {
 
 import { Customer, CustomerMeta, CustomerSelection } from "./models";
 
-// Slice details
-const name = "CUSTOMER";
-
-const adapter = createEntityAdapter<Customer>({
-  selectId: (customer) => customer.id,
-  sortComparer: false,
-});
-
-const selector = adapter.getSelectors<IRootState>((state) => state[name]);
-
 interface IState {
   state: ICustomerState;
 }
@@ -26,15 +16,27 @@ export interface ICustomerState {
   meta: CustomerMeta;
 }
 
+// Slice details
+const name = "CUSTOMER";
+
+const adapter = createEntityAdapter<Customer>({
+  selectId: (customer) => customer.id,
+  sortComparer: false,
+});
+
+const selector = adapter.getSelectors<IRootState>((state) => state[name]);
+
+const initialState = adapter.getInitialState<IState>({
+  state: {
+    current: 0,
+    selections: {},
+    meta: {},
+  },
+});
+
 const { actions, reducer } = createSlice({
   name,
-  initialState: adapter.getInitialState<IState>({
-    state: {
-      current: 0,
-      selections: {},
-      meta: {},
-    },
-  }),
+  initialState,
   reducers: {
     initCustomer: (slice) => slice,
 
@@ -68,4 +70,4 @@ const selectors = {
   }),
 };
 
-export { actions, reducer, selectors, name };
+export { initialState, actions, reducer, selectors, name };
