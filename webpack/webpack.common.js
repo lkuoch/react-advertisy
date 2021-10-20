@@ -58,10 +58,7 @@ module.exports = (env) => ({
   devServer: {
     port: 3000,
     https: true,
-    clientLogLevel: "silent",
-    contentBase: "./dist",
-    hot: true,
-    stats: "errors-warnings",
+    hot: true
   },
   plugins: [
     generateAppConfig(env),
