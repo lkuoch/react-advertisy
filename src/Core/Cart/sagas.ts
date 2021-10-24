@@ -5,7 +5,7 @@ import {
   put,
   select,
   takeLatest,
-} from "typed-redux-saga/macro";
+} from "typed-redux-saga";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 import MockProducts from "@Mock/products.json";

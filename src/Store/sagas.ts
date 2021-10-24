@@ -1,4 +1,4 @@
-import { all, spawn, call } from "typed-redux-saga/macro";
+import { all, spawn, call } from "typed-redux-saga";
 
 import appSagas from "@Core/App/sagas";
 import cartSagas from "@Core/Cart/sagas";

@@ -15,9 +15,7 @@ export default function App() {
 
   return (
     <div id="app">
-      {CONFIG.features.header.enabled && (
-        <h3 className="ui block center aligned header">Advertisy</h3>
-      )}
+      <h3 className="ui block center aligned header">Advertisy</h3>
 
       <div id="content">
         <Customer />

@@ -1,4 +1,4 @@
-import { all, call, put, select, takeLatest } from "typed-redux-saga/macro";
+import { all, call, put, select, takeLatest } from "typed-redux-saga";
 
 import { actions } from "./redux";
 import * as services from "./services";

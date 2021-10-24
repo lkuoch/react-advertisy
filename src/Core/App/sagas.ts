@@ -1,4 +1,4 @@
-import { all, put, takeLatest } from "typed-redux-saga/macro";
+import { all, put, takeLatest } from "typed-redux-saga";
 
 import { actions } from "./redux";
 import { actions as cartActions } from "@Core/Cart/redux";
