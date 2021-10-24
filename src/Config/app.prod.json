@@ -1,17 +1,3 @@
 {
-  "translation": {
-    "appTitle": "Advertisy"
-  },
-
-  "features": {
-    "serviceWorker": {
-      "__description__": "Allow offloading of redux to a service worker",
-      "enabled": true
-    },
-
-    "header": {
-      "__description__": "Shows the header on the main cart page",
-      "enabled": false
-    }
-  }
+  "BASE_GRAPHQL_URL": "https://lkuoch.com"
 }

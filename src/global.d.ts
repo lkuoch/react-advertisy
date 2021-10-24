@@ -1,13 +1,5 @@
 // Make CONFIG globally available
-declare var CONFIG: typeof import("@Config");
-
-// Import web worker
-declare module "worker-loader!*" {
-  const value: Function;
-  export = value;
-}
-
-/// Global types
+declare var CONFIG: ReturnType<typeof import("src/Config").default>;
 
 // Middleware action result
 declare type IMiddlewareActionResult =

@@ -6,7 +6,8 @@
     "start": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "test": "jest"
+    "test": "jest",
+    "upgrade:msw": "npx msw init ./public"
   },
   "keywords": [],
   "author": "lkuoch",
@@ -39,5 +40,8 @@
     "typescript": "4.4.4",
     "vite": "2.6.10",
     "vite-tsconfig-paths": "3.3.17"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }
