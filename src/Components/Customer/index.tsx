@@ -34,7 +34,11 @@ export default function Customer() {
             <a
               key={id}
               className={`item ${id === currentCustomerId ? "red active" : ""}`}
-              onClick={() => (id !== currentCustomerId ? dispatch(actions.updateCurrentCustomerId(id)) : null)}
+              onClick={() =>
+                id !== currentCustomerId
+                  ? dispatch(actions.updateCurrentCustomerId(id))
+                  : null
+              }
             >
               {Name}
             </a>

@@ -1,4 +1,9 @@
-import { createSlice, createEntityAdapter, PayloadAction } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  createEntityAdapter,
+  PayloadAction,
+} from "@reduxjs/toolkit";
+import { createSelector } from "reselect";
 import { createActionListenerMiddleware } from "@rtk-incubator/action-listener-middleware";
 
 import { cartApi } from "./api";
@@ -12,46 +17,64 @@ interface State {
   };
 }
 
-// Slice details
-const name = "cart";
-
 const cartAdapter = createEntityAdapter<Product>({
   selectId: (product) => product.id,
   sortComparer: (a, b) => a.Name.localeCompare(b.Name),
 });
 
-const cartSelectors = cartAdapter.getSelectors<RootState>((state) => state[name]);
+// Slice details
+export const name = "cart";
 
-const initialState = cartAdapter.getInitialState<State>({
-  slice: {
-    hasLoaded: false,
-  },
-});
-
-const listeners = createActionListenerMiddleware();
-
-listeners.addListener(customerApi.endpoints.fetchCustomers.matchFulfilled, async (_, { dispatch, getState }) => {
-  cartApi.endpoints.fetchProducts.initiate()(dispatch, getState, {});
-});
-
-const { actions, reducer } = createSlice({
+export const { actions, reducer } = createSlice({
   name,
-  initialState,
+  initialState: cartAdapter.getInitialState<State>({
+    slice: {
+      hasLoaded: false,
+    },
+  }),
   reducers: {
-    handleProductSelection: (slice, _action: PayloadAction<ProductSelectionPayload>) => slice,
+    handleProductSelection: (
+      slice,
+      _action: PayloadAction<ProductSelectionPayload>
+    ) => slice,
   },
   extraReducers: (builder) => {
-    builder.addMatcher(cartApi.endpoints.fetchProducts.matchFulfilled, (state, { payload }) => {
-      cartAdapter.addMany(state, payload);
-      state.slice.hasLoaded = true;
-    });
+    builder.addMatcher(
+      cartApi.endpoints.fetchProducts.matchFulfilled,
+      (state, { payload }) => {
+        cartAdapter.addMany(state, payload);
+        state.slice.hasLoaded = true;
+      }
+    );
   },
 });
 
-const selectors = {
-  ...cartSelectors,
-  selectHasLoaded: ({ cart }: RootState) => cart.slice.hasLoaded,
-  selectSlice: (state: RootState) => state[name].slice,
-};
+export const listeners = ((listeners) => {
+  listeners.addListener(
+    customerApi.endpoints.fetchCustomers.matchFulfilled,
+    async (_, { dispatch, getState }) => {
+      cartApi.endpoints.fetchProducts.initiate()(dispatch, getState, {});
+    }
+  );
 
-export { actions, initialState, listeners, name, reducer, selectors };
+  return listeners;
+})(createActionListenerMiddleware());
+
+export const selectors = (() => {
+  const adapterSelectors = cartAdapter.getSelectors<RootState>(
+    (state) => state[name]
+  );
+
+  const selectSlice = (state: RootState) => state[name].slice;
+
+  const selectHasLoaded = createSelector(
+    selectSlice,
+    (slice) => slice.hasLoaded
+  );
+
+  return {
+    ...adapterSelectors,
+    selectSlice,
+    selectHasLoaded,
+  };
+})();

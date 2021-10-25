@@ -7,26 +7,30 @@ import PriceSpecialOffer from "@Components/Shared/priceSpecialOffer";
 import type { Product } from "@Core/Cart/models";
 
 interface Props {
-  item: Product;
+  product: Product;
 }
 
-export default function Description({ item }: Props) {
-  const { hasOffers, offers } = useSelector(customerSelectors.selectCurrentOffers(item.id));
+export default function Description({ product }: Props) {
+  const { hasOffers, offers } = useSelector(
+    customerSelectors.selectCurrentOffers(product.id)
+  );
 
   return (
     <div className="description">
-      <p>{item.Description}</p>
+      <p>{product.Description}</p>
 
       {hasOffers && (
         <div className="special-offer-section">
           <p>
-            <span className="special-offer-title ui red text">SPECIAL OFFER:</span>
+            <span className="special-offer-title ui red text">
+              SPECIAL OFFER:
+            </span>
           </p>
 
           <ul>
             {offers.map((offer) => (
               <li key={offer.type}>
-                <PriceSpecialOffer offer={offer} original={item} />
+                <PriceSpecialOffer offer={offer} original={product} />
               </li>
             ))}
           </ul>

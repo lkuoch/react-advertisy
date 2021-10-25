@@ -9,7 +9,7 @@ import UserSelection from "./userSelection";
 
 export default function Table() {
   const hasLoaded = useSelector(selectors.selectHasLoaded);
-  const items = useSelector(selectors.selectAll);
+  const products = useSelector(selectors.selectAll);
 
   if (!hasLoaded) {
     return (
@@ -33,15 +33,21 @@ export default function Table() {
       </thead>
 
       <tbody>
-        {items.map((item) => (
-          <tr key={item.id}>
-            <td data-label="name">{item.Name}</td>
+        {products.map((product) => (
+          <tr key={product.id}>
+            <td data-label="name">{product.Name}</td>
 
-            <td data-label="description">{<Description item={item} />}</td>
+            <td data-label="description">
+              <Description product={product} />
+            </td>
 
-            <td data-label="retail-price">{<Price item={item} />}</td>
+            <td data-label="retail-price">
+              <Price product={product} />
+            </td>
 
-            <td data-label="select-quantity">{<UserSelection item={item} />}</td>
+            <td data-label="select-quantity">
+              <UserSelection product={product} />
+            </td>
           </tr>
         ))}
       </tbody>
