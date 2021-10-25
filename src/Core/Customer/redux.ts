@@ -91,26 +91,15 @@ export const { actions, reducer } = createSlice({
 
 export const selectors = (() => {
   const adapterSelectors = customerAdapter.getSelectors<RootState>(
-    (state) => state[name]
+    ({ customer }) => customer
   );
 
-  const selectSlice = ({ customer }: RootState) => customer.slice;
-
-  const selectHasLoaded = createSelector(
-    selectSlice,
-    (slice) => slice.hasLoaded
-  );
-
-  const selectCurrentCustomerId = createSelector(
-    selectSlice,
-    (slice) => slice.currentCustomerId
-  );
+  const selectSliceState = ({ customer }: RootState) => customer.slice;
 
   const selectCurrentOffers = (productId: string) =>
     createSelector(
-      selectCurrentCustomerId,
-      adapterSelectors.selectEntities,
-      (currentCustomerId, entities) => ({
+      [selectSliceState, adapterSelectors.selectEntities],
+      ({ currentCustomerId }, entities) => ({
         offers:
           currentCustomerId == null
             ? []
@@ -136,9 +125,8 @@ export const selectors = (() => {
 
   const selectCurrentProductQuantity = (productId: string) =>
     createSelector(
-      selectCurrentCustomerId,
-      selectSlice,
-      (currentCustomerId, slice) =>
+      [selectSliceState, selectSliceState],
+      ({ currentCustomerId }, slice) =>
         currentCustomerId == null
           ? 0
           : slice.selections[currentCustomerId]?.[productId]?.qty ?? 0
@@ -146,9 +134,7 @@ export const selectors = (() => {
 
   return {
     ...adapterSelectors,
-    selectSlice,
-    selectHasLoaded,
-    selectCurrentCustomerId,
+    selectSliceState,
     selectCurrentOffers,
     selectCurrentProductOffer,
     selectCurrentProductQuantity,

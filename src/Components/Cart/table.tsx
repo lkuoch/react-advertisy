@@ -8,8 +8,8 @@ import Price from "./price";
 import UserSelection from "./userSelection";
 
 export default function Table() {
-  const hasLoaded = useSelector(selectors.selectHasLoaded);
   const products = useSelector(selectors.selectAll);
+  const { hasLoaded } = useSelector(selectors.selectSliceState);
 
   if (!hasLoaded) {
     return (

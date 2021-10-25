@@ -7,9 +7,10 @@ import { customerApi } from "@Core/Customer/api";
 export default function Customer() {
   const dispatch = useDispatch();
   const [fetchCustomers] = customerApi.useLazyFetchCustomersQuery();
-  const hasLoaded = useSelector(selectors.selectHasLoaded);
+  const { currentCustomerId, hasLoaded } = useSelector(
+    selectors.selectSliceState
+  );
   const entities = useSelector(selectors.selectAll);
-  const currentCustomerId = useSelector(selectors.selectCurrentCustomerId);
 
   useEffect(() => {
     fetchCustomers();

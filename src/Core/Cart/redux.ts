@@ -62,19 +62,13 @@ export const listeners = ((listeners) => {
 
 export const selectors = (() => {
   const adapterSelectors = cartAdapter.getSelectors<RootState>(
-    (state) => state[name]
+    ({ cart }) => cart
   );
 
-  const selectSlice = (state: RootState) => state[name].slice;
-
-  const selectHasLoaded = createSelector(
-    selectSlice,
-    (slice) => slice.hasLoaded
-  );
+  const selectSliceState = ({ cart }: RootState) => cart.slice;
 
   return {
     ...adapterSelectors,
-    selectSlice,
-    selectHasLoaded,
+    selectSliceState,
   };
 })();
