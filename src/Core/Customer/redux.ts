@@ -1,34 +1,32 @@
-import {
-  createEntityAdapter,
-  createSlice,
-  PayloadAction,
-} from "@reduxjs/toolkit";
+import { createEntityAdapter, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSelector } from "reselect";
 
-import { Customer, CustomerMeta, CustomerSelection } from "./models";
+import { customerApi } from "./api";
+import { Customer, CustomerMeta, CustomerSelection, OfferType } from "./models";
+import { RootState } from "@Types";
 
-interface IState {
-  state: ICustomerState;
-}
-
-export interface ICustomerState {
-  current: number;
-  selections: CustomerSelection;
-  meta: CustomerMeta;
+interface State {
+  slice: {
+    currentCustomerId?: string;
+    hasLoaded: boolean;
+    selections: CustomerSelection;
+    meta: CustomerMeta;
+  };
 }
 
 // Slice details
-const name = "CUSTOMER";
+const name = "customer";
 
-const adapter = createEntityAdapter<Customer>({
+const customerAdapter = createEntityAdapter<Customer>({
   selectId: (customer) => customer.id,
-  sortComparer: false,
+  sortComparer: (a, b) => a.Name.localeCompare(b.Name),
 });
 
-const selector = adapter.getSelectors<IRootState>((state) => state[name]);
+const customerSelectors = customerAdapter.getSelectors<RootState>((state) => state[name]);
 
-const initialState = adapter.getInitialState<IState>({
-  state: {
-    current: 0,
+const initialState = customerAdapter.getInitialState<State>({
+  slice: {
+    hasLoaded: false,
     selections: {},
     meta: {},
   },
@@ -38,36 +36,86 @@ const { actions, reducer } = createSlice({
   name,
   initialState,
   reducers: {
-    initCustomer: (slice) => slice,
+    addToCart: (state, { payload: { productId, qty } }: PayloadAction<{ productId: string; qty: number }>) => {
+      if (state.slice.currentCustomerId) {
+        state.slice.selections = {
+          ...state.slice.selections,
+          [state.slice.currentCustomerId]: {
+            ...state.slice.selections[state.slice.currentCustomerId],
+            [productId]: {
+              qty: (qty += 1),
+            },
+          },
+        };
+      }
+    },
+    removeFromCart: (state, { payload: { productId, qty } }: PayloadAction<{ productId: string; qty: number }>) => {
+      if (state.slice.currentCustomerId && qty > 0) {
+        state.slice.selections = {
+          ...state.slice.selections,
+          [state.slice.currentCustomerId]: {
+            [productId]: {
+              qty: (qty -= 1),
+            },
+          },
+        };
+      }
+    },
 
-    updateCurrentCustomer: (slice, action: PayloadAction<number>) => {
-      slice.state.current = action.payload;
+    updateCurrentCustomerId: (state, { payload }: PayloadAction<string>) => {
+      state.slice.currentCustomerId = payload;
     },
-    updateCustomerSelections: (
-      slice,
-      action: PayloadAction<CustomerSelection>
-    ) => {
-      slice.state.selections = action.payload;
+    updateCustomerSelections: (state, { payload }: PayloadAction<CustomerSelection>) => {
+      state.slice.selections = payload;
     },
-    updateCustomerMeta: (slice, action: PayloadAction<CustomerMeta>) => {
-      slice.state.meta = action.payload;
+    updateCustomerMeta: (state, { payload }: PayloadAction<CustomerMeta>) => {
+      state.slice.meta = payload;
     },
-
-    // CRUD
-    addCustomer: adapter.addOne,
-    addCustomers: adapter.addMany,
+  },
+  extraReducers: (builder) => {
+    builder.addMatcher(customerApi.endpoints.fetchCustomers.matchFulfilled, (state, { payload }) => {
+      customerAdapter.addMany(state, payload);
+      state.slice.currentCustomerId = payload.find(Boolean)?.id;
+      state.slice.hasLoaded = true;
+    });
   },
 });
 
-const selectors = {
-  selectState: (state: IRootState) => state[name].state,
-  selectCurrentOffers: (state: IRootState) =>
-    state[name].entities[state[name].state.current]?.Offers,
+const selectors = (() => {
+  const selectSlice = ({ customer }: RootState) => customer.slice;
+  const selectHasLoaded = ({ customer }: RootState) => customer.slice.hasLoaded;
+  const selectCurrentCustomerId = ({ customer }: RootState) => customer.slice.currentCustomerId;
 
-  selectAdapted: (state: IRootState) => ({
-    ids: selector.selectIds(state),
-    entities: selector.selectEntities(state),
-  }),
-};
+  const selectCurrentOffers = (productId: string) => (state: RootState) =>
+    createSelector(selectCurrentCustomerId, customerSelectors.selectEntities, (currentCustomerId, entities) => ({
+      offers: currentCustomerId == null ? [] : entities?.[currentCustomerId]?.Offers?.[productId] ?? [],
+      get hasOffers() {
+        return this.offers.length > 0;
+      },
+    }))(state);
+
+  const selectGetCurrentOffer =
+    ({ offerType, productId }: { offerType: OfferType; productId: string }) =>
+    (state: RootState): number[] =>
+      createSelector(
+        selectCurrentOffers(productId),
+        (result) => result.offers.find((offer) => offer.type === offerType)?.values || []
+      )(state);
+
+  const selectProductQuantity = (productId: string) => (state: RootState) =>
+    createSelector(selectCurrentCustomerId, selectSlice, (currentCustomerId, slice) =>
+      currentCustomerId == null ? 0 : slice.selections[currentCustomerId]?.[productId]?.qty ?? 0
+    )(state);
+
+  return {
+    ...customerSelectors,
+    selectSlice,
+    selectHasLoaded,
+    selectCurrentCustomerId,
+    selectCurrentOffers,
+    selectGetCurrentOffer,
+    selectProductQuantity,
+  };
+})();
 
 export { initialState, actions, reducer, selectors, name };

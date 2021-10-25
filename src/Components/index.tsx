@@ -22,7 +22,7 @@ export default function App() {
 
         <div id="checkout">
           <Cart />
-          <PriceSummary />
+          {/* <PriceSummary /> */}
         </div>
       </div>
     </div>

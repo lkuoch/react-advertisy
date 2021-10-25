@@ -1,55 +1,18 @@
 import { rest } from "msw";
+import { customers } from "./Data/customers.json";
+import { products } from "./Data/products.json";
 
-const todos = [
-  {
-    id: 1,
-    done: true,
-    text: "take a bath",
-  },
-  {
-    id: 2,
-    done: false,
-    text: "preparing for vacation",
-  },
-];
+const BASE_URL = CONFIG.vars.base_graphql_endpoint;
 
 export const handlers = [
-  rest.get(`${CONFIG.vars.base_graphql_endpoint}/todos`, (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(todos));
+  rest.get(`${BASE_URL}/customers`, async (_, res, ctx) => {
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    return res(ctx.status(200), ctx.json(customers));
   }),
-  rest.post<string>("/todos", (req, res, ctx) => {
-    const { text } = JSON.parse(req.body);
+  rest.get(`${BASE_URL}/products`, async (_, res, ctx) => {
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
-    todos.push({
-      id: todos.length + 1,
-      done: false,
-      text,
-    });
-
-    return res(ctx.status(200), ctx.json(todos));
+    return res(ctx.status(200), ctx.json(products));
   }),
-  rest.post(
-    `${CONFIG.vars.base_graphql_endpoint}/todos/check/:id`,
-    (req, res, ctx) => {
-      const { id } = req.params;
-
-      const todo = todos.find((todo) => todo.id === Number(id));
-
-      todo ? (todo.done = !todo.done) : "";
-
-      return res(ctx.status(200), ctx.json(todos));
-    }
-  ),
-  rest.delete(
-    `${CONFIG.vars.base_graphql_endpoint}/todos/:id`,
-    (req, res, ctx) => {
-      const { id } = req.params;
-
-      const idx = todos.findIndex((todo) => todo.id === Number(id));
-
-      todos.splice(idx, 1);
-
-      return res(ctx.status(200), ctx.json(todos));
-    }
-  ),
 ];

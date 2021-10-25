@@ -1,21 +1,17 @@
 import React from "react";
-import { get } from "lodash";
 import { useDispatch, useSelector } from "react-redux";
 
-import { selectors as customerSelectors } from "@Core/Customer/redux";
-import { actions } from "@Core/Cart/redux";
-import { Product, ProductSelectionType } from "@Core/Cart/models";
+import { actions as customerActions, selectors as customerSelectors } from "@Core/Customer/redux";
+
+import { Product } from "@Core/Cart/models";
 
 interface IUserSelectionProps {
   item: Product;
 }
 
-export default function UserSelection(props: IUserSelectionProps) {
+export default function UserSelection({ item: { id } }: IUserSelectionProps) {
   const dispatch = useDispatch();
-  const { selections, current } = useSelector(customerSelectors.selectState);
-
-  const id = props.item.id;
-  const qty = get(selections, [current, id, "qty"], 0);
+  const qty = useSelector(customerSelectors.selectProductQuantity(id));
 
   return (
     <div className="number-input ui form">
@@ -29,9 +25,9 @@ export default function UserSelection(props: IUserSelectionProps) {
             className="ui negative basic button"
             onClick={() =>
               dispatch(
-                actions.handleProductSelection({
-                  id,
-                  type: ProductSelectionType.Decrement,
+                customerActions.removeFromCart({
+                  productId: id,
+                  qty,
                 })
               )
             }
@@ -45,9 +41,9 @@ export default function UserSelection(props: IUserSelectionProps) {
             className="ui positive basic button"
             onClick={() =>
               dispatch(
-                actions.handleProductSelection({
-                  id,
-                  type: ProductSelectionType.Increment,
+                customerActions.addToCart({
+                  productId: id,
+                  qty,
                 })
               )
             }

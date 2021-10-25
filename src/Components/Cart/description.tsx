@@ -1,37 +1,32 @@
 import React from "react";
-import { get } from "lodash";
 import { useSelector } from "react-redux";
 
 import { selectors as customerSelectors } from "@Core/Customer/redux";
 
 import PriceSpecialOffer from "@Components/Shared/priceSpecialOffer";
 import type { Product } from "@Core/Cart/models";
-import type { Offer } from "@Core/Customer/models";
 
-interface IDescriptionProps {
+interface Props {
   item: Product;
 }
 
-export default function Description(props: IDescriptionProps) {
-  const currentOffers = useSelector(customerSelectors.selectCurrentOffers);
-  const availableOffers = get(currentOffers, [props.item.id], []);
+export default function Description({ item }: Props) {
+  const { hasOffers, offers } = useSelector(customerSelectors.selectCurrentOffers(item.id));
 
   return (
     <div className="description">
-      <p>{props.item.Description}</p>
+      <p>{item.Description}</p>
 
-      {availableOffers.length > 0 && (
+      {hasOffers && (
         <div className="special-offer-section">
           <p>
-            <span className="special-offer-title ui red text">
-              SPECIAL OFFER:
-            </span>
+            <span className="special-offer-title ui red text">SPECIAL OFFER:</span>
           </p>
 
           <ul>
-            {(availableOffers as Offer[]).map((x, i) => (
-              <li key={i}>
-                <PriceSpecialOffer offer={x} original={props.item} />
+            {offers.map((offer) => (
+              <li key={offer.type}>
+                <PriceSpecialOffer offer={offer} original={item} />
               </li>
             ))}
           </ul>

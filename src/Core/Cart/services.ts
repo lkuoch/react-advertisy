@@ -1,11 +1,11 @@
 import * as _ from "lodash";
 
 import { Product, ProductSelectionType } from "./models";
-import { Offers, ProductDiscountType } from "@Core/Customer/models";
-import { ICustomerState } from "@Core/Customer/redux";
+import { Offers, OfferType } from "@Core/Customer/models";
+import { CustomerState } from "@Core/Customer/redux";
 
 export function calculateCustomerSpecialPrices(input: {
-  customerState: ICustomerState;
+  customerState: CustomerState;
   currentOffers: Offers | undefined;
   products: Product[];
 }) {
@@ -17,18 +17,13 @@ export function calculateCustomerSpecialPrices(input: {
       const offers = currentOffers[product.id] ?? [];
 
       for (let offer of offers) {
-        const offerType = offer.type as ProductDiscountType;
+        const offerType = offer.type as OfferType;
 
         switch (offerType) {
-          case ProductDiscountType.NewPrice: {
+          case OfferType.NewPrice: {
             const [newPrice] = offer.values;
 
-            _.setWith(
-              selections,
-              [current, product.id, "customerPrice"],
-              newPrice,
-              Object
-            );
+            _.setWith(selections, [current, product.id, "customerPrice"], newPrice, Object);
             return selections;
           }
 
@@ -44,7 +39,7 @@ export function calculateCustomerSpecialPrices(input: {
 }
 
 export function handleCustomerSelection(input: {
-  customerState: ICustomerState;
+  customerState: CustomerState;
   type: ProductSelectionType;
   productId: number;
 }) {
@@ -52,11 +47,7 @@ export function handleCustomerSelection(input: {
   const { selections, current } = customerState;
 
   // See if current customer has product in cart
-  const currentCustomerQty = _.get(
-    selections,
-    [current, productId, "qty"],
-    null
-  );
+  const currentCustomerQty = _.get(selections, [current, productId, "qty"], null);
 
   // Set initial value
   if (currentCustomerQty === null) {

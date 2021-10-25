@@ -1,6 +1,4 @@
-import { ApiResult } from "@Middlewares/api";
-
-export enum ProductDiscountType {
+export enum OfferType {
   XYDeal = "XYDeal",
   NewPrice = "NewPrice",
 }
@@ -10,7 +8,7 @@ export type CustomerResponse = {
 };
 
 export type Customer = {
-  id: number;
+  id: string;
   Name: string;
   Offers?: Offers;
 };
@@ -20,13 +18,13 @@ export type Offers = {
 };
 
 export type Offer = {
-  type: string;
+  type: OfferType;
   values: number[];
 };
 
 export type CustomerSelection = {
-  [cusID: number]: {
-    [prodID: number]: {
+  [cusID: string]: {
+    [prodID: string]: {
       qty?: number;
       customerPrice?: number;
     };
@@ -34,9 +32,7 @@ export type CustomerSelection = {
 };
 
 export type CustomerMeta = {
-  [cusID: number]: {
+  [cusID: string]: {
     discountsApplied: boolean;
   };
 };
-
-export const fetchMovieResult = ApiResult("fetchCustomerMovie");

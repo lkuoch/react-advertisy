@@ -7,13 +7,14 @@
     "build": "vite build",
     "serve": "vite preview",
     "test": "jest",
-    "upgrade:msw": "npx msw init ./public"
+    "upgrade:msw": "npx msw init ./"
   },
   "keywords": [],
   "author": "lkuoch",
   "license": "MIT",
   "dependencies": {
     "@reduxjs/toolkit": "1.6.2",
+    "@rtk-incubator/action-listener-middleware": "^0.1.0",
     "lodash": "4.17.21",
     "react": "17.0.2",
     "react-dom": "17.0.2",
@@ -43,6 +44,6 @@
     "vite-tsconfig-paths": "3.3.17"
   },
   "msw": {
-    "workerDirectory": "public"
+    "workerDirectory": ""
   }
 }

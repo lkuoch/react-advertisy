@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { worker } from "./Mocks/browser";
 
-import { getStore } from "@Store/index";
+import { store } from "@Store/index";
 import App from "@Components/index";
 
 import "@Styles/app.less";
@@ -17,8 +17,6 @@ function prepare() {
 }
 
 prepare().then(() => {
-  const store = getStore();
-
   ReactDOM.render(
     <Provider store={store}>
       <App />

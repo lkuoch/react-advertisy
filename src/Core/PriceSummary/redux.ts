@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Prices } from "./models";
+import { RootState } from "@Types";
 
 // Slice details
 const name = "PRICE_SUMMARY";
@@ -29,9 +30,9 @@ const { actions, reducer } = createSlice({
 });
 
 const selectors = {
-  selectState: (state: IRootState) => state[name],
+  selectState: (state: RootState) => state[name],
 
-  selectPrices: (state: IRootState) => state[name].totals,
+  selectPrices: (state: RootState) => state[name].totals,
 };
 
 export { initialState, actions, reducer, selectors, name };

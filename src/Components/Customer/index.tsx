@@ -1,31 +1,46 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import Header from "./header";
 import { actions, selectors } from "@Core/Customer/redux";
+import { customerApi } from "@Core/Customer/api";
 
 export default function Customer() {
   const dispatch = useDispatch();
-  const { ids, entities } = useSelector(selectors.selectAdapted);
-  const { current } = useSelector(selectors.selectState);
+  const [fetchCustomers] = customerApi.useLazyFetchCustomersQuery();
+  const hasLoaded = useSelector(selectors.selectHasLoaded);
+  const entities = useSelector(selectors.selectAll);
+  const currentCustomerId = useSelector(selectors.selectCurrentCustomerId);
+
+  useEffect(() => {
+    fetchCustomers();
+  }, []);
 
   return (
     <div id="customers" className="left-panel ui vertical menu">
-      <Header />
+      <h2 className="title ui header">
+        <i className="ui user outline icon" />
+        <div className="content">Customers</div>
+      </h2>
 
-      {ids.map((x) => (
-        <a
-          key={x}
-          className={`item ${x === current ? "red active" : ""}`}
-          onClick={() =>
-            current !== x
-              ? dispatch(actions.updateCurrentCustomer(x as number))
-              : null
-          }
-        >
-          {entities[x]!.Name}
-        </a>
-      ))}
+      {!hasLoaded ? (
+        <div className="ui segment" style={{ height: "100%" }}>
+          <div className="ui active inverted dimmer">
+            <div className="ui text loader">Loading</div>
+          </div>
+        </div>
+      ) : (
+        <>
+          {entities.map(({ id, Name }) => (
+            <a
+              key={id}
+              className={`item ${id === currentCustomerId ? "red active" : ""}`}
+              onClick={() => (id !== currentCustomerId ? dispatch(actions.updateCurrentCustomerId(id)) : null)}
+            >
+              {Name}
+            </a>
+          ))}
+        </>
+      )}
     </div>
   );
 }

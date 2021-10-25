@@ -1,12 +1,12 @@
 import * as _ from "lodash";
 
 import { Product } from "@Core/Cart/models";
-import { Offer, Offers, ProductDiscountType } from "@Core/Customer/models";
+import { Offer, Offers, OfferType } from "@Core/Customer/models";
 import { Prices } from "./models";
-import { ICustomerState } from "@Core/Customer/redux";
+import { CustomerState } from "@Core/Customer/redux";
 
 export function calculateNewTotals(input: {
-  customerState: ICustomerState;
+  customerState: CustomerState;
   currentOffers: Offers | undefined;
   products: Product[];
 }): Prices {
@@ -56,16 +56,16 @@ function calculateDiscountedPrices(input: {
   const { custQty, productOffers, retailPrice } = _.cloneDeep(input);
 
   for (let productOffer of productOffers) {
-    const type = productOffer.type as ProductDiscountType;
+    const type = productOffer.type as OfferType;
 
     switch (type) {
-      case ProductDiscountType.XYDeal: {
+      case OfferType.XYDeal: {
         const [x, y] = productOffer.values;
 
         return calculateXYDeal([x, y], custQty, retailPrice);
       }
 
-      case ProductDiscountType.NewPrice: {
+      case OfferType.NewPrice: {
         const [newPrice] = productOffer.values;
 
         return newPrice * custQty;

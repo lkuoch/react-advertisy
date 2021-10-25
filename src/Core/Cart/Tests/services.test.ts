@@ -1,10 +1,10 @@
 import * as services from "@Core/Cart/services";
 import { Product } from "@Core/Cart/models";
 import { CustomerSelection, Offers } from "@Core/Customer/models";
-import { ICustomerState } from "@Core/Customer/redux";
+import { CustomerState } from "@Core/Customer/redux";
 
 describe("Cart Service Tests", () => {
-  let customerState: ICustomerState;
+  let customerState: CustomerState;
   let currentOffers: Offers | undefined;
   let products: Product[];
 

@@ -3,7 +3,7 @@ export type ProductResponse = {
 };
 
 export type Product = {
-  id: number;
+  id: string;
   Name: string;
   Description: string;
   RetailPrice: number;
@@ -15,6 +15,6 @@ export enum ProductSelectionType {
 }
 
 export type ProductSelectionPayload = {
-  id: number;
+  id: string;
   type: ProductSelectionType;
 };

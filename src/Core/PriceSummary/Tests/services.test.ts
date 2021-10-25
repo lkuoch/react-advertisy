@@ -1,11 +1,11 @@
 import * as services from "@Core/PriceSummary/services";
 import { Prices } from "@Core/PriceSummary/models";
-import { ICustomerState } from "@Core/Customer/redux";
+import { CustomerState } from "@Core/Customer/redux";
 import { Offers } from "@Core/Customer/models";
 import { Product } from "@Core/Cart/models";
 
 describe("PriceSummary Service Tests", () => {
-  let customerState: ICustomerState;
+  let customerState: CustomerState;
   let currentOffers: Offers | undefined;
   let products: Product[];
 
