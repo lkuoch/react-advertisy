@@ -8,7 +8,7 @@ import Price from "./price";
 import UserSelection from "./userSelection";
 
 export default function Table() {
-  const products = useSelector(selectors.selectAll);
+  const products = useSelector(selectors.adaptar.selectAll);
   const { hasLoaded } = useSelector(selectors.selectSliceState);
 
   if (!hasLoaded) {

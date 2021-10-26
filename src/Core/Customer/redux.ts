@@ -133,7 +133,9 @@ export const selectors = (() => {
     );
 
   return {
-    ...adapterSelectors,
+    adapter: {
+      ...adapterSelectors,
+    },
     selectSliceState,
     selectCurrentOffers,
     selectCurrentProductOffer,

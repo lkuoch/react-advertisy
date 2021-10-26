@@ -4,10 +4,6 @@
     "paths": {
       "@Components/*": ["./src/Components/*"],
       "@Core/*": ["./src/Core/*", "./src/Core/index.ts"],
-      "@Config": ["./src/Config/app.prod.json"],
-      "@Middlewares/*": ["./src/Middlewares/*"],
-      "@Mock/*": ["./src/Mock/*"],
-      "@Services/*": ["./src/Services/*"],
       "@Store/*": ["./src/Store/*"],
       "@Styles/*": ["./src/Styles/*"],
       "@Types": ["./src/types"]

@@ -2,18 +2,11 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 import { selectors as customerSelectors } from "@Core/Customer/redux";
+import Loader from "@Components/Common/Loader";
 import Table from "./table";
 
 export default function Cart() {
   const { hasLoaded } = useSelector(customerSelectors.selectSliceState);
-
-  const Loader = () => (
-    <div className="ui segment" style={{ height: "25vh" }}>
-      <div className="ui active inverted dimmer">
-        <div className="ui text loader">Loading</div>
-      </div>
-    </div>
-  );
 
   return (
     <div id="cart">
@@ -23,7 +16,7 @@ export default function Cart() {
           <div className="content">My Cart</div>
         </h2>
 
-        {!hasLoaded ? <Loader /> : <Table />}
+        {hasLoaded ? <Table /> : <Loader />}
       </div>
     </div>
   );

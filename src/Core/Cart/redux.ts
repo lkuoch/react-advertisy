@@ -68,7 +68,9 @@ export const selectors = (() => {
   const selectSliceState = ({ cart }: RootState) => cart.slice;
 
   return {
-    ...adapterSelectors,
+    adaptar: {
+      ...adapterSelectors,
+    },
     selectSliceState,
   };
 })();

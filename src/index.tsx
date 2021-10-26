@@ -1,26 +1,32 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
+import { configureStore } from "@reduxjs/toolkit";
 import { worker } from "./Mocks/browser";
 
-import { store } from "@Store/index";
-import App from "@Components/index";
+import { reducers, apiMiddlewares, listenerMiddlewares } from "@Core/index";
 
+import App from "@Components/index";
 import "@Styles/app.less";
 
-function prepare() {
-  if (process.env.NODE_ENV === "development") {
-    return worker.start();
+(async () => {
+  // Setup msw
+  if (!CONFIG.isProd) {
+    await worker.start();
   }
 
-  return Promise.resolve();
-}
+  // Setup store
+  const store = configureStore({
+    devTools: !CONFIG.isProd,
+    reducer: { ...reducers },
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(...apiMiddlewares, ...listenerMiddlewares),
+  });
 
-prepare().then(() => {
   ReactDOM.render(
     <Provider store={store}>
       <App />
     </Provider>,
     document.getElementById("root")
   );
-});
+})();

@@ -1,38 +1,35 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Prices } from "./models";
+
 import { RootState } from "@Types";
 
-// Slice details
-const name = "PRICE_SUMMARY";
-
-export interface IPriceSummaryState {
+export interface State {
   totals: Prices;
 }
 
-const initialState: IPriceSummaryState = {
-  totals: {
-    totalPrice: 0,
-    discountPrice: 0,
-    finalTotalPrice: 0,
-  },
-};
+// Slice details
+export const name = "priceSummary";
 
-const { actions, reducer } = createSlice({
+export const { actions, reducer } = createSlice({
   name,
-  initialState,
+  initialState: {
+    totals: {
+      totalPrice: 0,
+      discountPrice: 0,
+      finalTotalPrice: 0,
+    },
+  },
   reducers: {
-    initPriceSummary: (slice) => slice,
-
     updatePrices: (slice, { payload }) => {
       slice.totals = payload;
     },
   },
 });
 
-const selectors = {
-  selectState: (state: RootState) => state[name],
+export const selectors = (() => {
+  const selectPrices = ({ priceSummary }: RootState) => priceSummary.totals;
 
-  selectPrices: (state: RootState) => state[name].totals,
-};
-
-export { initialState, actions, reducer, selectors, name };
+  return {
+    selectPrices,
+  };
+})();

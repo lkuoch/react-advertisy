@@ -1,20 +1,18 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { actions, selectors } from "@Core/Customer/redux";
 import { customerApi } from "@Core/Customer/api";
 
+import Loader from "@Components/Common/Loader";
+
 export default function Customer() {
   const dispatch = useDispatch();
-  const [fetchCustomers] = customerApi.useLazyFetchCustomersQuery();
-  const { currentCustomerId, hasLoaded } = useSelector(
-    selectors.selectSliceState
-  );
-  const entities = useSelector(selectors.selectAll);
+  const { isError, isLoading, isSuccess } =
+    customerApi.useFetchCustomersQuery();
 
-  useEffect(() => {
-    fetchCustomers();
-  }, []);
+  const entities = useSelector(selectors.adapter.selectAll);
+  const { currentCustomerId } = useSelector(selectors.selectSliceState);
 
   return (
     <div id="customers" className="left-panel ui vertical menu">
@@ -23,29 +21,23 @@ export default function Customer() {
         <div className="content">Customers</div>
       </h2>
 
-      {!hasLoaded ? (
-        <div className="ui segment" style={{ height: "100%" }}>
-          <div className="ui active inverted dimmer">
-            <div className="ui text loader">Loading</div>
-          </div>
-        </div>
-      ) : (
-        <>
-          {entities.map(({ id, Name }) => (
-            <a
-              key={id}
-              className={`item ${id === currentCustomerId ? "red active" : ""}`}
-              onClick={() =>
-                id !== currentCustomerId
-                  ? dispatch(actions.updateCurrentCustomerId(id))
-                  : null
-              }
-            >
-              {Name}
-            </a>
-          ))}
-        </>
-      )}
+      {isError && <h1>ERROR</h1>}
+      {isLoading && <Loader />}
+
+      {isSuccess &&
+        entities.map(({ id, Name }) => (
+          <a
+            key={id}
+            className={`item ${id === currentCustomerId ? "red active" : ""}`}
+            onClick={() =>
+              id !== currentCustomerId
+                ? dispatch(actions.updateCurrentCustomerId(id))
+                : null
+            }
+          >
+            {Name}
+          </a>
+        ))}
     </div>
   );
 }
