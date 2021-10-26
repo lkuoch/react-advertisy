@@ -8,6 +8,7 @@ import { createSelector } from "reselect";
 import { customerApi } from "./api";
 import { Customer, CustomerMeta, CustomerSelection, OfferType } from "./models";
 import { RootState } from "@Types";
+import { DefaultRootState } from "react-redux";
 
 interface State {
   slice: {
@@ -90,49 +91,54 @@ export const { actions, reducer } = createSlice({
 });
 
 export const selectors = (() => {
-  const adapterSelectors = customerAdapter.getSelectors<RootState>(
-    ({ customer }) => customer
+  const customerSelector = ({ customer }: RootState) => customer;
+  const adapterSelectors = customerAdapter.getSelectors(customerSelector);
+
+  const selectSliceState = createSelector(
+    customerSelector,
+    (customer) => customer.slice
   );
 
-  const selectSliceState = ({ customer }: RootState) => customer.slice;
-
-  const selectCurrentOffers = (productId: string) =>
-    createSelector(
-      [selectSliceState, adapterSelectors.selectEntities],
-      ({ currentCustomerId }, entities) => ({
-        offers:
-          currentCustomerId == null
-            ? []
-            : entities?.[currentCustomerId]?.Offers?.[productId] ?? [],
-        get hasOffers() {
-          return this.offers.length > 0;
-        },
-      })
-    );
-
-  const selectCurrentProductOffer = ({
-    offerType,
-    productId,
-  }: {
-    offerType: OfferType;
-    productId: string;
-  }) =>
-    createSelector(
-      selectCurrentOffers(productId),
-      (result) =>
-        result.offers.find((offer) => offer.type === offerType)?.values || []
-    );
-
-  const selectCurrentProductQuantity = (productId: string) =>
-    createSelector(
-      [selectSliceState, selectSliceState],
-      ({ currentCustomerId }, slice) =>
+  const selectCurrentOffers = createSelector(
+    [
+      selectSliceState,
+      adapterSelectors.selectEntities,
+      (_, productId: string) => productId,
+    ],
+    ({ currentCustomerId }, entities, productId) => ({
+      offers:
         currentCustomerId == null
-          ? 0
-          : slice.selections[currentCustomerId]?.[productId]?.qty ?? 0
-    );
+          ? []
+          : entities?.[currentCustomerId]?.Offers?.[productId] ?? [],
+      get hasOffers() {
+        return this.offers.length > 0;
+      },
+    })
+  );
+
+  const selectCurrentProductOffer = createSelector(
+    [
+      (
+        state: any,
+        { offerType, productId }: { offerType: OfferType; productId: string }
+      ) => ({ state, offerType, productId }),
+    ],
+    ({ state, offerType, productId }) =>
+      selectCurrentOffers(state, productId).offers.find(
+        (offer) => offer.type === offerType
+      )?.values || []
+  );
+
+  const selectCurrentProductQuantity = createSelector(
+    [selectSliceState, (_, productId: string) => productId],
+    ({ selections, currentCustomerId }, productId) =>
+      currentCustomerId == null
+        ? 0
+        : selections[currentCustomerId]?.[productId]?.qty ?? 0
+  );
 
   return {
+    customerSelector,
     adapter: {
       ...adapterSelectors,
     },

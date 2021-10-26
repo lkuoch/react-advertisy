@@ -11,8 +11,8 @@ interface Props {
 }
 
 export default function Description({ product }: Props) {
-  const { hasOffers, offers } = useSelector(
-    customerSelectors.selectCurrentOffers(product.id)
+  const { hasOffers, offers } = useSelector((state) =>
+    customerSelectors.selectCurrentOffers(state, product.id)
   );
 
   return (

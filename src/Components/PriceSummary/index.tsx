@@ -5,6 +5,7 @@ import { selectors } from "@Core/PriceSummary/redux";
 
 export default function PriceSummary() {
   const prices = useSelector(selectors.selectPrices);
+  // const foo = useSelector(selectors.selectBasePrice);
 
   return (
     <div id="price-summary">
@@ -12,7 +13,7 @@ export default function PriceSummary() {
         <h3 className="ui dividing header right aligned">Item Totals</h3>
 
         <h4 id="total-price" className="ui header right aligned">
-          ${prices.totalPrice.toFixed(2)}
+          ${prices.basePrice.toFixed(2)}
         </h4>
 
         {prices.discountPrice > 0 && (
@@ -26,7 +27,7 @@ export default function PriceSummary() {
 
             <h2 className="ui dividing header right aligned">Final Price</h2>
             <h3 id="discount-price" className="ui header right aligned">
-              ${prices.finalTotalPrice.toFixed(2)}
+              ${prices.totalPrice.toFixed(2)}
             </h3>
           </>
         )}

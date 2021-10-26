@@ -14,7 +14,9 @@ interface Props {
 
 export default function UserSelection({ product: { id } }: Props) {
   const dispatch = useDispatch();
-  const qty = useSelector(customerSelectors.selectCurrentProductQuantity(id));
+  const qty = useSelector((state) =>
+    customerSelectors.selectCurrentProductQuantity(state, id)
+  );
 
   return (
     <div className="number-input ui form">

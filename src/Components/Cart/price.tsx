@@ -10,8 +10,8 @@ interface Props {
 }
 
 export default function Price({ product }: Props) {
-  const [customerPrice] = useSelector(
-    customerSelectors.selectCurrentProductOffer({
+  const [customerPrice] = useSelector((state) =>
+    customerSelectors.selectCurrentProductOffer(state, {
       offerType: OfferType.NewPrice,
       productId: product.id,
     })

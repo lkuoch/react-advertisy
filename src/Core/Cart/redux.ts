@@ -61,16 +61,21 @@ export const listeners = ((listeners) => {
 })(createActionListenerMiddleware());
 
 export const selectors = (() => {
-  const adapterSelectors = cartAdapter.getSelectors<RootState>(
-    ({ cart }) => cart
-  );
+  const cartSelector = ({ cart }: RootState) => cart;
+  const adapterSelectors = cartAdapter.getSelectors(cartSelector);
 
-  const selectSliceState = ({ cart }: RootState) => cart.slice;
+  const selectSliceState = createSelector([cartSelector], (cart) => cart.slice);
+  const selectProductPrices = createSelector(
+    [adapterSelectors.selectAll],
+    (products) => products.map(({ id, RetailPrice }) => ({ id, RetailPrice }))
+  );
 
   return {
     adaptar: {
       ...adapterSelectors,
     },
+    cartSelector,
     selectSliceState,
+    selectProductPrices,
   };
 })();
