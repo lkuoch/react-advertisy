@@ -9,7 +9,7 @@ interface Props {
   product: Product;
 }
 
-export default function Price({ product }: Props) {
+const Price = ({ product }: Props) => {
   const [customerPrice] = useSelector((state) =>
     customerSelectors.selectCurrentProductOffer(state, {
       offerType: OfferType.NewPrice,
@@ -26,4 +26,6 @@ export default function Price({ product }: Props) {
       )}
     </div>
   );
-}
+};
+
+export default Price;

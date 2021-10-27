@@ -9,7 +9,7 @@ interface Props {
   product: Product;
 }
 
-export default function UserSelection({ product: { id } }: Props) {
+const UserSelection = ({ product: { id } }: Props) => {
   const dispatch = useDispatch();
   const qty = useSelector((state) => customerSelectors.selectCurrentProductQuantity(state, id));
 
@@ -54,4 +54,6 @@ export default function UserSelection({ product: { id } }: Props) {
       </div>
     </div>
   );
-}
+};
+
+export default UserSelection;

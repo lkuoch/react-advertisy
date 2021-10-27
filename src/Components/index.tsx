@@ -4,7 +4,7 @@ import Customer from "@components/customer";
 import Cart from "@components/cart";
 import PriceSummary from "@components/priceSummary";
 
-export default function App() {
+export const App = () => {
   return (
     <div id="app">
       <h3 className="ui block center aligned header">Advertisy</h3>
@@ -19,4 +19,6 @@ export default function App() {
       </div>
     </div>
   );
-}
+};
+
+export default App;

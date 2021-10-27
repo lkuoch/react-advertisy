@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 
 import { selectors } from "@features/priceSummary/state";
 
-export default function PriceSummary() {
+const PriceSummary = () => {
   const { basePrice, discountPrice, finalPrice } = useSelector(selectors.selectPriceSummary);
 
   return (
@@ -31,4 +31,6 @@ export default function PriceSummary() {
       </div>
     </div>
   );
-}
+};
+
+export default PriceSummary;

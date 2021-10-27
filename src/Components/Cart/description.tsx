@@ -10,7 +10,7 @@ interface Props {
   product: Product;
 }
 
-export default function Description({ product }: Props) {
+const Description = ({ product }: Props) => {
   const { hasOffers, offers } = useSelector((state) => customerSelectors.selectCurrentOffers(state, product.id));
 
   return (
@@ -34,4 +34,6 @@ export default function Description({ product }: Props) {
       )}
     </div>
   );
-}
+};
+
+export default Description;

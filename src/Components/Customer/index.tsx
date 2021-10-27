@@ -6,7 +6,7 @@ import { customerApi } from "@features/customer/api";
 
 import Loader from "@components/common/Loader";
 
-export default function Customer() {
+const Customer = () => {
   const dispatch = useDispatch();
   const { isError, isLoading, isSuccess } = customerApi.useFetchCustomersQuery();
 
@@ -35,4 +35,6 @@ export default function Customer() {
         ))}
     </div>
   );
-}
+};
+
+export default Customer;

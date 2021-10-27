@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Loader() {
+const Loader = () => {
   return (
     <div className="ui segment" style={{ height: "25vh" }}>
       <div className="ui active inverted dimmer">
@@ -8,4 +8,6 @@ export default function Loader() {
       </div>
     </div>
   );
-}
+};
+
+export default Loader;

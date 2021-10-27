@@ -50,16 +50,11 @@ export const selectors = (() => {
   const adapterSelectors = cartAdapter.getSelectors(cartSelector);
 
   const selectSliceState = createSelector([cartSelector], (cart) => cart.slice);
-  const selectProductPrices = createSelector([adapterSelectors.selectAll], (products) =>
-    products.map(({ id, RetailPrice }) => ({ id, RetailPrice }))
-  );
 
   return {
     adaptar: {
       ...adapterSelectors,
     },
-    cartSelector,
     selectSliceState,
-    selectProductPrices,
   };
 })();

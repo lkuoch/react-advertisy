@@ -87,7 +87,7 @@ export const selectors = (() => {
       ],
     ],
     ([state, { offerType, productId }]) =>
-      selectCurrentOffers(state, productId).offers.find((offer) => offer.type === offerType)?.values || []
+      selectCurrentOffers(state, productId).offers.find((offer) => offer.type === offerType)?.values ?? []
   );
 
   const selectCurrentProductQuantity = createSelector(

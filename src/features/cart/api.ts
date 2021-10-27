@@ -4,16 +4,16 @@ import type { Product } from "./types";
 export const cartApi = createApi({
   reducerPath: "cartApi",
   baseQuery: fetchBaseQuery({ baseUrl: CONFIG.vars.base_graphql_endpoint }),
-  tagTypes: ["Product"],
+  tagTypes: ["product"],
   endpoints: (builder) => ({
     fetchProducts: builder.query<Array<Product>, void>({
       query: () => `/products`,
       providesTags: (products) => [
-        { type: "Product" as const, id: "@LIST" },
+        { type: "product" as const, id: "@LIST" },
         ...(products?.map((product) => ({
-          type: "Product" as const,
+          type: "product" as const,
           id: product.id,
-        })) || []),
+        })) ?? []),
       ],
     }),
   }),

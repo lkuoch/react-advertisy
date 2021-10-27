@@ -5,7 +5,7 @@ import { selectors as customerSelectors } from "@features/customer/state";
 import Loader from "@components/common/Loader";
 import Table from "./table";
 
-export default function Cart() {
+const Cart = () => {
   const { hasLoaded } = useSelector(customerSelectors.selectSliceState);
 
   return (
@@ -20,4 +20,6 @@ export default function Cart() {
       </div>
     </div>
   );
-}
+};
+
+export default Cart;

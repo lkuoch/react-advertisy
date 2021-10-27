@@ -8,7 +8,7 @@
     "serve": "vite build && vite preview",
     "tsc": "tsc",
     "test": "jest",
-    "upgrade:msw": "npx msw init ./"
+    "msw": "npx msw init ./"
   },
   "keywords": [],
   "author": "lkuoch",

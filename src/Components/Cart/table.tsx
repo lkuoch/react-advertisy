@@ -7,7 +7,7 @@ import Description from "./description";
 import Price from "./price";
 import UserSelection from "./userSelection";
 
-export default function Table() {
+const Table = () => {
   const products = useSelector(selectors.adaptar.selectAll);
   const { hasLoaded } = useSelector(selectors.selectSliceState);
 
@@ -53,4 +53,6 @@ export default function Table() {
       </tbody>
     </table>
   );
-}
+};
+
+export default Table;

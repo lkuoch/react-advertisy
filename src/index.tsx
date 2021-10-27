@@ -2,11 +2,10 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
-import { worker } from "./mocks/browser";
 
-import { reducers, apiMiddlewares, listenerMiddlewares } from "@features/index";
+import { reducers, apiMiddlewares, listenerMiddlewares } from "@features/";
 
-import App from "src/components/index";
+import App from "@components/";
 import "@styles/app.less";
 
 // Setup store
@@ -17,8 +16,9 @@ export const store = configureStore({
 });
 
 (async () => {
-  // Setup msw
+  // Setup msw for mock data
   if (!CONFIG.isProd) {
+    const { worker } = await import("../mocks/mockServer");
     await worker.start();
   }
 

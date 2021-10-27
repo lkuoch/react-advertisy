@@ -8,7 +8,7 @@ interface Props {
   original: Product;
 }
 
-export default function PriceSpecialOffer(props: Props) {
+const PriceSpecialOffer = (props: Props) => {
   const offerType = props.offer.type as OfferType;
 
   switch (offerType) {
@@ -29,4 +29,6 @@ export default function PriceSpecialOffer(props: Props) {
     default:
       return null;
   }
-}
+};
+
+export default PriceSpecialOffer;
