@@ -1,7 +1,7 @@
 import React from "react";
 
-import { Product } from "@Core/Cart/models";
-import { Offer, OfferType } from "@Core/Customer/models";
+import { Product } from "@Core/Cart/types";
+import { Offer, OfferType } from "@Core/Customer/types";
 
 interface ISpecialOfferProps {
   offer: Offer;
@@ -15,9 +15,7 @@ export default function PriceSpecialOffer(props: ISpecialOfferProps) {
     case OfferType.XYDeal: {
       const [x, y] = props.offer.values;
 
-      return (
-        <span className="special-offer ui blue text">{`Buy ${x} for the price of ${y}`}</span>
-      );
+      return <span className="special-offer ui blue text">{`Buy ${x} for the price of ${y}`}</span>;
     }
 
     case OfferType.NewPrice: {

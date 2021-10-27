@@ -8,8 +8,7 @@ import Loader from "@Components/Common/Loader";
 
 export default function Customer() {
   const dispatch = useDispatch();
-  const { isError, isLoading, isSuccess } =
-    customerApi.useFetchCustomersQuery();
+  const { isError, isLoading, isSuccess } = customerApi.useFetchCustomersQuery();
 
   const entities = useSelector(selectors.adapter.selectAll);
   const { currentCustomerId } = useSelector(selectors.selectSliceState);
@@ -29,11 +28,7 @@ export default function Customer() {
           <a
             key={id}
             className={`item ${id === currentCustomerId ? "red active" : ""}`}
-            onClick={() =>
-              id !== currentCustomerId
-                ? dispatch(actions.updateCurrentCustomerId(id))
-                : null
-            }
+            onClick={() => (id !== currentCustomerId ? dispatch(actions.updateCurrentCustomerId(id)) : null)}
           >
             {Name}
           </a>

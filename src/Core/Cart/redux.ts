@@ -1,13 +1,9 @@
-import {
-  createSlice,
-  createEntityAdapter,
-  PayloadAction,
-} from "@reduxjs/toolkit";
+import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
 import { createActionListenerMiddleware } from "@rtk-incubator/action-listener-middleware";
 
 import { cartApi } from "./api";
-import { Product, ProductSelectionPayload } from "./models";
+import { Product } from "./types";
 import { customerApi } from "@Core/Customer/api";
 import { RootState } from "@Types";
 
@@ -32,30 +28,19 @@ export const { actions, reducer } = createSlice({
       hasLoaded: false,
     },
   }),
-  reducers: {
-    handleProductSelection: (
-      slice,
-      _action: PayloadAction<ProductSelectionPayload>
-    ) => slice,
-  },
+  reducers: {},
   extraReducers: (builder) => {
-    builder.addMatcher(
-      cartApi.endpoints.fetchProducts.matchFulfilled,
-      (state, { payload }) => {
-        cartAdapter.addMany(state, payload);
-        state.slice.hasLoaded = true;
-      }
-    );
+    builder.addMatcher(cartApi.endpoints.fetchProducts.matchFulfilled, (state, { payload }) => {
+      cartAdapter.addMany(state, payload);
+      state.slice.hasLoaded = true;
+    });
   },
 });
 
 export const listeners = ((listeners) => {
-  listeners.addListener(
-    customerApi.endpoints.fetchCustomers.matchFulfilled,
-    async (_, { dispatch, getState }) => {
-      cartApi.endpoints.fetchProducts.initiate()(dispatch, getState, {});
-    }
-  );
+  listeners.addListener(customerApi.endpoints.fetchCustomers.matchFulfilled, async (_, { dispatch, getState }) => {
+    cartApi.endpoints.fetchProducts.initiate()(dispatch, getState, {});
+  });
 
   return listeners;
 })(createActionListenerMiddleware());
@@ -65,9 +50,8 @@ export const selectors = (() => {
   const adapterSelectors = cartAdapter.getSelectors(cartSelector);
 
   const selectSliceState = createSelector([cartSelector], (cart) => cart.slice);
-  const selectProductPrices = createSelector(
-    [adapterSelectors.selectAll],
-    (products) => products.map(({ id, RetailPrice }) => ({ id, RetailPrice }))
+  const selectProductPrices = createSelector([adapterSelectors.selectAll], (products) =>
+    products.map(({ id, RetailPrice }) => ({ id, RetailPrice }))
   );
 
   return {

@@ -9,19 +9,18 @@ import { reducers, apiMiddlewares, listenerMiddlewares } from "@Core/index";
 import App from "@Components/index";
 import "@Styles/app.less";
 
+// Setup store
+export const store = configureStore({
+  devTools: !CONFIG.isProd,
+  reducer: { ...reducers },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(...apiMiddlewares, ...listenerMiddlewares),
+});
+
 (async () => {
   // Setup msw
   if (!CONFIG.isProd) {
     await worker.start();
   }
-
-  // Setup store
-  const store = configureStore({
-    devTools: !CONFIG.isProd,
-    reducer: { ...reducers },
-    middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(...apiMiddlewares, ...listenerMiddlewares),
-  });
 
   ReactDOM.render(
     <Provider store={store}>

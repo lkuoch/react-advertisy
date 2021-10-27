@@ -3075,10 +3075,10 @@ require-directory@^2.1.1:
   resolved "https://registry.yarnpkg.com/require-directory/-/require-directory-2.1.1.tgz#8c64ad5fd30dab1c976e2344ffe7f792a6a6df42"
   integrity sha1-jGStX9MNqxyXbiNE/+f3kqam30I=
 
-reselect@4.1.0-beta.2:
-  version "4.1.0-beta.2"
-  resolved "https://registry.yarnpkg.com/reselect/-/reselect-4.1.0-beta.2.tgz#cfeed82250c8dd19e24cbcccc0cf0fe65d885dcc"
-  integrity sha512-EHxFXNjVW+M/a64APnJmox1m2R4ywkFJ0GT/LqaVwSCUhk74z61xHn8dT/lquybX5qhbVzkRN0jSO4HS23L/kg==
+reselect@4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/reselect/-/reselect-4.1.1.tgz#7e2c110efbf3d70df3482604bcf2bc0ab571346a"
+  integrity sha512-Jjt8Us6hAWJpjucyladHvUGR+q1mHHgWtGDXlhvvKyNyIeQ3bjuWLDX0bsTLhbm/gd4iXEACBlODUHBlLWiNnA==
 
 reselect@^4.0.0:
   version "4.0.0"
@@ -3573,10 +3573,10 @@ vite-tsconfig-paths@3.3.17:
     recrawl-sync "^2.0.3"
     tsconfig-paths "^3.9.0"
 
-vite@2.6.11:
-  version "2.6.11"
-  resolved "https://registry.yarnpkg.com/vite/-/vite-2.6.11.tgz#20d3d8f4b4fe38904a2e425356aab1cb23325e12"
-  integrity sha512-JWnGmiO1IFwou9aUWS4N0kMyHcgTTt1+2f4bJyzgBJLJDyAqGEX3HewE4jgrL6V4d9+mxs+lZ4L8HL2kyVBe7A==
+vite@2.6.12:
+  version "2.6.12"
+  resolved "https://registry.yarnpkg.com/vite/-/vite-2.6.12.tgz#17d819ca6766f59a7609a50ab8a2d2cdc05f1523"
+  integrity sha512-0K7HUgAFiWOCWMkshjunCieTgawoSfmtExTwNoaVc5uTUb3ZEWb3DUP9Ze1l5dZZBxmNrbo5GrmJp2UJA3g+jA==
   dependencies:
     esbuild "^0.13.2"
     postcss "^8.3.8"

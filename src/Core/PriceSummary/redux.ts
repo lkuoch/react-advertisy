@@ -3,82 +3,59 @@ import { createSelector } from "reselect";
 
 import { selectors as customerSelectors } from "@Core/Customer/redux";
 import { selectors as cartSelectors } from "@Core/Cart/redux";
-import { Prices } from "./models";
 
-import { RootState } from "@Types";
+import { applyOffer, calculateBasePrice, calculateDiscountPrice } from "./services";
 
-export interface State {
-  discountPrice: boolean;
-  totals: Prices;
-}
+export interface State {}
 
 // Slice details
 export const name = "priceSummary";
 
 export const { actions, reducer } = createSlice({
   name,
-  initialState: {
-    discountPrice: false,
-    totals: {
-      basePrice: 0,
-      discountPrice: 0,
-      totalPrice: 0,
-    },
-  },
-  reducers: {
-    updatePrices: (slice, { payload }) => {
-      slice.totals = payload;
-    },
-  },
+  initialState: {},
+  reducers: {},
 });
 
 export const selectors = (() => {
-  const priceSummarySelector = ({ priceSummary }: RootState) => priceSummary;
+  const selectPriceInformation = createSelector(
+    [cartSelectors.adaptar.selectAll, (state) => state],
+    (products, state) =>
+      products.map(({ id, RetailPrice: price }) => {
+        const qty = customerSelectors.selectCurrentProductQuantity(state, id);
+        const currentOffers = customerSelectors.selectCurrentOffers(state, id);
 
-  const selectPrices = createSelector(
-    priceSummarySelector,
-    (priceSummary) => priceSummary.totals
+        return {
+          id,
+          currentOffers,
+          qty,
+          price,
+          total: calculateBasePrice({ qty, price }),
+        };
+      })
   );
 
-  // const selectTest = createSelector(
-  //   [cartSelectors.selectProductPrices],
-  //   (productPrices) => {
-  //     // console.log(
-  //     //   "✖",
-  //     //   ids.map((id) =>
-  //     //     currentProductQuantitySelector(customerSelectors.customerSelector, id)
-  //     //   )
-  //     // );
+  const selectBasePrice = createSelector([selectPriceInformation], (priceInfo) =>
+    priceInfo.reduce((subtotal, { total }) => (subtotal += total), 0)
+  );
 
-  //     // productPrices.forEach(({ id }) => {
-  //     //   console.log("✔", id);
-  //     //   console.log("✔✔", customerSelectors.selectCurrentProductQuantity(id));
-  //     // });
+  const selectFinalPrice = createSelector([selectPriceInformation], (priceInfo) =>
+    priceInfo.reduce(
+      (discountSubTotal, { currentOffers: { hasOffers, offers }, qty, price }) =>
+        (discountSubTotal += hasOffers
+          ? offers.reduce((subtotal, offer) => (subtotal += applyOffer({ price, qty, offer })), 0)
+          : 0),
+      0
+    )
+  );
 
-  //     return [];
-  //   }
-  // );
-
-  // Helper foo
-  // const selectBasePrice = createSelector(selectTest, (products) => {
-  //   // console.log("✔", products);
-
-  //   return 0;
-  // });
-
-  // const hasDiscount
-  const selectTotalPrice = (customerId: string) =>
-    createSelector(
-      [
-        customerSelectors.selectCurrentOffers,
-        customerSelectors.selectCurrentProductQuantity,
-      ],
-      () => 0
-    );
-
-  // selectBasePrice: selectTest,
+  const selectDiscountPrice = createSelector([selectBasePrice, selectFinalPrice], (basePrice, finalPrice) =>
+    calculateDiscountPrice({ basePrice, finalPrice })
+  );
 
   return {
-    selectPrices,
+    selectBasePrice,
+    selectFinalPrice,
+    selectDiscountPrice,
   };
 })();

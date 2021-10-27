@@ -4,16 +4,14 @@ import { useSelector } from "react-redux";
 import { selectors as customerSelectors } from "@Core/Customer/redux";
 
 import PriceSpecialOffer from "@Components/Shared/priceSpecialOffer";
-import type { Product } from "@Core/Cart/models";
+import type { Product } from "@Core/Cart/types";
 
 interface Props {
   product: Product;
 }
 
 export default function Description({ product }: Props) {
-  const { hasOffers, offers } = useSelector((state) =>
-    customerSelectors.selectCurrentOffers(state, product.id)
-  );
+  const { hasOffers, offers } = useSelector((state) => customerSelectors.selectCurrentOffers(state, product.id));
 
   return (
     <div className="description">
@@ -22,9 +20,7 @@ export default function Description({ product }: Props) {
       {hasOffers && (
         <div className="special-offer-section">
           <p>
-            <span className="special-offer-title ui red text">
-              SPECIAL OFFER:
-            </span>
+            <span className="special-offer-title ui red text">SPECIAL OFFER:</span>
           </p>
 
           <ul>

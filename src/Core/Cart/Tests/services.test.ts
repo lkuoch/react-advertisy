@@ -1,75 +1,77 @@
-import * as services from "@Core/Cart/services";
-import { Product } from "@Core/Cart/models";
-import { CustomerSelection, Offers } from "@Core/Customer/models";
-import { CustomerState } from "@Core/Customer/redux";
+export {};
 
-describe("Cart Service Tests", () => {
-  let customerState: CustomerState;
-  let currentOffers: Offers | undefined;
-  let products: Product[];
+// import * as services from "@Core/Cart/services";
+// import { Product } from "@Core/Cart/models";
+// import { CustomerSelection, Offers } from "@Core/Customer/models";
+// import { CustomerState } from "@Core/Customer/redux";
 
-  describe("[calculateCustomerSpecialPrices]", () => {
-    beforeEach(() => {
-      customerState = {
-        current: 0,
-        selections: {},
-        meta: {},
-      };
+// describe("Cart Service Tests", () => {
+//   let customerState: CustomerState;
+//   let currentOffers: Offers | undefined;
+//   let products: Product[];
 
-      currentOffers = undefined;
-      products = [
-        {
-          id: 0,
-          Name: "Test Product",
-          Description: "Test Product Description",
-          RetailPrice: 100.0,
-        },
-      ];
-    });
+//   describe("[calculateCustomerSpecialPrices]", () => {
+//     beforeEach(() => {
+//       customerState = {
+//         current: 0,
+//         selections: {},
+//         meta: {},
+//       };
 
-    describe("no current offers", () => {
-      it("SHOULD return null", () => {
-        const expectedResult = null;
+//       currentOffers = undefined;
+//       products = [
+//         {
+//           id: 0,
+//           Name: "Test Product",
+//           Description: "Test Product Description",
+//           RetailPrice: 100.0,
+//         },
+//       ];
+//     });
 
-        expect(
-          services.calculateCustomerSpecialPrices({
-            customerState,
-            currentOffers,
-            products,
-          })
-        ).toEqual(expectedResult);
-      });
-    });
+//     describe("no current offers", () => {
+//       it("SHOULD return null", () => {
+//         const expectedResult = null;
 
-    describe("NewPrice offers", () => {
-      beforeEach(() => {
-        currentOffers = {
-          "0": [
-            {
-              type: "NewPrice",
-              values: [75.0],
-            },
-          ],
-        };
-      });
+//         expect(
+//           services.calculateCustomerSpecialPrices({
+//             customerState,
+//             currentOffers,
+//             products,
+//           })
+//         ).toEqual(expectedResult);
+//       });
+//     });
 
-      it("SHOULD return updated price", () => {
-        const expectedResult: CustomerSelection = {
-          0: {
-            0: {
-              customerPrice: 75,
-            },
-          },
-        };
+//     describe("NewPrice offers", () => {
+//       beforeEach(() => {
+//         currentOffers = {
+//           "0": [
+//             {
+//               type: "NewPrice",
+//               values: [75.0],
+//             },
+//           ],
+//         };
+//       });
 
-        expect(
-          services.calculateCustomerSpecialPrices({
-            customerState,
-            currentOffers,
-            products,
-          })
-        ).toEqual(expectedResult);
-      });
-    });
-  });
-});
+//       it("SHOULD return updated price", () => {
+//         const expectedResult: CustomerSelection = {
+//           0: {
+//             0: {
+//               customerPrice: 75,
+//             },
+//           },
+//         };
+
+//         expect(
+//           services.calculateCustomerSpecialPrices({
+//             customerState,
+//             currentOffers,
+//             products,
+//           })
+//         ).toEqual(expectedResult);
+//       });
+//     });
+//   });
+// });

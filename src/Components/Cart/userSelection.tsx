@@ -1,12 +1,9 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  actions as customerActions,
-  selectors as customerSelectors,
-} from "@Core/Customer/redux";
+import { actions as customerActions, selectors as customerSelectors } from "@Core/Customer/redux";
 
-import { Product } from "@Core/Cart/models";
+import { Product } from "@Core/Cart/types";
 
 interface Props {
   product: Product;
@@ -14,9 +11,7 @@ interface Props {
 
 export default function UserSelection({ product: { id } }: Props) {
   const dispatch = useDispatch();
-  const qty = useSelector((state) =>
-    customerSelectors.selectCurrentProductQuantity(state, id)
-  );
+  const qty = useSelector((state) => customerSelectors.selectCurrentProductQuantity(state, id));
 
   return (
     <div className="number-input ui form">

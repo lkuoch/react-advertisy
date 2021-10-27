@@ -1,86 +1,12 @@
-import * as _ from "lodash";
+import { Offer, OfferType } from "@Core/Customer/types";
 
-import { Product } from "@Core/Cart/models";
-import { Offer, Offers, OfferType } from "@Core/Customer/models";
-import { Prices } from "./models";
-import { CustomerState } from "@Core/Customer/redux";
+const calculateBasePrice = ({ qty, price }: { qty: number; price: number }) => qty * price;
+const calculateDiscountPrice = ({ basePrice, finalPrice }: { basePrice: number; finalPrice: number }) =>
+  basePrice - finalPrice;
 
-export function calculateNewTotals(input: {
-  customerState: CustomerState;
-  currentOffers: Offers | undefined;
-  products: Product[];
-}): Prices {
-  const { customerState, currentOffers, products } = _.cloneDeep(input);
+const calculateOfferNewPrice = ({ newPrice, qty }: { newPrice: number; qty: number }) => newPrice * qty;
 
-  const { current, selections } = customerState;
-
-  const currCustSelects = _.get(selections, [current], null);
-
-  if (currCustSelects === null)
-    return {
-      totalPrice: 0,
-      discountPrice: 0,
-      finalTotalPrice: 0,
-    };
-
-  // Calculate prices
-  let totalPrice = 0;
-  let totalPriceWithDiscount = 0;
-
-  for (let prodId in currCustSelects) {
-    const retailPrice = products[prodId].RetailPrice;
-    const productOffers = _.get(currentOffers, [prodId], []);
-    const custQty = _.get(currCustSelects, [prodId, "qty"], 0);
-
-    totalPrice += retailPrice * custQty;
-
-    totalPriceWithDiscount += calculateDiscountedPrices({
-      productOffers,
-      custQty,
-      retailPrice,
-    });
-  }
-
-  return {
-    totalPrice,
-    discountPrice: totalPrice - totalPriceWithDiscount,
-    finalTotalPrice: totalPriceWithDiscount,
-  };
-}
-
-function calculateDiscountedPrices(input: {
-  productOffers: Offer[];
-  custQty: number;
-  retailPrice: number;
-}): number {
-  const { custQty, productOffers, retailPrice } = _.cloneDeep(input);
-
-  for (let productOffer of productOffers) {
-    const type = productOffer.type as OfferType;
-
-    switch (type) {
-      case OfferType.XYDeal: {
-        const [x, y] = productOffer.values;
-
-        return calculateXYDeal([x, y], custQty, retailPrice);
-      }
-
-      case OfferType.NewPrice: {
-        const [newPrice] = productOffer.values;
-
-        return newPrice * custQty;
-      }
-
-      default: {
-        break;
-      }
-    }
-  }
-
-  return retailPrice * custQty;
-}
-
-function calculateXYDeal([x, y]: [number, number], qty: number, price: number) {
+const calculateXYDeal = ({ x, y, qty, price }: { x: number; y: number; qty: number; price: number }) => {
   // Normal price
   if (qty < x) {
     return price * qty;
@@ -90,4 +16,12 @@ function calculateXYDeal([x, y]: [number, number], qty: number, price: number) {
   const remainder = qty % x;
 
   return quotient * y * price + remainder * price;
-}
+};
+
+const applyOffer = ({ qty, price, offer }: { qty: number; price: number; offer: Offer }) =>
+  ({
+    [OfferType.NewPrice]: calculateOfferNewPrice({ qty, newPrice: offer.values[0] }),
+    [OfferType.XYDeal]: calculateXYDeal({ qty, price, x: offer.values[0], y: offer.values[1] }),
+  }[offer.type]);
+
+export { calculateBasePrice, calculateDiscountPrice, applyOffer };

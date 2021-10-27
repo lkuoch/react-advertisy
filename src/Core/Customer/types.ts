@@ -1,3 +1,4 @@
+// TODO - move to GraphQL
 export enum OfferType {
   XYDeal = "XYDeal",
   NewPrice = "NewPrice",
