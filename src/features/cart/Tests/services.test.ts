@@ -3,7 +3,7 @@ export {};
 // import * as services from "@features/cart/services";
 // import { Product } from "@features/cart/models";
 // import { CustomerSelection, Offers } from "@features/customer/models";
-// import { CustomerState } from "@features/customer/redux";
+// import { CustomerState } from "@features/customer/state";
 
 // describe("Cart Service Tests", () => {
 //   let customerState: CustomerState;

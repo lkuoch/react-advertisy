@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
 
-import { selectors as customerSelectors } from "@features/customer/redux";
-import { selectors as cartSelectors } from "@features/cart/redux";
+import { selectors as customerSelectors } from "@features/customer/state";
+import { selectors as cartSelectors } from "@features/cart/state";
 
 import { applyOffer, calculateBasePrice, calculateDiscountPrice } from "./services";
 
@@ -53,9 +53,12 @@ export const selectors = (() => {
     calculateDiscountPrice({ basePrice, finalPrice })
   );
 
+  const selectPriceSummary = createSelector(
+    [selectBasePrice, selectDiscountPrice, selectFinalPrice],
+    (basePrice, discountPrice, finalPrice) => ({ basePrice, discountPrice, finalPrice })
+  );
+
   return {
-    selectBasePrice,
-    selectFinalPrice,
-    selectDiscountPrice,
+    selectPriceSummary,
   };
 })();

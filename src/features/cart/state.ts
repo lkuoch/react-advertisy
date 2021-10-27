@@ -2,10 +2,10 @@ import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
 import { createActionListenerMiddleware } from "@rtk-incubator/action-listener-middleware";
 
-import { cartApi } from "./api";
-import { Product } from "./types";
 import { customerApi } from "@features/customer/api";
-import { RootState } from "@types";
+import { cartApi } from "./api";
+import type { Product } from "./types";
+import type { RootState } from "@types";
 
 interface State {
   slice: {

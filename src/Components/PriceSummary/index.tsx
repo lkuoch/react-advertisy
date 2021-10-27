@@ -1,12 +1,10 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { selectors } from "@features/priceSummary/redux";
+import { selectors } from "@features/priceSummary/state";
 
 export default function PriceSummary() {
-  const basePrice = useSelector(selectors.selectBasePrice);
-  const discountPrice = useSelector(selectors.selectDiscountPrice);
-  const finalPrice = useSelector(selectors.selectFinalPrice);
+  const { basePrice, discountPrice, finalPrice } = useSelector(selectors.selectPriceSummary);
 
   return (
     <div id="price-summary">

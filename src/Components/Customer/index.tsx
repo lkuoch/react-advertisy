@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { actions, selectors } from "@features/customer/redux";
+import { actions, selectors } from "@features/customer/state";
 import { customerApi } from "@features/customer/api";
 
 import Loader from "@components/common/Loader";

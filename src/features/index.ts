@@ -1,6 +1,6 @@
-import * as cartState from "@features/cart/redux";
-import * as customerState from "@features/customer/redux";
-import * as priceSummaryState from "@features/priceSummary/redux";
+import * as cartState from "@features/cart/state";
+import * as customerState from "@features/customer/state";
+import * as priceSummaryState from "@features/priceSummary/state";
 
 import { cartApi } from "@features/cart/api";
 import { customerApi } from "@features/customer/api";

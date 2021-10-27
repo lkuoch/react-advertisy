@@ -2,7 +2,7 @@ export {};
 
 // import * as services from "@features/priceSummary/services";
 // import { Prices } from "@features/priceSummary/models";
-// import { CustomerState } from "@features/customer/redux";
+// import { CustomerState } from "@features/customer/state";
 // import { Offers } from "@features/customer/models";
 // import { Product } from "@features/cart/models";
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { selectors as customerSelectors } from "@features/customer/redux";
+import { selectors as customerSelectors } from "@features/customer/state";
 import Loader from "@components/common/Loader";
 import Table from "./table";
 

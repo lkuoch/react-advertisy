@@ -1,14 +1,14 @@
 import React from "react";
 
-import { Product } from "@features/cart/types";
 import { Offer, OfferType } from "@features/customer/types";
+import type { Product } from "@features/cart/types";
 
-interface ISpecialOfferProps {
+interface Props {
   offer: Offer;
   original: Product;
 }
 
-export default function PriceSpecialOffer(props: ISpecialOfferProps) {
+export default function PriceSpecialOffer(props: Props) {
   const offerType = props.offer.type as OfferType;
 
   switch (offerType) {
