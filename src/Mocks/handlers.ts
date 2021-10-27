@@ -1,6 +1,6 @@
 import { rest } from "msw";
-import { customers } from "./Data/customers.json";
-import { products } from "./Data/products.json";
+import { customers } from "./data/customers.json";
+import { products } from "./data/products.json";
 
 const BASE_URL = CONFIG.vars.base_graphql_endpoint;
 

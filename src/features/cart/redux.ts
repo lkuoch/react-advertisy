@@ -4,8 +4,8 @@ import { createActionListenerMiddleware } from "@rtk-incubator/action-listener-m
 
 import { cartApi } from "./api";
 import { Product } from "./types";
-import { customerApi } from "@Core/Customer/api";
-import { RootState } from "@Types";
+import { customerApi } from "@features/customer/api";
+import { RootState } from "@types";
 
 interface State {
   slice: {

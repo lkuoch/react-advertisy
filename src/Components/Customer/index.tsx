@@ -1,10 +1,10 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { actions, selectors } from "@Core/Customer/redux";
-import { customerApi } from "@Core/Customer/api";
+import { actions, selectors } from "@features/customer/redux";
+import { customerApi } from "@features/customer/api";
 
-import Loader from "@Components/Common/Loader";
+import Loader from "@components/common/Loader";
 
 export default function Customer() {
   const dispatch = useDispatch();

@@ -1,10 +1,10 @@
 export {};
 
-// import * as services from "@Core/PriceSummary/services";
-// import { Prices } from "@Core/PriceSummary/models";
-// import { CustomerState } from "@Core/Customer/redux";
-// import { Offers } from "@Core/Customer/models";
-// import { Product } from "@Core/Cart/models";
+// import * as services from "@features/priceSummary/services";
+// import { Prices } from "@features/priceSummary/models";
+// import { CustomerState } from "@features/customer/redux";
+// import { Offers } from "@features/customer/models";
+// import { Product } from "@features/cart/models";
 
 // describe("PriceSummary Service Tests", () => {
 //   let customerState: CustomerState;

@@ -2,11 +2,10 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@Components/*": ["./src/Components/*"],
-      "@Core/*": ["./src/Core/*", "./src/Core/index.ts"],
-      "@Store/*": ["./src/Store/*"],
-      "@Styles/*": ["./src/Styles/*"],
-      "@Types": ["./src/types"]
+      "@components/*": ["./src/components/*"],
+      "@features/*": ["./src/features/*", "./src/features/index.ts"],
+      "@styles/*": ["./src/Styles/*"],
+      "@types": ["./src/types"]
     }
   }
 }

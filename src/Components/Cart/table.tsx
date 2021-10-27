@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { selectors } from "@Core/Cart/redux";
+import { selectors } from "@features/cart/redux";
 
 import Description from "./description";
 import Price from "./price";

@@ -1,9 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { selectors as customerSelectors } from "@Core/Customer/redux";
-import { Product } from "@Core/Cart/types";
-import { OfferType } from "@Core/Customer/types";
+import { selectors as customerSelectors } from "@features/customer/redux";
+import { Product } from "@features/cart/types";
+import { OfferType } from "@features/customer/types";
 
 interface Props {
   product: Product;

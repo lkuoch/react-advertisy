@@ -1,8 +1,8 @@
 import React from "react";
 
-import Customer from "@Components/Customer";
-import Cart from "@Components/Cart";
-import PriceSummary from "@Components/PriceSummary";
+import Customer from "@components/customer";
+import Cart from "@components/cart";
+import PriceSummary from "@components/priceSummary";
 
 export default function App() {
   return (

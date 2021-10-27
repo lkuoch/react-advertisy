@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
 
-import { selectors as customerSelectors } from "@Core/Customer/redux";
-import { selectors as cartSelectors } from "@Core/Cart/redux";
+import { selectors as customerSelectors } from "@features/customer/redux";
+import { selectors as cartSelectors } from "@features/cart/redux";
 
 import { applyOffer, calculateBasePrice, calculateDiscountPrice } from "./services";
 

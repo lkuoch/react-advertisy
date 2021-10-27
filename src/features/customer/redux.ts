@@ -4,7 +4,7 @@ import setWith from "lodash/setWith";
 
 import { customerApi } from "./api";
 import { Customer, CustomerMeta, CustomerSelection, OfferType } from "./types";
-import { RootState } from "@Types";
+import { RootState } from "@types";
 
 interface State {
   slice: {

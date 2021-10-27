@@ -1,9 +1,9 @@
 export {};
 
-// import * as services from "@Core/Cart/services";
-// import { Product } from "@Core/Cart/models";
-// import { CustomerSelection, Offers } from "@Core/Customer/models";
-// import { CustomerState } from "@Core/Customer/redux";
+// import * as services from "@features/cart/services";
+// import { Product } from "@features/cart/models";
+// import { CustomerSelection, Offers } from "@features/customer/models";
+// import { CustomerState } from "@features/customer/redux";
 
 // describe("Cart Service Tests", () => {
 //   let customerState: CustomerState;

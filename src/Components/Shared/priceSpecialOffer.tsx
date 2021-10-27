@@ -1,7 +1,7 @@
 import React from "react";
 
-import { Product } from "@Core/Cart/types";
-import { Offer, OfferType } from "@Core/Customer/types";
+import { Product } from "@features/cart/types";
+import { Offer, OfferType } from "@features/customer/types";
 
 interface ISpecialOfferProps {
   offer: Offer;

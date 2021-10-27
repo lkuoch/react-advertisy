@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { selectors } from "@Core/PriceSummary/redux";
+import { selectors } from "@features/priceSummary/redux";
 
 export default function PriceSummary() {
   const basePrice = useSelector(selectors.selectBasePrice);

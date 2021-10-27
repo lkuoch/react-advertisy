@@ -1,9 +1,9 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { actions as customerActions, selectors as customerSelectors } from "@Core/Customer/redux";
+import { actions as customerActions, selectors as customerSelectors } from "@features/customer/redux";
 
-import { Product } from "@Core/Cart/types";
+import { Product } from "@features/cart/types";
 
 interface Props {
   product: Product;

@@ -1,8 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { selectors as customerSelectors } from "@Core/Customer/redux";
-import Loader from "@Components/Common/Loader";
+import { selectors as customerSelectors } from "@features/customer/redux";
+import Loader from "@components/common/Loader";
 import Table from "./table";
 
 export default function Cart() {

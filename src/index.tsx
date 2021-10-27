@@ -2,12 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
-import { worker } from "./Mocks/browser";
+import { worker } from "./mocks/browser";
 
-import { reducers, apiMiddlewares, listenerMiddlewares } from "@Core/index";
+import { reducers, apiMiddlewares, listenerMiddlewares } from "@features/index";
 
-import App from "@Components/index";
-import "@Styles/app.less";
+import App from "src/components/index";
+import "@styles/app.less";
 
 // Setup store
 export const store = configureStore({

@@ -1,9 +1,9 @@
-import * as cartState from "@Core/Cart/redux";
-import * as customerState from "@Core/Customer/redux";
-import * as priceSummaryState from "@Core/PriceSummary/redux";
+import * as cartState from "@features/cart/redux";
+import * as customerState from "@features/customer/redux";
+import * as priceSummaryState from "@features/priceSummary/redux";
 
-import { cartApi } from "@Core/Cart/api";
-import { customerApi } from "@Core/Customer/api";
+import { cartApi } from "@features/cart/api";
+import { customerApi } from "@features/customer/api";
 
 export const reducers = {
   [cartApi.reducerPath]: cartApi.reducer,
