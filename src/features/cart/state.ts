@@ -49,7 +49,7 @@ export const selectors = (() => {
   const selectHasLoaded = ({ cart }: RootState) => cart.slice.hasLoaded;
 
   return {
-    adaptar: {
+    adapter: {
       ...adapterSelectors,
     },
     selectHasLoaded,

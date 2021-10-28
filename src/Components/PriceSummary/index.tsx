@@ -4,7 +4,9 @@ import { useSelector } from "react-redux";
 import { selectors } from "@features/priceSummary/state";
 
 const PriceSummary = () => {
-  const { basePrice, discountPrice, finalPrice } = useSelector(selectors.selectPriceSummary);
+  const basePrice = useSelector(selectors.selectBasePrice);
+  const discountPrice = useSelector(selectors.selectDiscountedSavings);
+  const finalPrice = useSelector(selectors.selectFinalPrice);
 
   return (
     <div id="price-summary">

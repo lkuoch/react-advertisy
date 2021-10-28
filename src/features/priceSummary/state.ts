@@ -19,42 +19,55 @@ export const { actions, reducer } = createSlice({
 
 export const selectors = (() => {
   const selectBasePrice = createSelector(
-    [cartSelectors.adaptar.selectAll, (state) => state],
-    (products, state) =>
-      products.reduce(
-        (subTotal, { id, RetailPrice: price }) =>
-          (subTotal += customerSelectors.selectCurrentProductQuantity(state, id) * price),
-        0
-      ),
+    [
+      (state) =>
+        cartSelectors.adapter
+          .selectAll(state)
+          .reduce(
+            (subTotal, { id, RetailPrice: price }) =>
+              (subTotal += customerSelectors.selectCurrentProductQuantity(state, id) * price),
+            0
+          ),
+    ],
+    (result) => result,
     CONFIG.vars.selector_options
   );
 
   const selectDiscountedSavings = createSelector(
-    [cartSelectors.adaptar.selectAll, (state) => state],
-    (products, state) =>
-      products.reduce((discountSavingsTotal, { id, RetailPrice: price }) => {
-        const qty = customerSelectors.selectCurrentProductQuantity(state, id);
-        const offers = customerSelectors.selectCurrentProductOffers(state, id);
-
-        return (discountSavingsTotal += offers.reduce(
-          (offerSavingsTotal, offer) => (offerSavingsTotal += calculateDiscountSavings({ price, qty, offer })),
-          0
-        ));
-      }, 0),
+    [
+      (state) =>
+        cartSelectors.adapter
+          .selectAll(state)
+          .map(({ id, RetailPrice: price }) => ({
+            price,
+            qty: customerSelectors.selectCurrentProductQuantity(state, id),
+            offers: customerSelectors.selectCurrentProductOffers(state, id),
+          }))
+          .reduce(
+            (discountSavingsTotal, { price, qty, offers }) =>
+              (discountSavingsTotal += offers.reduce(
+                (offerSavingsTotal, offer) => (offerSavingsTotal += calculateDiscountSavings({ price, qty, offer })),
+                0
+              )),
+            0
+          ),
+    ],
+    (result) => result,
     CONFIG.vars.selector_options
   );
 
-  const selectPriceSummary = createSelector(
-    [selectBasePrice, selectDiscountedSavings],
-    (basePrice, discountPrice) => ({
-      basePrice,
-      discountPrice,
-      finalPrice: calculateFinalPrice({ basePrice, discountPrice }),
-    }),
+  const selectFinalPrice = createSelector(
+    [
+      (state) =>
+        calculateFinalPrice({ basePrice: selectBasePrice(state), discountPrice: selectDiscountedSavings(state) }),
+    ],
+    (result) => result,
     CONFIG.vars.selector_options
   );
 
   return {
-    selectPriceSummary,
+    selectBasePrice,
+    selectDiscountedSavings,
+    selectFinalPrice,
   };
 })();

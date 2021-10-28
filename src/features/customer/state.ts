@@ -65,15 +65,9 @@ export const selectors = (() => {
 
   const selectCurrentCustomer = createSelector(
     [selectCurrentCustomerId, adapterSelectors.selectEntities],
-    (currentCustomerId, customers) => (currentCustomerId ? customers?.[currentCustomerId] : undefined)
+    (currentCustomerId, customers) => (currentCustomerId ? customers?.[currentCustomerId] : undefined),
+    CONFIG.vars.selector_options
   );
-
-  const selectCurrentCustomerSelections = createSelector(
-    [selectCurrentCustomerId, selectSelections],
-    (currentCustomerId, selections) => (currentCustomerId ? selections?.[currentCustomerId] : undefined)
-  );
-
-  const selectCustomerOffers = createSelector([selectCurrentCustomer], (customer) => customer?.offers ?? undefined);
 
   const selectCurrentProductOffers = createSelector(
     [selectCurrentCustomer, (_, productId: string) => productId],
@@ -81,13 +75,20 @@ export const selectors = (() => {
     CONFIG.vars.selector_options
   );
 
+  const selectCurrentProductQuantity = createSelector(
+    [selectCurrentCustomerId, selectSelections, (_, productId: string) => productId],
+    (currentCustomerId, selections, productId) =>
+      currentCustomerId ? selections?.[currentCustomerId]?.[productId]?.qty ?? 0 : 0,
+    CONFIG.vars.selector_options
+  );
+
   const selectOfferType = createSelector(
     [
-      selectCustomerOffers,
+      selectCurrentCustomer,
       (_, { offerType, productId }: { offerType: OfferType; productId: string }) => ({ offerType, productId }),
     ],
-    (offers, { offerType, productId }) =>
-      offers?.[productId]?.find(({ type }) => type === offerType)?.values ?? undefined,
+    (customer, { offerType, productId }) =>
+      customer?.offers?.[productId]?.find(({ type }) => type === offerType)?.values ?? undefined,
     CONFIG.vars.selector_options
   );
 
@@ -100,12 +101,6 @@ export const selectors = (() => {
   const selectXYDealOffer = createSelector(
     [(state, productId: string) => selectOfferType(state, { offerType: OfferType.XYDeal, productId })],
     (result) => result,
-    CONFIG.vars.selector_options
-  );
-
-  const selectCurrentProductQuantity = createSelector(
-    [selectCurrentCustomerSelections, (_, productId: string) => productId],
-    (selections, productId) => selections?.[productId]?.qty ?? 0,
     CONFIG.vars.selector_options
   );
 
