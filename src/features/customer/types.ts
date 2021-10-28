@@ -10,8 +10,8 @@ export type CustomerResponse = {
 
 export type Customer = {
   id: string;
-  Name: string;
-  Offers?: Offers;
+  name: string;
+  offers?: Offers;
 };
 
 export type Offers = {

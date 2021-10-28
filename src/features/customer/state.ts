@@ -17,7 +17,7 @@ interface State {
 
 const customerAdapter = createEntityAdapter<Customer>({
   selectId: (customer) => customer.id,
-  sortComparer: (a, b) => a.Name.localeCompare(b.Name),
+  sortComparer: (a, b) => a.name.localeCompare(b.name),
 });
 
 // Slice details
@@ -67,7 +67,7 @@ export const selectors = (() => {
   const selectCurrentOffers = createSelector(
     [selectSliceState, adapterSelectors.selectEntities, (_, productId: string) => productId],
     ({ currentCustomerId }, entities, productId) => {
-      const offers = currentCustomerId == null ? [] : entities?.[currentCustomerId]?.Offers?.[productId] ?? [];
+      const offers = currentCustomerId == null ? [] : entities?.[currentCustomerId]?.offers?.[productId] ?? [];
 
       return {
         offers,
@@ -97,7 +97,6 @@ export const selectors = (() => {
   );
 
   return {
-    customerSelector,
     adapter: {
       ...adapterSelectors,
     },

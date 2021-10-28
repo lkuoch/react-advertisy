@@ -4,7 +4,7 @@ import { createSelector } from "reselect";
 import { selectors as customerSelectors } from "@features/customer/state";
 import { selectors as cartSelectors } from "@features/cart/state";
 
-import { applyOffer, calculateBasePrice, calculateDiscountPrice } from "./services";
+import { calculateDiscountSavings, calculateFinalPrice } from "./services";
 
 export interface State {}
 
@@ -18,45 +18,35 @@ export const { actions, reducer } = createSlice({
 });
 
 export const selectors = (() => {
-  const selectPriceInformation = createSelector(
-    [cartSelectors.adaptar.selectAll, (state) => state],
-    (products, state) =>
-      products.map(({ id, RetailPrice: price }) => {
-        const qty = customerSelectors.selectCurrentProductQuantity(state, id);
-        const currentOffers = customerSelectors.selectCurrentOffers(state, id);
-
-        return {
-          id,
-          currentOffers,
-          qty,
-          price,
-          total: calculateBasePrice({ qty, price }),
-        };
-      })
-  );
-
-  const selectBasePrice = createSelector([selectPriceInformation], (priceInfo) =>
-    priceInfo.reduce((subtotal, { total }) => (subtotal += total), 0)
-  );
-
-  const selectFinalPrice = createSelector([selectPriceInformation], (priceInfo) =>
-    priceInfo.reduce(
-      (discountSubTotal, { currentOffers: { hasOffers, offers }, qty, price }) =>
-        (discountSubTotal += hasOffers
-          ? offers.reduce((subtotal, offer) => (subtotal += applyOffer({ price, qty, offer })), 0)
-          : 0),
+  const selectBasePrice = createSelector([cartSelectors.adaptar.selectAll, (state) => state], (products, state) =>
+    products.reduce(
+      (subTotal, { id, RetailPrice: price }) =>
+        (subTotal += customerSelectors.selectCurrentProductQuantity(state, id) * price),
       0
     )
   );
 
-  const selectDiscountPrice = createSelector([selectBasePrice, selectFinalPrice], (basePrice, finalPrice) =>
-    calculateDiscountPrice({ basePrice, finalPrice })
+  const selectDiscountedSavings = createSelector(
+    [cartSelectors.adaptar.selectAll, (state) => state],
+    (products, state) =>
+      products.reduce((discountSavingsTotal, { id, RetailPrice: price }) => {
+        const qty = customerSelectors.selectCurrentProductQuantity(state, id);
+        const { hasOffers, offers } = customerSelectors.selectCurrentOffers(state, id);
+
+        return (discountSavingsTotal += hasOffers
+          ? offers.reduce(
+              (offerSavingsTotal, offer) => (offerSavingsTotal += calculateDiscountSavings({ price, qty, offer })),
+              0
+            )
+          : 0);
+      }, 0)
   );
 
-  const selectPriceSummary = createSelector(
-    [selectBasePrice, selectDiscountPrice, selectFinalPrice],
-    (basePrice, discountPrice, finalPrice) => ({ basePrice, discountPrice, finalPrice })
-  );
+  const selectPriceSummary = createSelector([selectBasePrice, selectDiscountedSavings], (basePrice, discountPrice) => ({
+    basePrice,
+    discountPrice,
+    finalPrice: calculateFinalPrice({ basePrice, discountPrice }),
+  }));
 
   return {
     selectPriceSummary,

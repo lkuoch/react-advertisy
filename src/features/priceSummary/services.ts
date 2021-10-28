@@ -1,8 +1,8 @@
 import { Offer, OfferType } from "@features/customer/types";
 
 const calculateBasePrice = ({ qty, price }: { qty: number; price: number }) => qty * price;
-const calculateDiscountPrice = ({ basePrice, finalPrice }: { basePrice: number; finalPrice: number }) =>
-  basePrice - finalPrice;
+const calculateFinalPrice = ({ basePrice, discountPrice }: { basePrice: number; discountPrice: number }) =>
+  basePrice - discountPrice;
 
 const calculateOfferNewPrice = ({ newPrice, qty }: { newPrice: number; qty: number }) => newPrice * qty;
 
@@ -18,10 +18,12 @@ const calculateXYDeal = ({ x, y, qty, price }: { x: number; y: number; qty: numb
   return quotient * y * price + remainder * price;
 };
 
-const applyOffer = ({ qty, price, offer }: { qty: number; price: number; offer: Offer }) =>
+const calculateDiscountSavings = ({ qty, price, offer }: { qty: number; price: number; offer: Offer }) =>
   ({
-    [OfferType.NewPrice]: calculateOfferNewPrice({ qty, newPrice: offer.values[0] }),
-    [OfferType.XYDeal]: calculateXYDeal({ qty, price, x: offer.values[0], y: offer.values[1] }),
+    [OfferType.NewPrice]:
+      calculateBasePrice({ qty, price }) - calculateOfferNewPrice({ qty, newPrice: offer.values[0] }),
+    [OfferType.XYDeal]:
+      calculateBasePrice({ qty, price }) - calculateXYDeal({ qty, price, x: offer.values[0], y: offer.values[1] }),
   }[offer.type]);
 
-export { calculateBasePrice, calculateDiscountPrice, applyOffer };
+export { calculateDiscountSavings, calculateFinalPrice };

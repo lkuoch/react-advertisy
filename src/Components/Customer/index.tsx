@@ -24,7 +24,7 @@ const Customer = () => {
       {isLoading && <Loader />}
 
       {isSuccess &&
-        entities.map(({ id, Name }) => (
+        entities.map(({ id, name: Name }) => (
           <a
             key={id}
             className={`item ${id === currentCustomerId ? "red active" : ""}`}

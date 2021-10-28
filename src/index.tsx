@@ -3,9 +3,9 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 
-import { reducers, apiMiddlewares, listenerMiddlewares } from "@features/";
+import { reducers, apiMiddlewares, listenerMiddlewares } from "@features/index";
 
-import App from "@components/";
+import App from "@components/index";
 import "@styles/app.less";
 
 // Setup store

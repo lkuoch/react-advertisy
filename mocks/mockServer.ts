@@ -1,5 +1,5 @@
 import { rest, setupWorker } from "msw";
-import { customers } from "./data/customers.json";
+import customers from "./data/customers";
 import { products } from "./data/products.json";
 
 const BASE_URL = CONFIG.vars.base_graphql_endpoint;
