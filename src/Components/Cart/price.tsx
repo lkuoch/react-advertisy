@@ -11,6 +11,8 @@ interface Props {
 const Price = ({ product: { RetailPrice, id } }: Props) => {
   const customerPrice = useSelector((state) => customerSelectors.selectNewPriceOffer(state, id));
 
+  console.log(customerSelectors.selectNewPriceOffer.recomputations());
+
   return (
     <div className="price">
       {customerPrice == null ? (

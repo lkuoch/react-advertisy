@@ -3,7 +3,7 @@ import { createSelector } from "@utils/createSelector";
 import setWith from "lodash/setWith";
 
 import { customerApi } from "./api";
-import { Customer, CustomerMeta, CustomerSelection, OfferType } from "./types";
+import { Customer, CustomerSelection, OfferType } from "./types";
 import { RootState } from "@types";
 
 interface State {
@@ -11,7 +11,6 @@ interface State {
     currentCustomerId?: string;
     hasLoaded: boolean;
     selections: CustomerSelection;
-    meta: CustomerMeta;
   };
 }
 
@@ -29,7 +28,6 @@ export const { actions, reducer } = createSlice({
     slice: {
       hasLoaded: false,
       selections: {},
-      meta: {},
     },
   }),
   reducers: {
@@ -65,51 +63,49 @@ export const selectors = (() => {
   const selectSelections = ({ customer }: RootState) => customer.slice.selections;
   const selectHasLoaded = ({ customer }: RootState) => customer.slice.hasLoaded;
 
-  const selectCurrentOffers = createSelector(
-    [selectCurrentCustomerId, adapterSelectors.selectEntities, (_, productId: string) => productId],
-    (currentCustomerId, entities, productId) => {
-      const offers = currentCustomerId ? entities?.[currentCustomerId]?.offers?.[productId] ?? [] : [];
+  const selectCurrentCustomer = createSelector(
+    [selectCurrentCustomerId, adapterSelectors.selectEntities],
+    (currentCustomerId, customers) => (currentCustomerId ? customers?.[currentCustomerId] : undefined)
+  );
 
-      return {
-        offers,
-        hasOffers: offers.length > 0,
-      };
-    },
+  const selectCurrentCustomerSelections = createSelector(
+    [selectCurrentCustomerId, selectSelections],
+    (currentCustomerId, selections) => (currentCustomerId ? selections?.[currentCustomerId] : undefined)
+  );
+
+  const selectCustomerOffers = createSelector([selectCurrentCustomer], (customer) => customer?.offers ?? undefined);
+
+  const selectCurrentProductOffers = createSelector(
+    [selectCurrentCustomer, (_, productId: string) => productId],
+    (customer, productId) => customer?.offers?.[productId] ?? [],
     CONFIG.vars.selector_options
   );
 
   const selectOfferType = createSelector(
     [
-      selectCurrentCustomerId,
-      adapterSelectors.selectEntities,
+      selectCustomerOffers,
       (_, { offerType, productId }: { offerType: OfferType; productId: string }) => ({ offerType, productId }),
     ],
-    (currentCustomerId, customers, { offerType, productId }) =>
-      currentCustomerId
-        ? customers[currentCustomerId]?.offers?.[productId]?.find(({ type }) => type === offerType)?.values ?? undefined
-        : undefined,
+    (offers, { offerType, productId }) =>
+      offers?.[productId]?.find(({ type }) => type === offerType)?.values ?? undefined,
     CONFIG.vars.selector_options
   );
 
   const selectNewPriceOffer = createSelector(
-    [(state, productId: string) => [state, productId]],
-    ([state, productId]) => selectOfferType(state, { offerType: OfferType.NewPrice, productId })?.[0] ?? undefined,
+    [(state, productId: string) => selectOfferType(state, { offerType: OfferType.NewPrice, productId })],
+    (result) => result,
     CONFIG.vars.selector_options
   );
 
   const selectXYDealOffer = createSelector(
-    [(state, productId: string) => [state, productId]],
-    ([state, productId]) => {
-      const offer = selectOfferType(state, { offerType: OfferType.XYDeal, productId });
-      return offer ? { x: offer[0], y: offer[1] } : offer;
-    },
+    [(state, productId: string) => selectOfferType(state, { offerType: OfferType.XYDeal, productId })],
+    (result) => result,
     CONFIG.vars.selector_options
   );
 
   const selectCurrentProductQuantity = createSelector(
-    [selectSelections, selectCurrentCustomerId, (_, productId: string) => productId],
-    (selections, currentCustomerId, productId) =>
-      currentCustomerId == null ? 0 : selections[currentCustomerId]?.[productId]?.qty ?? 0,
+    [selectCurrentCustomerSelections, (_, productId: string) => productId],
+    (selections, productId) => selections?.[productId]?.qty ?? 0,
     CONFIG.vars.selector_options
   );
 
@@ -118,9 +114,8 @@ export const selectors = (() => {
       ...adapterSelectors,
     },
     selectCurrentCustomerId,
-    selectSelections,
     selectHasLoaded,
-    selectCurrentOffers,
+    selectCurrentProductOffers,
     selectCurrentProductQuantity,
     selectNewPriceOffer,
     selectXYDealOffer,

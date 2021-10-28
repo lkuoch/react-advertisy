@@ -11,11 +11,7 @@ export type CustomerResponse = {
 export type Customer = {
   id: string;
   name: string;
-  offers?: Offers;
-};
-
-export type Offers = {
-  [productId: string]: Offer[] | undefined;
+  offers?: Record<string, Offer[]>;
 };
 
 export type Offer = {
@@ -29,11 +25,5 @@ export type CustomerSelection = {
       qty?: number;
       customerPrice?: number;
     };
-  };
-};
-
-export type CustomerMeta = {
-  [cusID: string]: {
-    discountsApplied: boolean;
   };
 };

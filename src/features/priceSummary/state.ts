@@ -34,14 +34,12 @@ export const selectors = (() => {
     (products, state) =>
       products.reduce((discountSavingsTotal, { id, RetailPrice: price }) => {
         const qty = customerSelectors.selectCurrentProductQuantity(state, id);
-        const { hasOffers, offers } = customerSelectors.selectCurrentOffers(state, id);
+        const offers = customerSelectors.selectCurrentProductOffers(state, id);
 
-        return (discountSavingsTotal += hasOffers
-          ? offers.reduce(
-              (offerSavingsTotal, offer) => (offerSavingsTotal += calculateDiscountSavings({ price, qty, offer })),
-              0
-            )
-          : 0);
+        return (discountSavingsTotal += offers.reduce(
+          (offerSavingsTotal, offer) => (offerSavingsTotal += calculateDiscountSavings({ price, qty, offer })),
+          0
+        ));
       }, 0),
     CONFIG.vars.selector_options
   );

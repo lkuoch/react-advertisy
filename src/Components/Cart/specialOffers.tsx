@@ -24,15 +24,15 @@ const SpecialOffers = ({ product: { id, RetailPrice } }: Props) => {
           </p>
 
           <ul>
-            {xyDealOffer && (
+            {newPriceOffer && (
               <li>
-                <span className="special-offer ui blue text">{`Buy ${xyDealOffer.x} for the price of ${xyDealOffer.y}`}</span>
+                <span className="special-offer ui blue text">{`We have slashed the price from ${RetailPrice} -> ${newPriceOffer[0]}`}</span>
               </li>
             )}
 
-            {newPriceOffer && (
+            {xyDealOffer && (
               <li>
-                <span className="special-offer ui blue text">{`We have slashed the price from ${RetailPrice} -> ${newPriceOffer}`}</span>
+                <span className="special-offer ui blue text">{`Buy ${xyDealOffer[0]} for the price of ${xyDealOffer[1]}`}</span>
               </li>
             )}
           </ul>
