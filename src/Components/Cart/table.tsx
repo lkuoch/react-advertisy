@@ -9,7 +9,7 @@ import UserSelection from "./userSelection";
 
 const Table = () => {
   const products = useSelector(selectors.adaptar.selectAll);
-  const { hasLoaded } = useSelector(selectors.selectSliceState);
+  const hasLoaded = useSelector(selectors.selectHasLoaded);
 
   if (!hasLoaded) {
     return (

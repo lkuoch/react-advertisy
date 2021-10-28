@@ -4,7 +4,8 @@
     "paths": {
       "@components/*": ["components/*", "components/index.tsx"],
       "@features/*": ["features/*", "features/index.ts"],
-      "@styles/*": ["Styles/*"],
+      "@styles/*": ["styles/*"],
+      "@utils/*": ["utils/*"],
       "@types": ["types"]
     }
   }

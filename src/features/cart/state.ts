@@ -1,5 +1,4 @@
 import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
-import { createSelector } from "reselect";
 import { createActionListenerMiddleware } from "@rtk-incubator/action-listener-middleware";
 
 import { customerApi } from "@features/customer/api";
@@ -46,15 +45,13 @@ export const listeners = ((listeners) => {
 })(createActionListenerMiddleware());
 
 export const selectors = (() => {
-  const cartSelector = ({ cart }: RootState) => cart;
-  const adapterSelectors = cartAdapter.getSelectors(cartSelector);
-
-  const selectSliceState = createSelector([cartSelector], (cart) => cart.slice);
+  const adapterSelectors = cartAdapter.getSelectors(({ cart }: RootState) => cart);
+  const selectHasLoaded = ({ cart }: RootState) => cart.slice.hasLoaded;
 
   return {
     adaptar: {
       ...adapterSelectors,
     },
-    selectSliceState,
+    selectHasLoaded,
   };
 })();

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createSelector } from "reselect";
+import { createSelector } from "@utils/createSelector";
 
 import { selectors as customerSelectors } from "@features/customer/state";
 import { selectors as cartSelectors } from "@features/cart/state";
@@ -18,12 +18,15 @@ export const { actions, reducer } = createSlice({
 });
 
 export const selectors = (() => {
-  const selectBasePrice = createSelector([cartSelectors.adaptar.selectAll, (state) => state], (products, state) =>
-    products.reduce(
-      (subTotal, { id, RetailPrice: price }) =>
-        (subTotal += customerSelectors.selectCurrentProductQuantity(state, id) * price),
-      0
-    )
+  const selectBasePrice = createSelector(
+    [cartSelectors.adaptar.selectAll, (state) => state],
+    (products, state) =>
+      products.reduce(
+        (subTotal, { id, RetailPrice: price }) =>
+          (subTotal += customerSelectors.selectCurrentProductQuantity(state, id) * price),
+        0
+      ),
+    CONFIG.vars.selector_options
   );
 
   const selectDiscountedSavings = createSelector(
@@ -39,14 +42,19 @@ export const selectors = (() => {
               0
             )
           : 0);
-      }, 0)
+      }, 0),
+    CONFIG.vars.selector_options
   );
 
-  const selectPriceSummary = createSelector([selectBasePrice, selectDiscountedSavings], (basePrice, discountPrice) => ({
-    basePrice,
-    discountPrice,
-    finalPrice: calculateFinalPrice({ basePrice, discountPrice }),
-  }));
+  const selectPriceSummary = createSelector(
+    [selectBasePrice, selectDiscountedSavings],
+    (basePrice, discountPrice) => ({
+      basePrice,
+      discountPrice,
+      finalPrice: calculateFinalPrice({ basePrice, discountPrice }),
+    }),
+    CONFIG.vars.selector_options
+  );
 
   return {
     selectPriceSummary,

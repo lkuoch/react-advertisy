@@ -6,7 +6,7 @@ import Loader from "@components/common/Loader";
 import Table from "./table";
 
 const Cart = () => {
-  const { hasLoaded } = useSelector(customerSelectors.selectSliceState);
+  const hasLoaded = useSelector(customerSelectors.selectHasLoaded);
 
   return (
     <div id="cart">

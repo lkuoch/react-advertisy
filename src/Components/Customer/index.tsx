@@ -11,7 +11,7 @@ const Customer = () => {
   const { isError, isLoading, isSuccess } = customerApi.useFetchCustomersQuery();
 
   const entities = useSelector(selectors.adapter.selectAll);
-  const { currentCustomerId } = useSelector(selectors.selectSliceState);
+  const currentCustomerId = useSelector(selectors.selectCurrentCustomerId);
 
   return (
     <div id="customers" className="left-panel ui vertical menu">
