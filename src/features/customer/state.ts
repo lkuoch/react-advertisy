@@ -8,7 +8,7 @@ import { RootState } from "@types";
 
 interface State {
   slice: {
-    currentCustomerId?: string;
+    currentCustomerId: string;
     hasLoaded: boolean;
     selections: CustomerSelection;
   };
@@ -26,6 +26,7 @@ export const { actions, reducer } = createSlice({
   name,
   initialState: customerAdapter.getInitialState<State>({
     slice: {
+      currentCustomerId: "",
       hasLoaded: false,
       selections: {},
     },
@@ -50,7 +51,7 @@ export const { actions, reducer } = createSlice({
     builder.addMatcher(customerApi.endpoints.fetchCustomers.matchFulfilled, (state, { payload }) => {
       customerAdapter.addMany(state, payload);
 
-      state.slice.currentCustomerId = payload.find(Boolean)?.id;
+      state.slice.currentCustomerId = payload.find(Boolean)?.id ?? "";
       state.slice.hasLoaded = true;
     });
   },
@@ -65,11 +66,11 @@ export const selectors = (() => {
 
   const selectCurrentCustomer = createSelector(
     [selectCurrentCustomerId, adapterSelectors.selectEntities],
-    (currentCustomerId, customers) => (currentCustomerId ? customers?.[currentCustomerId] : undefined),
+    (currentCustomerId, customers) => customers[currentCustomerId],
     CONFIG.vars.selector_options
   );
 
-  const selectCurrentProductOffers = createSelector(
+  const selectCurrentCustomerProductOffers = createSelector(
     [selectCurrentCustomer, (_, productId: string) => productId],
     (customer, productId) => customer?.offers?.[productId] ?? [],
     CONFIG.vars.selector_options
@@ -77,8 +78,7 @@ export const selectors = (() => {
 
   const selectCurrentProductQuantity = createSelector(
     [selectCurrentCustomerId, selectSelections, (_, productId: string) => productId],
-    (currentCustomerId, selections, productId) =>
-      currentCustomerId ? selections?.[currentCustomerId]?.[productId]?.qty ?? 0 : 0,
+    (currentCustomerId, selections, productId) => selections[currentCustomerId]?.[productId]?.qty ?? 0,
     CONFIG.vars.selector_options
   );
 
@@ -88,19 +88,7 @@ export const selectors = (() => {
       (_, { offerType, productId }: { offerType: OfferType; productId: string }) => ({ offerType, productId }),
     ],
     (customer, { offerType, productId }) =>
-      customer?.offers?.[productId]?.find(({ type }) => type === offerType)?.values ?? undefined,
-    CONFIG.vars.selector_options
-  );
-
-  const selectNewPriceOffer = createSelector(
-    [(state, productId: string) => selectOfferType(state, { offerType: OfferType.NewPrice, productId })],
-    (result) => result,
-    CONFIG.vars.selector_options
-  );
-
-  const selectXYDealOffer = createSelector(
-    [(state, productId: string) => selectOfferType(state, { offerType: OfferType.XYDeal, productId })],
-    (result) => result,
+      customer?.offers?.[productId]?.find(({ type }) => type === offerType)?.values,
     CONFIG.vars.selector_options
   );
 
@@ -110,9 +98,8 @@ export const selectors = (() => {
     },
     selectCurrentCustomerId,
     selectHasLoaded,
-    selectCurrentProductOffers,
+    selectCurrentCustomerProductOffers,
     selectCurrentProductQuantity,
-    selectNewPriceOffer,
-    selectXYDealOffer,
+    selectOfferType,
   };
 })();

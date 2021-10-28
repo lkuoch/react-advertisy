@@ -4,14 +4,19 @@ import { useSelector } from "react-redux";
 import { selectors as customerSelectors } from "@features/customer/state";
 
 import type { Product } from "@features/cart/types";
+import { OfferType } from "@features/customer/types";
 
 interface Props {
   product: Product;
 }
 
 const SpecialOffers = ({ product: { id, RetailPrice } }: Props) => {
-  const newPriceOffer = useSelector((state) => customerSelectors.selectNewPriceOffer(state, id));
-  const xyDealOffer = useSelector((state) => customerSelectors.selectXYDealOffer(state, id));
+  const newPriceOffer = useSelector((state) =>
+    customerSelectors.selectOfferType(state, { offerType: OfferType.NewPrice, productId: id })
+  );
+  const xyDealOffer = useSelector((state) =>
+    customerSelectors.selectOfferType(state, { offerType: OfferType.XYDeal, productId: id })
+  );
 
   const hasOffers = !!newPriceOffer || !!xyDealOffer;
 

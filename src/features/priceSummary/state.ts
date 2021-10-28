@@ -36,32 +36,27 @@ export const selectors = (() => {
   const selectDiscountedSavings = createSelector(
     [
       (state) =>
-        cartSelectors.adapter
-          .selectAll(state)
-          .map(({ id, RetailPrice: price }) => ({
-            price,
-            qty: customerSelectors.selectCurrentProductQuantity(state, id),
-            offers: customerSelectors.selectCurrentProductOffers(state, id),
-          }))
-          .reduce(
-            (discountSavingsTotal, { price, qty, offers }) =>
-              (discountSavingsTotal += offers.reduce(
-                (offerSavingsTotal, offer) => (offerSavingsTotal += calculateDiscountSavings({ price, qty, offer })),
-                0
-              )),
-            0
-          ),
+        cartSelectors.adapter.selectAll(state).map(({ id, RetailPrice: price }) => ({
+          price,
+          qty: customerSelectors.selectCurrentProductQuantity(state, id),
+          offers: customerSelectors.selectCurrentCustomerProductOffers(state, id),
+        })),
     ],
-    (result) => result,
+    (pricings) =>
+      pricings.reduce(
+        (discountSavingsTotal, { price, qty, offers }) =>
+          (discountSavingsTotal += offers.reduce(
+            (offerSavingsTotal, offer) => (offerSavingsTotal += calculateDiscountSavings({ price, qty, offer })),
+            0
+          )),
+        0
+      ),
     CONFIG.vars.selector_options
   );
 
   const selectFinalPrice = createSelector(
-    [
-      (state) =>
-        calculateFinalPrice({ basePrice: selectBasePrice(state), discountPrice: selectDiscountedSavings(state) }),
-    ],
-    (result) => result,
+    [selectBasePrice, selectDiscountedSavings],
+    (basePrice, discountPrice) => calculateFinalPrice({ basePrice, discountPrice }),
     CONFIG.vars.selector_options
   );
 
