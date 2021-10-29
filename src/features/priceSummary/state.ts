@@ -6,13 +6,9 @@ import { selectors as cartSelectors } from "@features/cart/state";
 
 import { calculateDiscountSavings, calculateFinalPrice } from "./services";
 
-export interface State {}
-
 // Slice details
-export const name = "priceSummary";
-
-export const { actions, reducer } = createSlice({
-  name,
+export const { actions, name, reducer } = createSlice({
+  name: "priceSummary",
   initialState: {},
   reducers: {},
 });

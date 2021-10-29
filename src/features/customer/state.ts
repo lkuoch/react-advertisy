@@ -4,7 +4,6 @@ import setWith from "lodash/setWith";
 
 import { customerApi } from "./api";
 import { Customer, CustomerSelection, OfferType } from "./types";
-import { RootState } from "@types";
 
 interface State {
   slice: {
@@ -20,10 +19,8 @@ const customerAdapter = createEntityAdapter<Customer>({
 });
 
 // Slice details
-export const name = "customer";
-
-export const { actions, reducer } = createSlice({
-  name,
+export const { actions, name, reducer } = createSlice({
+  name: "customer",
   initialState: customerAdapter.getInitialState<State>({
     slice: {
       currentCustomerId: "",

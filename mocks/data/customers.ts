@@ -48,7 +48,7 @@ const customers = [
     },
   },
 ].concat(
-  [...Array(faker.datatype.number(25))].map(() => ({
+  [...Array(faker.datatype.number(0))].map(() => ({
     id: faker.datatype.uuid(),
     name: faker.company.companyName(),
   }))

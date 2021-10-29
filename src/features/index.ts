@@ -16,4 +16,4 @@ export const reducers = {
 
 export const apiMiddlewares = [cartApi.middleware, customerApi.middleware];
 
-export const listenerMiddlewares = [cartState.listeners];
+export const listenerMiddlewares = [cartState.listener];

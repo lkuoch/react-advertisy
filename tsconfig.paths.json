@@ -5,8 +5,7 @@
       "@components/*": ["components/*", "components/index.tsx"],
       "@features/*": ["features/*", "features/index.ts"],
       "@styles/*": ["styles/*"],
-      "@utils/*": ["utils/*"],
-      "@types": ["types"]
+      "@utils/*": ["utils/*"]
     }
   }
 }

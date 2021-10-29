@@ -4,7 +4,6 @@ import { createActionListenerMiddleware } from "@rtk-incubator/action-listener-m
 import { customerApi } from "@features/customer/api";
 import { cartApi } from "./api";
 import type { Product } from "./types";
-import type { RootState } from "@types";
 
 interface State {
   slice: {
@@ -18,10 +17,8 @@ const cartAdapter = createEntityAdapter<Product>({
 });
 
 // Slice details
-export const name = "cart";
-
-export const { actions, reducer } = createSlice({
-  name,
+export const { actions, name, reducer } = createSlice({
+  name: "cart",
   initialState: cartAdapter.getInitialState<State>({
     slice: {
       hasLoaded: false,
@@ -36,12 +33,12 @@ export const { actions, reducer } = createSlice({
   },
 });
 
-export const listeners = ((listeners) => {
-  listeners.addListener(customerApi.endpoints.fetchCustomers.matchFulfilled, async (_, { dispatch, getState }) => {
+export const listener = ((listener) => {
+  listener.addListener(customerApi.endpoints.fetchCustomers.matchFulfilled, async (_, { dispatch, getState }) => {
     cartApi.endpoints.fetchProducts.initiate()(dispatch, getState, {});
   });
 
-  return listeners;
+  return listener;
 })(createActionListenerMiddleware());
 
 export const selectors = (() => {
