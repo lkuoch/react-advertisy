@@ -35,7 +35,7 @@ const Table = () => {
       <tbody>
         {products.map((product) => (
           <tr key={product.id}>
-            <td data-label="name">{product.Name}</td>
+            <td data-label="name">{product.name}</td>
 
             <td data-label="description">
               <Description product={product} />

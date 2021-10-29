@@ -10,7 +10,7 @@ interface Props {
 const Description = ({ product }: Props) => {
   return (
     <div className="description">
-      <p>{product.Description}</p>
+      <p>{product.description}</p>
       <SpecialOffers product={product} />
     </div>
   );

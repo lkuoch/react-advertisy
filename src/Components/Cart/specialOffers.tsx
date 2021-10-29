@@ -10,7 +10,7 @@ interface Props {
   product: Product;
 }
 
-const SpecialOffers = ({ product: { id, RetailPrice } }: Props) => {
+const SpecialOffers = ({ product: { id, retailPrice } }: Props) => {
   const newPriceOffer = useSelector((state) =>
     customerSelectors.selectOfferType(state, { offerType: OfferType.NewPrice, productId: id })
   );
@@ -31,7 +31,7 @@ const SpecialOffers = ({ product: { id, RetailPrice } }: Props) => {
           <ul>
             {newPriceOffer && (
               <li>
-                <span className="special-offer ui blue text">{`We have slashed the price from ${RetailPrice} -> ${newPriceOffer[0]}`}</span>
+                <span className="special-offer ui blue text">{`We have slashed the price from ${retailPrice} -> ${newPriceOffer[0]}`}</span>
               </li>
             )}
 

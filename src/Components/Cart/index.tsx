@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 import { selectors as customerSelectors } from "@features/customer/state";
-import Loader from "@components/common/Loader";
+import Loader from "@components/common/loader";
 import Table from "./table";
 
 const Cart = () => {

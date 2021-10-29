@@ -9,7 +9,7 @@ interface Props {
   product: Product;
 }
 
-const Price = ({ product: { RetailPrice, id } }: Props) => {
+const Price = ({ product: { retailPrice, id } }: Props) => {
   const customerPrice = useSelector((state) =>
     customerSelectors.selectOfferType(state, { offerType: OfferType.NewPrice, productId: id })
   );
@@ -17,7 +17,7 @@ const Price = ({ product: { RetailPrice, id } }: Props) => {
   return (
     <div className="price">
       {customerPrice == null ? (
-        <div className="ui message center aligned">${RetailPrice}</div>
+        <div className="ui message center aligned">${retailPrice}</div>
       ) : (
         <div className="ui message teal center aligned">${customerPrice}</div>
       )}

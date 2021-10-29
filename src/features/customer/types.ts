@@ -4,26 +4,28 @@ export enum OfferType {
   NewPrice = "NewPrice",
 }
 
-export type CustomerResponse = {
+export interface CustomerResponse {
   customers: Customer[];
-};
+}
 
-export type Customer = {
+export interface Customer {
   id: string;
   name: string;
-  offers?: Record<string, Offer[]>;
-};
+  offers?: {
+    [productId: string]: Offer[];
+  };
+}
 
-export type Offer = {
+export interface Offer {
   type: OfferType;
   values: number[];
-};
+}
 
-export type CustomerSelection = {
+export interface CustomerSelection {
   [cusID: string]: {
     [prodID: string]: {
       qty?: number;
       customerPrice?: number;
     };
   };
-};
+}

@@ -24,7 +24,7 @@ export const selectors = (() => {
         cartSelectors.adapter
           .selectAll(state)
           .reduce(
-            (subTotal, { id, RetailPrice: price }) =>
+            (subTotal, { id, retailPrice: price }) =>
               (subTotal += customerSelectors.selectCurrentProductQuantity(state, id) * price),
             0
           ),
@@ -36,7 +36,7 @@ export const selectors = (() => {
   const selectDiscountedSavings = createSelector(
     [
       (state) =>
-        cartSelectors.adapter.selectAll(state).map(({ id, RetailPrice: price }) => ({
+        cartSelectors.adapter.selectAll(state).map(({ id, retailPrice: price }) => ({
           price,
           qty: customerSelectors.selectCurrentProductQuantity(state, id),
           offers: customerSelectors.selectCurrentCustomerProductOffers(state, id),

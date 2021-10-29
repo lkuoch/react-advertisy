@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { actions, selectors } from "@features/customer/state";
 import { customerApi } from "@features/customer/api";
 
-import Loader from "@components/common/Loader";
+import Loader from "@components/common/loader";
 
 const Customer = () => {
   const dispatch = useDispatch();

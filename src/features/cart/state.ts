@@ -14,7 +14,7 @@ interface State {
 
 const cartAdapter = createEntityAdapter<Product>({
   selectId: (product) => product.id,
-  sortComparer: (a, b) => a.Name.localeCompare(b.Name),
+  sortComparer: (a, b) => a.name.localeCompare(b.name),
 });
 
 // Slice details
