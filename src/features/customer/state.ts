@@ -62,8 +62,14 @@ export const selectors = (() => {
   const selectHasLoaded = ({ customer }: RootState) => customer.slice.hasLoaded;
 
   const selectCurrentCustomer = createSelector(
-    [selectCurrentCustomerId, adapterSelectors.selectEntities],
-    (currentCustomerId, customers) => customers[currentCustomerId],
+    [(state) => adapterSelectors.selectById(state, selectCurrentCustomerId(state))],
+    (customer) => customer,
+    CONFIG.vars.selector_options
+  );
+
+  const selectCurrentCustomerSelections = createSelector(
+    [selectSelections, selectCurrentCustomerId],
+    (selections, currentCustomerId) => selections?.[currentCustomerId],
     CONFIG.vars.selector_options
   );
 
@@ -74,8 +80,8 @@ export const selectors = (() => {
   );
 
   const selectCurrentProductQuantity = createSelector(
-    [selectCurrentCustomerId, selectSelections, (_, productId: string) => productId],
-    (currentCustomerId, selections, productId) => selections[currentCustomerId]?.[productId]?.qty ?? 0,
+    [selectCurrentCustomerSelections, (_, productId: string) => productId],
+    (selections, productId) => selections?.[productId]?.qty ?? 0,
     CONFIG.vars.selector_options
   );
 
