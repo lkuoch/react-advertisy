@@ -14,7 +14,7 @@
   "author": "lkuoch",
   "license": "MIT",
   "dependencies": {
-    "@reduxjs/toolkit": "1.6.2",
+    "@reduxjs/toolkit": "1.7.0-beta.0",
     "@rtk-incubator/action-listener-middleware": "0.1.0",
     "lodash": "4.17.21",
     "react": "17.0.2",
