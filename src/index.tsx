@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 
-import { reducers, apiMiddlewares, listenerMiddlewares } from "@features/index";
+import { baseApi, listenerMiddleware, reducers } from "@features/common";
 
 import App from "@components/index";
 import "@styles/app.less";
@@ -11,8 +11,8 @@ import "@styles/app.less";
 // Setup store
 export const store = configureStore({
   devTools: !CONFIG.isProd,
-  reducer: { ...reducers },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(...apiMiddlewares, ...listenerMiddlewares),
+  reducer: { [baseApi.reducerPath]: baseApi.reducer, ...reducers },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(baseApi.middleware, listenerMiddleware),
 });
 
 (async () => {

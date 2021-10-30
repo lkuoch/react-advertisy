@@ -1,20 +1,24 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { baseApi } from "@features/common";
 import type { Customer } from "./types";
 
-export const customerApi = createApi({
-  reducerPath: "customerApi",
-  baseQuery: fetchBaseQuery({ baseUrl: CONFIG.vars.base_graphql_endpoint }),
-  tagTypes: ["customer"],
-  endpoints: (builder) => ({
-    fetchCustomers: builder.query<Array<Customer>, void>({
-      query: () => `/customers`,
-      providesTags: (customers) => [
-        { type: "customer" as const, id: "@LIST" },
-        ...(customers?.map((customer) => ({
-          type: "customer" as const,
-          id: customer.id,
-        })) ?? []),
-      ],
+const TAG = "Customers" as const;
+
+export const customerApi = baseApi
+  .enhanceEndpoints({
+    addTagTypes: [TAG],
+  })
+  .injectEndpoints({
+    endpoints: (builder) => ({
+      fetchCustomers: builder.query<Array<Customer>, void>({
+        query: () => `/customers`,
+        providesTags: (customers) => [
+          TAG,
+          ...(customers?.map((customer) => ({
+            type: TAG,
+            id: customer.id,
+          })) ?? []),
+        ],
+      }),
     }),
-  }),
-});
+    overrideExisting: false,
+  });

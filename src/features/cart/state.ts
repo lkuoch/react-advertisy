@@ -1,5 +1,5 @@
 import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
-import { createActionListenerMiddleware } from "@rtk-incubator/action-listener-middleware";
+import { listenerMiddleware } from "@features/common";
 
 import { customerApi } from "@features/customer/api";
 import { cartApi } from "./api";
@@ -33,13 +33,12 @@ export const { actions, name, reducer } = createSlice({
   },
 });
 
-export const listener = ((listener) => {
-  listener.addListener(customerApi.endpoints.fetchCustomers.matchFulfilled, async (_, { dispatch, getState }) => {
-    cartApi.endpoints.fetchProducts.initiate()(dispatch, getState, {});
-  });
-
-  return listener;
-})(createActionListenerMiddleware());
+listenerMiddleware.addListener(
+  customerApi.endpoints.fetchCustomers.matchFulfilled,
+  async (_, { dispatch }: { dispatch: AppDispatch }) => {
+    dispatch(cartApi.endpoints.fetchProducts.initiate());
+  }
+);
 
 export const selectors = (() => {
   const adapterSelectors = cartAdapter.getSelectors(({ cart }: RootState) => cart);
