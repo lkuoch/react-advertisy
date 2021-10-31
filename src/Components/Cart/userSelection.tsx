@@ -1,5 +1,9 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 
 import { actions as customerActions, selectors as customerSelectors } from "@features/customer/state";
 
@@ -14,45 +18,37 @@ const UserSelection = ({ product: { id } }: Props) => {
   const qty = useSelector((state) => customerSelectors.selectCurrentProductQuantity(state, id));
 
   return (
-    <div className="number-input ui form">
-      <div className="fields">
-        <div className="five wide field">
-          <input readOnly type="text" value={qty} name="quantity" />
-        </div>
+    <Stack spacing={2} direction="row">
+      <Button
+        variant="outlined"
+        onClick={() =>
+          dispatch(
+            customerActions.removeFromCart({
+              productId: id,
+              qty,
+            })
+          )
+        }
+        startIcon={<RemoveIcon />}
+      >
+        REMOVE
+      </Button>
 
-        <div className="ui buttons">
-          <button
-            className="ui negative basic button"
-            onClick={() =>
-              dispatch(
-                customerActions.removeFromCart({
-                  productId: id,
-                  qty,
-                })
-              )
-            }
-          >
-            -
-          </button>
-
-          <div className="or" data-text="/" />
-
-          <button
-            className="ui positive basic button"
-            onClick={() =>
-              dispatch(
-                customerActions.addToCart({
-                  productId: id,
-                  qty,
-                })
-              )
-            }
-          >
-            +
-          </button>
-        </div>
-      </div>
-    </div>
+      <Button
+        variant="contained"
+        onClick={() =>
+          dispatch(
+            customerActions.addToCart({
+              productId: id,
+              qty,
+            })
+          )
+        }
+        startIcon={<AddIcon />}
+      >
+        ADD
+      </Button>
+    </Stack>
   );
 };
 
