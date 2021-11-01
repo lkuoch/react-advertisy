@@ -13,9 +13,9 @@ interface Props {
   product: Product;
 }
 
-const UserSelection = ({ product: { id } }: Props) => {
+const UserSelection = ({ product: { id: productId } }: Props) => {
   const dispatch = useDispatch();
-  const qty = useSelector((state) => customerSelectors.selectCurrentProductQuantity(state, id));
+  const qty = useSelector((state) => customerSelectors.selectCurrentProductQuantity(state, productId));
 
   return (
     <Stack spacing={2} direction="row">
@@ -24,7 +24,7 @@ const UserSelection = ({ product: { id } }: Props) => {
         onClick={() =>
           dispatch(
             customerActions.removeFromCart({
-              productId: id,
+              productId,
               qty,
             })
           )
@@ -39,7 +39,7 @@ const UserSelection = ({ product: { id } }: Props) => {
         onClick={() =>
           dispatch(
             customerActions.addToCart({
-              productId: id,
+              productId,
               qty,
             })
           )
