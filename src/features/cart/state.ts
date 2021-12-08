@@ -33,12 +33,12 @@ export const { actions, name, reducer } = createSlice({
   },
 });
 
-listenerMiddleware.addListener(
-  customerApi.endpoints.fetchCustomers.matchFulfilled,
-  async (_, { dispatch }: { dispatch: AppDispatch }) => {
+listenerMiddleware.addListener({
+  matcher: customerApi.endpoints.fetchCustomers.matchFulfilled,
+  listener: (_, { dispatch }) => {
     dispatch(cartApi.endpoints.fetchProducts.initiate());
-  }
-);
+  },
+});
 
 export const selectors = (() => {
   const adapterSelectors = cartAdapter.getSelectors(({ cart }: RootState) => cart);

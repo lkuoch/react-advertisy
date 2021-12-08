@@ -1,5 +1,7 @@
-import React from "react";
+import * as React from "react";
 import ReactDOM from "react-dom";
+import { Provider as JotaiProvider } from "jotai";
+
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 
@@ -23,9 +25,13 @@ export const store = configureStore({
   }
 
   ReactDOM.render(
-    <Provider store={store}>
-      <App />
-    </Provider>,
+    <React.StrictMode>
+      <JotaiProvider>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </JotaiProvider>
+    </React.StrictMode>,
     document.getElementById("root")
   );
 })();

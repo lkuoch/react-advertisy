@@ -4,7 +4,7 @@ const config = (isProd: boolean) => ({
   features: {},
 
   vars: {
-    base_graphql_endpoint: "https://lkuoch.com",
+    graphql_endpoint: "https://lkuoch.com",
     selector_options: {
       memoizeOptions: {
         maxSize: 256,

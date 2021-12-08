@@ -2,7 +2,7 @@ import { rest, setupWorker } from "msw";
 import customers from "./data/customers";
 import products from "./data/products";
 
-const BASE_URL = CONFIG.vars.base_graphql_endpoint;
+const BASE_URL = CONFIG.vars.graphql_endpoint;
 
 const handlers = [
   rest.get(`${BASE_URL}/customers`, async (_, res, ctx) => {

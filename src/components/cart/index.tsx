@@ -1,13 +1,9 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import * as React from "react";
 
-import { selectors as customerSelectors } from "@features/customer/state";
 import Loader from "@components/common/loader";
 import Table from "./table";
 
 const Cart = () => {
-  const hasLoaded = useSelector(customerSelectors.selectHasLoaded);
-
   return (
     <div id="cart">
       <div className="center-panel ui segment">
@@ -16,7 +12,9 @@ const Cart = () => {
           <div className="content">My Cart</div>
         </h2>
 
-        {hasLoaded ? <Table /> : <Loader />}
+        <React.Suspense fallback={<Loader />}>
+          <Table />
+        </React.Suspense>
       </div>
     </div>
   );
