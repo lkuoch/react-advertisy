@@ -4,8 +4,12 @@ export enum OfferType {
   NewPrice = "NewPrice",
 }
 
-export interface CustomerResponse {
-  customers: Customer[];
+export interface CustomerSelectionAction {
+  type: "add" | "remove";
+  payload: {
+    productId: string;
+    customerId: string;
+  };
 }
 
 export interface Customer {
@@ -22,10 +26,8 @@ export interface Offer {
 }
 
 export interface CustomerSelection {
-  [cusID: string]: {
-    [prodID: string]: {
-      qty?: number;
-      customerPrice?: number;
-    };
+  [cusID_prodID: string]: {
+    qty?: number;
+    customerPrice?: number;
   };
 }

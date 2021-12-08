@@ -1,7 +1,7 @@
 import React from "react";
 import { useAtomValue } from "jotai/utils";
 
-import { cartQueryAtom } from "@features/cart/atom";
+import { cartQueryAtom } from "@features/cart/atoms";
 
 import Loader from "@components/common/loader";
 import Description from "./description";

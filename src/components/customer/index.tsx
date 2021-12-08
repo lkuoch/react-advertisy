@@ -10,11 +10,11 @@ const Customer = () => {
       <h2 className="title ui header">
         <i className="ui user outline icon" />
         <div className="content">Customers</div>
-
-        <React.Suspense fallback={<Loader />}>
-          <Customers />
-        </React.Suspense>
       </h2>
+
+      <React.Suspense fallback={<Loader />}>
+        <Customers />
+      </React.Suspense>
     </div>
   );
 };

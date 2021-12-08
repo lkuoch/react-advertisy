@@ -1,7 +1,8 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import * as React from "react";
+import { useAtom } from "jotai";
+import { useAtomValue, useUpdateAtom } from "jotai/utils";
 
-import { actions as customerActions, selectors as customerSelectors } from "@features/customer/state";
+import { currentCustomerAtom, customerSelectionsReducerAtom, selectCustomerSelections } from "@features/customer/atoms";
 
 import type { Product } from "@features/cart/types";
 
@@ -9,9 +10,14 @@ interface Props {
   product: Product;
 }
 
-const UserSelection = ({ product: { id } }: Props) => {
-  const dispatch = useDispatch();
-  const qty = useSelector((state) => customerSelectors.selectCurrentProductQuantity(state, id));
+const UserSelection = ({ product: { id: productId } }: Props) => {
+  const customerId = useAtomValue(currentCustomerAtom);
+  const dispatch = useUpdateAtom(customerSelectionsReducerAtom);
+  const selections = useAtomValue(selectCustomerSelections(customerId, productId));
+
+  const qty = 0;
+
+  console.log("@", selections);
 
   return (
     <div className="number-input ui form">
@@ -24,12 +30,13 @@ const UserSelection = ({ product: { id } }: Props) => {
           <button
             className="ui negative basic button"
             onClick={() =>
-              dispatch(
-                customerActions.removeFromCart({
-                  productId: id,
-                  qty,
-                })
-              )
+              dispatch({
+                type: "remove",
+                payload: {
+                  customerId,
+                  productId: productId,
+                },
+              })
             }
           >
             -
@@ -40,12 +47,13 @@ const UserSelection = ({ product: { id } }: Props) => {
           <button
             className="ui positive basic button"
             onClick={() =>
-              dispatch(
-                customerActions.addToCart({
-                  productId: id,
-                  qty,
-                })
-              )
+              dispatch({
+                type: "add",
+                payload: {
+                  customerId,
+                  productId: productId,
+                },
+              })
             }
           >
             +
