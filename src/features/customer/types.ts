@@ -31,3 +31,12 @@ export interface CustomerSelection {
     customerPrice?: number;
   };
 }
+
+export interface CustomerSelectionParam {
+  customerId: string;
+  productId: string;
+}
+
+export interface CustomerSelectionAtom extends CustomerSelectionParam {
+  qty: number;
+}

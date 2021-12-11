@@ -1,10 +1,11 @@
 import * as React from "react";
-import { useAtom } from "jotai";
-import { useAtomValue, useUpdateAtom } from "jotai/utils";
+import { SetStateAction, useAtom } from "jotai";
+import { useAtomValue } from "jotai/utils";
 
-import { currentCustomerAtom, customerSelectionsReducerAtom, selectCustomerSelections } from "@features/customer/atoms";
+import { currentCustomerAtom, customerSelectionsFamily } from "@features/customer/atoms";
 
 import type { Product } from "@features/cart/types";
+import { CustomerSelectionAtom } from "@features/customer/types";
 
 interface Props {
   product: Product;
@@ -12,50 +13,50 @@ interface Props {
 
 const UserSelection = ({ product: { id: productId } }: Props) => {
   const customerId = useAtomValue(currentCustomerAtom);
-  const dispatch = useUpdateAtom(customerSelectionsReducerAtom);
-  const selections = useAtomValue(selectCustomerSelections(customerId, productId));
+  const [selection, setSelection]: [CustomerSelectionAtom, (update: SetStateAction<CustomerSelectionAtom>) => void] =
+    useAtom(customerSelectionsFamily({ customerId, productId }));
 
-  const qty = 0;
+  const handleSelection = (type: "add" | "remove") => {
+    switch (type) {
+      case "add": {
+        setSelection({
+          ...selection,
+          qty: selection.qty + 1,
+        });
+        break;
+      }
 
-  console.log("@", selections);
+      case "remove": {
+        if (selection?.qty > 0) {
+          setSelection({
+            ...selection,
+            qty: selection.qty - 1,
+          });
+        }
+        break;
+      }
+
+      default: {
+        break;
+      }
+    }
+  };
 
   return (
     <div className="number-input ui form">
       <div className="fields">
         <div className="five wide field">
-          <input readOnly type="text" value={qty} name="quantity" />
+          <input readOnly type="text" value={selection.qty} name="quantity" />
         </div>
 
         <div className="ui buttons">
-          <button
-            className="ui negative basic button"
-            onClick={() =>
-              dispatch({
-                type: "remove",
-                payload: {
-                  customerId,
-                  productId: productId,
-                },
-              })
-            }
-          >
+          <button className="ui negative basic button" onClick={() => handleSelection("remove")}>
             -
           </button>
 
           <div className="or" data-text="/" />
 
-          <button
-            className="ui positive basic button"
-            onClick={() =>
-              dispatch({
-                type: "add",
-                payload: {
-                  customerId,
-                  productId: productId,
-                },
-              })
-            }
-          >
+          <button className="ui positive basic button" onClick={() => handleSelection("add")}>
             +
           </button>
         </div>
