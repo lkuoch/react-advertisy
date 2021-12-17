@@ -5,11 +5,6 @@ const config = (isProd: boolean) => ({
 
   vars: {
     graphql_endpoint: "https://lkuoch.com",
-    selector_options: {
-      memoizeOptions: {
-        maxSize: 256,
-      },
-    },
   },
 });
 

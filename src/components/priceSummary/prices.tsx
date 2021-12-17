@@ -1,7 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
 
-import { selectors } from "@features/priceSummary/state";
 import { useAtomValue } from "jotai/utils";
 import { basePriceAtom, discountedPriceAtom, finalPriceAtom } from "@features/priceSummary/atoms";
 
