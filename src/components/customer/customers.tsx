@@ -14,7 +14,7 @@ const Customers = () => {
     if (customers.length) {
       setCurrentCustomer(customers[0].id);
     }
-  }, [customers]);
+  }, [customers.length]);
 
   return (
     <>

@@ -4,14 +4,6 @@ export enum OfferType {
   NewPrice = "NewPrice",
 }
 
-export interface CustomerSelectionAction {
-  type: "add" | "remove";
-  payload: {
-    productId: string;
-    customerId: string;
-  };
-}
-
 export interface Customer {
   id: string;
   name: string;

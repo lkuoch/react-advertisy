@@ -1,24 +1,19 @@
 import React from "react";
-import { useSelector } from "react-redux";
-
-import { selectors as customerSelectors } from "@features/customer/state";
+import { useAtomValue } from "jotai/utils";
 
 import type { Product } from "@features/cart/types";
 import { OfferType } from "@features/customer/types";
+import { customerProductOffersAtom } from "@features/customer/atoms";
 
 interface Props {
   product: Product;
 }
 
-const SpecialOffers = ({ product: { id, retailPrice } }: Props) => {
-  const newPriceOffer = useSelector((state) =>
-    customerSelectors.selectOfferType(state, { offerType: OfferType.NewPrice, productId: id })
-  );
-  const xyDealOffer = useSelector((state) =>
-    customerSelectors.selectOfferType(state, { offerType: OfferType.XYDeal, productId: id })
-  );
+const SpecialOffers = ({ product: { id: productId, retailPrice } }: Props) => {
+  const newPriceOffer = useAtomValue(customerProductOffersAtom)(productId, OfferType.NewPrice);
+  const xyDealOffer = useAtomValue(customerProductOffersAtom)(productId, OfferType.XYDeal);
 
-  const hasOffers = !!newPriceOffer || !!xyDealOffer;
+  const hasOffers = newPriceOffer.length > 0 || xyDealOffer.length > 0;
 
   return (
     <>
@@ -29,13 +24,13 @@ const SpecialOffers = ({ product: { id, retailPrice } }: Props) => {
           </p>
 
           <ul>
-            {newPriceOffer && (
+            {newPriceOffer.length > 0 && (
               <li>
                 <span className="special-offer ui blue text">{`We have slashed the price from ${retailPrice} -> ${newPriceOffer[0]}`}</span>
               </li>
             )}
 
-            {xyDealOffer && (
+            {xyDealOffer.length > 0 && (
               <li>
                 <span className="special-offer ui blue text">{`Buy ${xyDealOffer[0]} for the price of ${xyDealOffer[1]}`}</span>
               </li>
