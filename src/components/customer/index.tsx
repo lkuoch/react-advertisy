@@ -2,7 +2,6 @@ import * as React from "react";
 
 import Loader from "@components/common/loader";
 import Customers from "./customers";
-import { Customer } from "@features/customer/types";
 
 const Customer = () => {
   return (

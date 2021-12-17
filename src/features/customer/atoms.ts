@@ -1,28 +1,18 @@
-import axios from "axios";
 import { atom } from "jotai";
 import { atomFamily, atomWithReducer, selectAtom } from "jotai/utils";
 import { atomWithQuery } from "jotai/query";
-import isEqual from "lodash/isEqual";
 
-import { OfferType, CustomerSelectionParam, CustomerSelectionAtom, Customer } from "./types";
+import { OfferType, CustomerSelectionParam, CustomerSelectionAtom, Customer, Offer } from "./types";
+
+export const currentCustomerAtom = atom("");
 
 export const customerQueryAtom = atomWithQuery<Customer[], typeof Error>(() => ({
   queryKey: ["customers"],
-  queryFn: async () => (await axios.get(`${CONFIG.vars.graphql_endpoint}/customers`)).data,
+  queryFn: () =>
+    fetch(`${CONFIG.vars.graphql_endpoint}/customers`)
+      .then((response) => response.json())
+      .catch((error) => Promise.reject(error)),
 }));
-
-export const normalizedCustomersAtom = selectAtom(
-  customerQueryAtom,
-  (customers) =>
-    customers.reduce<Record<string, Customer>>(
-      (acc, curr) => ({
-        ...acc,
-        [curr.id]: curr,
-      }),
-      {}
-    ),
-  isEqual
-);
 
 export const customerSelectionsAtom = atomFamily(
   ({ customerId, productId }: CustomerSelectionParam) =>
@@ -50,17 +40,28 @@ export const customerSelectionsAtom = atomFamily(
   (a, b) => a.customerId === b.customerId && a.productId === b.productId
 );
 
-export const currentCustomerAtom = atom("");
+const selectNormalizedCustomers = selectAtom(customerQueryAtom, (customers) =>
+  customers.reduce<Record<string, Customer>>(
+    (acc, curr) => ({
+      ...acc,
+      [curr.id]: curr,
+    }),
+    {}
+  )
+);
 
 export const selectCustomerProductOfferAtom = atom((get) => {
-  const offers = get(normalizedCustomersAtom)?.[get(currentCustomerAtom)]?.offers;
+  const offers = get(selectNormalizedCustomers)?.[get(currentCustomerAtom)]?.offers;
 
-  return (productId: string, offerType: OfferType) =>
-    offers?.[productId]?.find(({ type }) => type === offerType)?.values ?? [];
+  return (productId: string, offerType?: OfferType) => {
+    const productOffer = offers?.[productId] ?? [];
+
+    return offerType ? productOffer?.find(({ type }) => type === offerType)?.values ?? [] : productOffer;
+  };
 });
 
 export const currentCustomerProductOffersAtom = atom((get) => {
-  const offers = get(normalizedCustomersAtom)?.[get(currentCustomerAtom)]?.offers;
+  const offers = get(selectNormalizedCustomers)?.[get(currentCustomerAtom)]?.offers;
 
   return (productId: string) => offers?.[productId] ?? [];
 });
