@@ -1,19 +1,20 @@
-import { atom, Atom } from "jotai";
+import axios from "axios";
+import { atom } from "jotai";
 import { atomFamily, atomWithReducer, selectAtom } from "jotai/utils";
 import { atomWithQuery } from "jotai/query";
 import isEqual from "lodash/isEqual";
 
 import { OfferType, CustomerSelectionParam, CustomerSelectionAtom, Customer } from "./types";
 
-export const customerQueryAtom = atomWithQuery(() => ({
+export const customerQueryAtom = atomWithQuery<Customer[], typeof Error>(() => ({
   queryKey: ["customers"],
-  queryFn: async () => fetch(`${CONFIG.vars.graphql_endpoint}/customers`).then((response) => response.json()),
+  queryFn: async () => (await axios.get(`${CONFIG.vars.graphql_endpoint}/customers`)).data,
 }));
 
-export const normalizedCustomersAtom = selectAtom<Customer[], Record<string, Customer>>(
+export const normalizedCustomersAtom = selectAtom(
   customerQueryAtom,
   (customers) =>
-    customers.reduce(
+    customers.reduce<Record<string, Customer>>(
       (acc, curr) => ({
         ...acc,
         [curr.id]: curr,
@@ -51,9 +52,15 @@ export const customerSelectionsAtom = atomFamily(
 
 export const currentCustomerAtom = atom("");
 
-export const customerProductOffersAtom = atom((get) => {
+export const selectCustomerProductOfferAtom = atom((get) => {
   const offers = get(normalizedCustomersAtom)?.[get(currentCustomerAtom)]?.offers;
 
   return (productId: string, offerType: OfferType) =>
     offers?.[productId]?.find(({ type }) => type === offerType)?.values ?? [];
+});
+
+export const currentCustomerProductOffersAtom = atom((get) => {
+  const offers = get(normalizedCustomersAtom)?.[get(currentCustomerAtom)]?.offers;
+
+  return (productId: string) => offers?.[productId] ?? [];
 });
