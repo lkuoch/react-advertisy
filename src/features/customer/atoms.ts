@@ -1,27 +1,27 @@
-import axios from "axios";
 import { atom } from "jotai";
 import { atomFamily, atomWithReducer, selectAtom } from "jotai/utils";
 import { atomWithQuery } from "jotai/query";
-import isEqual from "lodash/isEqual";
 
 import { OfferType, CustomerSelectionParam, CustomerSelectionAtom, Customer } from "./types";
 
 export const customerQueryAtom = atomWithQuery<Customer[], typeof Error>(() => ({
   queryKey: ["customers"],
-  queryFn: async () => (await axios.get(`${CONFIG.vars.graphql_endpoint}/customers`)).data,
+  queryFn: async () =>
+    fetch(`${CONFIG.vars.graphql_endpoint}/customers`)
+      .then((response) => response.json())
+      .catch((error) => {
+        return Promise.reject(error);
+      }),
 }));
 
-export const normalizedCustomersAtom = selectAtom(
-  customerQueryAtom,
-  (customers) =>
-    customers.reduce<Record<string, Customer>>(
-      (acc, curr) => ({
-        ...acc,
-        [curr.id]: curr,
-      }),
-      {}
-    ),
-  isEqual
+export const normalizedCustomersAtom = selectAtom(customerQueryAtom, (customers) =>
+  customers.reduce<Record<string, Customer>>(
+    (acc, curr) => ({
+      ...acc,
+      [curr.id]: curr,
+    }),
+    {}
+  )
 );
 
 export const customerSelectionsAtom = atomFamily(
