@@ -1,13 +1,13 @@
 import { atom } from "jotai";
 
 import { cartQueryAtom } from "../cart/atoms";
-import { currentCustomerAtom, currentCustomerProductOffersAtom, customerSelectionsAtom } from "../customer/atoms";
+import { currentCustomerIdAtom, currentCustomerProductOffersAtom, customerSelectionsAtom } from "../customer/atoms";
 import { calculateDiscountSavings, calculateFinalPrice } from "./services";
 
 import type { Product } from "../cart/types";
 
 export const basePriceAtom = atom((get) => {
-  const customerId = get(currentCustomerAtom);
+  const customerId = get(currentCustomerIdAtom);
 
   return get<Product[]>(cartQueryAtom).reduce((subTotal, { id: productId, retailPrice }) => {
     const qty = get(customerSelectionsAtom({ customerId, productId })).qty;
@@ -17,7 +17,7 @@ export const basePriceAtom = atom((get) => {
 });
 
 export const discountedPriceAtom = atom((get) => {
-  const customerId = get(currentCustomerAtom);
+  const customerId = get(currentCustomerIdAtom);
   const products = get(cartQueryAtom);
 
   return products

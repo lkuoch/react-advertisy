@@ -2,7 +2,7 @@ import * as React from "react";
 import { useAtom } from "jotai";
 import { useAtomValue } from "jotai/utils";
 
-import { currentCustomerAtom, customerSelectionsAtom } from "../../features/customer/atoms";
+import { currentCustomerIdAtom, customerSelectionsAtom } from "../../features/customer/atoms";
 
 import type { Product } from "../../features/cart/types";
 
@@ -11,7 +11,7 @@ interface Props {
 }
 
 const UserSelection = ({ product: { id: productId } }: Props) => {
-  const customerId = useAtomValue(currentCustomerAtom);
+  const customerId = useAtomValue(currentCustomerIdAtom);
   const [selection, setSelection] = useAtom(customerSelectionsAtom({ customerId, productId }));
 
   return (

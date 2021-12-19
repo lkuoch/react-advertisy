@@ -4,7 +4,7 @@ import { atomWithQuery } from "jotai/query";
 
 import { OfferType, CustomerSelectionParam, CustomerSelectionAtom, Customer } from "./types";
 
-export const currentCustomerAtom = atom("");
+export const currentCustomerIdAtom = atom("");
 
 export const customerQueryAtom = atomWithQuery<Customer[], typeof Error>(() => ({
   queryKey: ["customers"],
@@ -53,7 +53,7 @@ const selectNormalizedCustomers = selectAtom(customerQueryAtom, (customers) =>
 export const customerProductOfferAtom = atomFamily(
   ({ productId, offerType }: { productId: string; offerType?: OfferType }) =>
     atom((get) => {
-      const offers = get(selectNormalizedCustomers)?.[get(currentCustomerAtom)]?.offers?.[productId] ?? [];
+      const offers = get(selectNormalizedCustomers)?.[get(currentCustomerIdAtom)]?.offers?.[productId] ?? [];
 
       return offerType ? offers?.find(({ type }) => type === offerType)?.values ?? [] : offers;
     }),
@@ -61,5 +61,5 @@ export const customerProductOfferAtom = atomFamily(
 );
 
 export const currentCustomerProductOffersAtom = atomFamily((productId: string) =>
-  atom((get) => get(selectNormalizedCustomers)?.[get(currentCustomerAtom)]?.offers?.[productId] ?? [])
+  atom((get) => get(selectNormalizedCustomers)?.[get(currentCustomerIdAtom)]?.offers?.[productId] ?? [])
 );
