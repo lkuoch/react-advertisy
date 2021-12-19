@@ -4,20 +4,19 @@ import { Provider } from "jotai";
 
 import App from "./components/index";
 import "./styles/app.less";
+import "./index.css";
 
-(async () => {
-  // Setup msw for mock data
-  if (!CONFIG.isProd) {
-    const { worker } = await import("../mocks/mockServer");
-    await worker.start();
-  }
+// Setup msw for mock data
+if (!CONFIG.isProd) {
+  const { worker } = await import("../mocks/mockServer");
+  worker.start();
+}
 
-  ReactDOM.render(
-    <React.StrictMode>
-      <Provider>
-        <App />
-      </Provider>
-    </React.StrictMode>,
-    document.getElementById("root")
-  );
-})();
+ReactDOM.render(
+  <React.StrictMode>
+    <Provider>
+      <App />
+    </Provider>
+  </React.StrictMode>,
+  document.getElementById("root")
+);
