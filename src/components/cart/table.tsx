@@ -1,13 +1,13 @@
 import React from "react";
 import { useAtomValue } from "jotai/utils";
 
-import { cartQueryAtom } from "@features/cart/atoms";
+import { cartQueryAtom } from "../../features/cart/atoms";
 
 import Description from "./description";
 import Price from "./price";
 import UserSelection from "./userSelection";
 
-import type { Product } from "@features/cart/types";
+import type { Product } from "../../features/cart/types";
 
 const Table = () => {
   const products = useAtomValue<Product[]>(cartQueryAtom);

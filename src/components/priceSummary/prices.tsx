@@ -1,7 +1,7 @@
 import React from "react";
 
 import { useAtomValue } from "jotai/utils";
-import { basePriceAtom, discountedPriceAtom, finalPriceAtom } from "@features/priceSummary/atoms";
+import { basePriceAtom, discountedPriceAtom, finalPriceAtom } from "../../features/priceSummary/atoms";
 
 const PriceSummary = () => {
   const basePrice = useAtomValue(basePriceAtom);

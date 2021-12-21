@@ -2,7 +2,7 @@ import { atom } from "jotai";
 import { atomFamily, atomWithReducer, selectAtom } from "jotai/utils";
 import { atomWithQuery } from "jotai/query";
 
-import { OfferType, CustomerSelectionParam, CustomerSelectionAtom, Customer, Offer } from "./types";
+import { OfferType, CustomerSelectionParam, CustomerSelectionAtom, Customer } from "./types";
 
 export const currentCustomerAtom = atom("");
 

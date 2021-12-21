@@ -2,9 +2,9 @@ import * as React from "react";
 import { useAtom } from "jotai";
 import { useAtomValue } from "jotai/utils";
 
-import { currentCustomerAtom, customerQueryAtom } from "@features/customer/atoms";
+import { currentCustomerAtom, customerQueryAtom } from "../../features/customer/atoms";
 
-import { Customer } from "@features/customer/types";
+import { Customer } from "../../features/customer/types";
 
 const Customers = () => {
   const customers = useAtomValue<Customer[]>(customerQueryAtom);

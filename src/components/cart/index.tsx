@@ -1,7 +1,7 @@
 import * as React from "react";
 
-import Loader from "@components/common/loader";
 import Table from "./table";
+import Loader from "../common/loader";
 
 const Cart = () => {
   return (

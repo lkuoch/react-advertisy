@@ -1,7 +1,7 @@
 import React from "react";
 
-import Loader from "@components/common/loader";
 import Prices from "./prices";
+import Loader from "../common/loader";
 
 const PriceSummary = () => {
   return (

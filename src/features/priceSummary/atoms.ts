@@ -1,14 +1,10 @@
-import { cartQueryAtom } from "@features/cart/atoms";
 import { atom } from "jotai";
 
-import {
-  currentCustomerAtom,
-  currentCustomerProductOffersAtom,
-  customerSelectionsAtom,
-} from "@features/customer/atoms";
+import { cartQueryAtom } from "../cart/atoms";
+import { currentCustomerAtom, currentCustomerProductOffersAtom, customerSelectionsAtom } from "../customer/atoms";
 import { calculateDiscountSavings, calculateFinalPrice } from "./services";
 
-import type { Product } from "@features/cart/types";
+import type { Product } from "../cart/types";
 
 export const basePriceAtom = atom((get) => {
   const customerId = get(currentCustomerAtom);

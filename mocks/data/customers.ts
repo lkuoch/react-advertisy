@@ -1,12 +1,10 @@
-import faker from "faker";
-
 const customers = [
   {
-    id: faker.datatype.uuid(),
+    id: "f5758372-9329-4ed7-8cd3-4304b545b6e0",
     name: "Default",
   },
   {
-    id: faker.datatype.uuid(),
+    id: "c00086bf-9a9e-4793-bac1-8055e1b486ff",
     name: "SecondBite",
     offers: {
       "fdc697e8-dec8-4c67-ba5c-23b23a9ce21a": [
@@ -18,7 +16,7 @@ const customers = [
     },
   },
   {
-    id: faker.datatype.uuid(),
+    id: "6646e172-037e-47cd-a233-ba30b0582f82",
     name: "Axil Coffee Roasters",
     offers: {
       "2258da74-7a25-46fd-b2d3-dacfe30464ce": [
@@ -30,7 +28,7 @@ const customers = [
     },
   },
   {
-    id: faker.datatype.uuid(),
+    id: "a0bbe0c4-bafe-4043-a455-a3a54bdedc8b",
     name: "MYER",
     offers: {
       "2258da74-7a25-46fd-b2d3-dacfe30464ce": [

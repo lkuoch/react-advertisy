@@ -2,8 +2,8 @@ import * as React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "jotai";
 
-import App from "@components/index";
-import "@styles/app.less";
+import App from "./components/index";
+import "./styles/app.less";
 
 (async () => {
   // Setup msw for mock data

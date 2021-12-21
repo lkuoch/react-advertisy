@@ -1,8 +1,8 @@
 import * as React from "react";
 
-import Customer from "@components/customer";
-import Cart from "@components/cart";
-import PriceSummary from "@components/priceSummary";
+import Customer from "./customer";
+import Cart from "./cart";
+import PriceSummary from "./priceSummary";
 
 export const App = () => {
   return (

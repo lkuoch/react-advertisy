@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import Loader from "@components/common/loader";
+import Loader from "../common/loader";
 import Customers from "./customers";
 
 const Customer = () => {

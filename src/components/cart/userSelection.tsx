@@ -2,9 +2,9 @@ import * as React from "react";
 import { useAtom } from "jotai";
 import { useAtomValue } from "jotai/utils";
 
-import { currentCustomerAtom, customerSelectionsAtom } from "@features/customer/atoms";
+import { currentCustomerAtom, customerSelectionsAtom } from "../../features/customer/atoms";
 
-import type { Product } from "@features/cart/types";
+import type { Product } from "../../features/cart/types";
 
 interface Props {
   product: Product;
