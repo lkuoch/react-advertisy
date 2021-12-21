@@ -17,13 +17,6 @@ export interface Offer {
   values: number[];
 }
 
-export interface CustomerSelection {
-  [cusID_prodID: string]: {
-    qty?: number;
-    customerPrice?: number;
-  };
-}
-
 export interface CustomerSelectionParam {
   customerId: string;
   productId: string;

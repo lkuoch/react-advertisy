@@ -8,5 +8,8 @@ export default defineConfig(({ mode }) => ({
   define: {
     CONFIG: JSON.stringify(config(mode === "production")),
   },
+  test: {
+    runtimeEnv: "dom",
+  },
   plugins: [react({ babel: { plugins: [jotaiDebugLabel, jotaiReactRefresh] } })],
 }));

@@ -7,7 +7,8 @@
     "build": "vite build",
     "serve": "vite build && vite preview",
     "tsc": "tsc",
-    "test": "vitest",
+    "test:open": "peeky open",
+    "test": "peeky run",
     "msw": "npx msw init ./",
     "prepare": "husky install"
   },
@@ -21,18 +22,17 @@
     "react-query": "3.34.5"
   },
   "devDependencies": {
+    "@peeky/test": "0.9.3",
     "@types/react": "17.0.37",
     "@types/react-dom": "17.0.11",
     "@vitejs/plugin-react": "1.1.3",
-    "happy-dom": "2.25.1",
     "husky": "7.0.4",
     "less": "4.1.2",
     "lint-staged": "12.1.3",
     "msw": "0.36.3",
     "prettier": "2.5.1",
     "typescript": "4.5.4",
-    "vite": "2.7.4",
-    "vitest": "0.0.104"
+    "vite": "2.7.5"
   },
   "msw": {
     "workerDirectory": ""
