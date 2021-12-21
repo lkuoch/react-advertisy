@@ -1,7 +1,7 @@
 import React from "react";
 import { useAtomValue } from "jotai/utils";
 
-import { selectCustomerProductOfferAtom } from "@features/customer/atoms";
+import { customerProductOfferAtom } from "@features/customer/atoms";
 import { OfferType } from "@features/customer/types";
 import type { Product } from "@features/cart/types";
 
@@ -10,7 +10,9 @@ interface Props {
 }
 
 const Price = ({ product: { retailPrice, id: productId } }: Props) => {
-  const { length, [0]: newPriceOffer } = useAtomValue(selectCustomerProductOfferAtom)(productId, OfferType.NewPrice);
+  const { length, [0]: newPriceOffer } = useAtomValue(
+    customerProductOfferAtom({ productId, offerType: OfferType.NewPrice })
+  );
 
   return (
     <div className="price">

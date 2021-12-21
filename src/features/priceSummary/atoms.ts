@@ -28,7 +28,7 @@ export const discountedPriceAtom = atom((get) => {
     .map(({ id: productId, retailPrice: price }) => ({
       price,
       qty: get(customerSelectionsAtom({ customerId, productId })).qty,
-      offers: get(currentCustomerProductOffersAtom)(productId),
+      offers: get(currentCustomerProductOffersAtom(productId)),
     }))
     .reduce(
       (discountSavingsTotal, { price, qty, offers }) =>

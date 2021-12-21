@@ -50,18 +50,16 @@ const selectNormalizedCustomers = selectAtom(customerQueryAtom, (customers) =>
   )
 );
 
-export const selectCustomerProductOfferAtom = atom((get) => {
-  const offers = get(selectNormalizedCustomers)?.[get(currentCustomerAtom)]?.offers;
+export const customerProductOfferAtom = atomFamily(
+  ({ productId, offerType }: { productId: string; offerType?: OfferType }) =>
+    atom((get) => {
+      const offers = get(selectNormalizedCustomers)?.[get(currentCustomerAtom)]?.offers?.[productId] ?? [];
 
-  return (productId: string, offerType?: OfferType) => {
-    const productOffer = offers?.[productId] ?? [];
+      return offerType ? offers?.find(({ type }) => type === offerType)?.values ?? [] : offers;
+    }),
+  (a, b) => a.productId === b.productId && a?.offerType === b?.offerType
+);
 
-    return offerType ? productOffer?.find(({ type }) => type === offerType)?.values ?? [] : productOffer;
-  };
-});
-
-export const currentCustomerProductOffersAtom = atom((get) => {
-  const offers = get(selectNormalizedCustomers)?.[get(currentCustomerAtom)]?.offers;
-
-  return (productId: string) => offers?.[productId] ?? [];
-});
+export const currentCustomerProductOffersAtom = atomFamily((productId: string) =>
+  atom((get) => get(selectNormalizedCustomers)?.[get(currentCustomerAtom)]?.offers?.[productId] ?? [])
+);

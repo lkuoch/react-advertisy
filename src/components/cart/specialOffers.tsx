@@ -3,15 +3,15 @@ import { useAtomValue } from "jotai/utils";
 
 import type { Product } from "@features/cart/types";
 import { OfferType } from "@features/customer/types";
-import { selectCustomerProductOfferAtom } from "@features/customer/atoms";
+import { customerProductOfferAtom } from "@features/customer/atoms";
 
 interface Props {
   product: Product;
 }
 
 const SpecialOffers = ({ product: { id: productId, retailPrice } }: Props) => {
-  const newPriceOffer = useAtomValue(selectCustomerProductOfferAtom)(productId, OfferType.NewPrice);
-  const xyDealOffer = useAtomValue(selectCustomerProductOfferAtom)(productId, OfferType.XYDeal);
+  const newPriceOffer = useAtomValue(customerProductOfferAtom({ productId, offerType: OfferType.NewPrice }));
+  const xyDealOffer = useAtomValue(customerProductOfferAtom({ productId, offerType: OfferType.XYDeal }));
 
   const hasOffers = newPriceOffer.length > 0 || xyDealOffer.length > 0;
 
