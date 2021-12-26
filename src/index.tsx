@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import { Provider } from "jotai";
 
 import App from "./components/index";
-import "./styles/app.less";
 import "./index.css";
 
 // Setup msw for mock data

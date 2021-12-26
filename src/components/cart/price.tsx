@@ -15,13 +15,9 @@ const Price = ({ product: { retailPrice, id: productId } }: Props) => {
   );
 
   return (
-    <div className="price">
-      {length > 0 ? (
-        <div className="ui message teal center aligned">${newPriceOffer}</div>
-      ) : (
-        <div className="ui message center aligned">${retailPrice}</div>
-      )}
-    </div>
+    <p className="text-left font-medium">
+      {length > 0 ? <span className="text-teal-500">${newPriceOffer}</span> : <span>${retailPrice}</span>}
+    </p>
   );
 };
 

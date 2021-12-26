@@ -13,36 +13,47 @@ const Table = () => {
   const products = useAtomValue<Product[]>(cartQueryAtom);
 
   return (
-    <table className="ui celled table">
-      <thead>
-        <tr>
-          <th className="two wide">Name</th>
-          <th className="nine wide">Description</th>
-          <th className="two wide">Retail Price</th>
-          <th className="three wide">Quantity</th>
-        </tr>
-      </thead>
+    <div className="p-3">
+      <div className="overflow-x-auto">
+        <table className="table-auto w-full">
+          <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
+            <tr>
+              <th className="p-2 whitespace-nowrap">
+                <div className="font-semibold text-left">Name</div>
+              </th>
+              <th className="p-2 whitespace-nowrap">
+                <div className="font-semibold text-left">Description</div>
+              </th>
+              <th className="p-2 whitespace-nowrap">
+                <div className="font-semibold text-left">Retail Price</div>
+              </th>
+              <th className="p-2 whitespace-nowrap">
+                <div className="font-semibold text-center">Quantity</div>
+              </th>
+            </tr>
+          </thead>
+          <tbody className="text-sm divide-y divide-gray-100">
+            {products.map((product) => (
+              <tr>
+                <td className="p-2 whitespace-nowrap">
+                  <p>{product.name}</p>
+                </td>
 
-      <tbody>
-        {products.map((product) => (
-          <tr key={product.id}>
-            <td data-label="name">{product.name}</td>
-
-            <td data-label="description">
-              <Description product={product} />
-            </td>
-
-            <td data-label="retail-price">
-              <Price product={product} />
-            </td>
-
-            <td data-label="select-quantity">
-              <UserSelection product={product} />
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+                <td className="p-2 whitespace-nowrap">
+                  <Description product={product} />
+                </td>
+                <td className="p-2 whitespace-nowrap">
+                  <Price product={product} />
+                </td>
+                <td className="p-2 whitespace-nowrap">
+                  <UserSelection product={product} />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
 };
 

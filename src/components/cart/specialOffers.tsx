@@ -18,25 +18,19 @@ const SpecialOffers = ({ product: { id: productId, retailPrice } }: Props) => {
   return (
     <>
       {hasOffers && (
-        <div className="special-offer-section">
-          <p>
-            <span className="special-offer-title ui red text">SPECIAL OFFER:</span>
-          </p>
+        <article className="pt-3 prose-sm">
+          <p className="font-semibold text-gray-600 underline">SPECIAL OFFER:</p>
 
-          <ul>
+          <div className="ml-3">
             {newPriceOffer.length > 0 && (
-              <li>
-                <span className="special-offer ui blue text">{`We have slashed the price from ${retailPrice} -> ${newPriceOffer[0]}`}</span>
-              </li>
+              <p className="text-sky-600">{`> We have slashed the price from ${retailPrice} -> ${newPriceOffer[0]}`}</p>
             )}
 
             {xyDealOffer.length > 0 && (
-              <li>
-                <span className="special-offer ui blue text">{`Buy ${xyDealOffer[0]} for the price of ${xyDealOffer[1]}`}</span>
-              </li>
+              <p className="text-sky-600">{`> Buy ${xyDealOffer[0]} for the price of ${xyDealOffer[1]}`}</p>
             )}
-          </ul>
-        </div>
+          </div>
+        </article>
       )}
     </>
   );
