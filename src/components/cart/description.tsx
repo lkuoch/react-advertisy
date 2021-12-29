@@ -2,6 +2,7 @@ import React from "react";
 
 import SpecialOffers from "./specialOffers";
 import type { Product } from "../../features/cart/types";
+import { Box, Text } from "@chakra-ui/react";
 
 interface Props {
   product: Product;
@@ -9,10 +10,10 @@ interface Props {
 
 const Description = ({ product }: Props) => {
   return (
-    <div className="text-left">
-      <p>{product.description}</p>
+    <Box>
+      <Text>{product.description}</Text>
       <SpecialOffers product={product} />
-    </div>
+    </Box>
   );
 };
 

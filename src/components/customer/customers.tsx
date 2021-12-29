@@ -1,37 +1,35 @@
 import * as React from "react";
-import { useAtom } from "jotai";
-import { useAtomValue } from "jotai/utils";
+import { Box, BoxProps, CloseButton, Flex, Text, useColorModeValue } from "@chakra-ui/react";
 
-import { currentCustomerIdAtom, customerQueryAtom } from "../../features/customer/atoms";
+import Loader from "../common/loader";
+import CustomerList from "./customerList";
 
-import UserIcon from "@heroicons/react/outline/UserIcon";
+interface Props extends BoxProps {
+  onClose: () => void;
+}
 
-const Customers = () => {
-  const customers = useAtomValue(customerQueryAtom);
-  const [customerId, setCustomerId] = useAtom(currentCustomerIdAtom);
-
-  React.useEffect(() => {
-    if (customers.length) {
-      setCustomerId(customers[0].id);
-    }
-  }, [customers.length]);
-
+const Customers = ({ onClose, ...rest }: Props) => {
   return (
-    <ul className="divide-y-2 divide-gray-200 flex flex-col py-4">
-      {customers.map(({ id, name }) => (
-        <li className="p-2" key={id}>
-          <div
-            className={`cursor-pointer flex flex-row h-12 items-center text-lg ${
-              id === customerId ? "font-bold text-rose-500 underline" : "text-gray-500"
-            }`}
-            onClick={() => id !== customerId && setCustomerId(id)}
-          >
-            <UserIcon className="h-10 w-10" />
-            <p>{name}</p>
-          </div>
-        </li>
-      ))}
-    </ul>
+    <Box
+      transition="3s ease"
+      borderRight="1px"
+      borderRightColor={useColorModeValue("gray.200", "gray.700")}
+      w={{ base: "full", md: 60 }}
+      pos="fixed"
+      h="full"
+      {...rest}
+    >
+      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
+        <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
+          Customers
+        </Text>
+        <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
+      </Flex>
+
+      <React.Suspense fallback={<Loader />}>
+        <CustomerList onClose={onClose} />
+      </React.Suspense>
+    </Box>
   );
 };
 

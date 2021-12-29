@@ -1,22 +1,30 @@
 import * as React from "react";
+import { Drawer, DrawerContent, useDisclosure } from "@chakra-ui/react";
 
-import UsersIcon from "@heroicons/react/outline/UsersIcon";
-import Loader from "../common/loader";
 import Customers from "./customers";
 
-const Customer = () => {
-  return (
-    <aside className="w-72">
-      <div className="flex h-20 items-center justify-center shadow-md text-2xl text-orange-400">
-        <UsersIcon className="h-20 w-20 p-2" />
-        <h1 className="uppercase">Customers</h1>
-      </div>
+const CustomerSection = () => {
+  const { isOpen, onClose } = useDisclosure();
 
-      <React.Suspense fallback={<Loader />}>
-        <Customers />
-      </React.Suspense>
-    </aside>
+  return (
+    <>
+      <Customers onClose={() => onClose} display={{ base: "none", md: "block" }} />
+
+      <Drawer
+        autoFocus={false}
+        isOpen={isOpen}
+        placement="left"
+        onClose={onClose}
+        returnFocusOnClose={false}
+        onOverlayClick={onClose}
+        size="full"
+      >
+        <DrawerContent>
+          <Customers onClose={onClose} />
+        </DrawerContent>
+      </Drawer>
+    </>
   );
 };
 
-export default Customer;
+export default CustomerSection;

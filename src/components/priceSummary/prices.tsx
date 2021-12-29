@@ -1,6 +1,8 @@
 import React from "react";
 
 import { useAtomValue } from "jotai/utils";
+import { Divider, Text, VStack } from "@chakra-ui/react";
+
 import { basePriceAtom, discountedPriceAtom, finalPriceAtom } from "../../features/priceSummary/atoms";
 
 const PriceSummary = () => {
@@ -9,25 +11,23 @@ const PriceSummary = () => {
   const finalPrice = useAtomValue(finalPriceAtom);
 
   return (
-    <>
-      <h4 id="total-price" className="ui header right aligned">
-        ${basePrice.toFixed(2)}
-      </h4>
+    <VStack>
+      <Text color="gray.700" fontSize="xl" fontWeight="bold">
+        {`Item Totals: $${basePrice.toFixed(2)}`}
+      </Text>
 
       {discountPrice > 0 && (
         <>
-          <h3 className="ui dividing header right aligned red">Your Savings</h3>
-          <h4 id="discount-price" className="ui header right aligned red">
-            ${discountPrice.toFixed(2)}
-          </h4>
+          <Divider />
+          <Text fontSize="xl" fontWeight="bold" color="tomato">{`Your Savings: $${discountPrice.toFixed(2)}`}</Text>
 
-          <h2 className="ui dividing header right aligned">Final Price</h2>
-          <h3 id="discount-price" className="ui header right aligned">
-            ${finalPrice.toFixed(2)}
-          </h3>
+          <Divider />
+          <Text color="blue.700" fontSize="2xl" fontWeight="extrabold">{`Final Price: $${finalPrice.toFixed(
+            2
+          )} 💸`}</Text>
         </>
       )}
-    </>
+    </VStack>
   );
 };
 

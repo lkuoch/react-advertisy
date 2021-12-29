@@ -1,6 +1,8 @@
 import React from "react";
 import { useAtomValue } from "jotai/utils";
 
+import { Flex, Text } from "@chakra-ui/react";
+
 import { customerProductOfferAtom } from "../../features/customer/atoms";
 import { OfferType } from "../../features/customer/types";
 import type { Product } from "../../features/cart/types";
@@ -14,11 +16,16 @@ const Price = ({ product: { retailPrice, id: productId } }: Props) => {
     customerProductOfferAtom({ productId, offerType: OfferType.NewPrice })
   );
 
-  return (
-    <p className="text-left font-medium">
-      {length > 0 ? <span className="text-teal-500">${newPriceOffer}</span> : <span>${retailPrice}</span>}
-    </p>
-  );
+  if (length > 0) {
+    return (
+      <Flex direction="row">
+        <Text color="firebrick">${newPriceOffer}</Text>
+        <Text pl={2}>🔥</Text>
+      </Flex>
+    );
+  }
+
+  return <Text>${retailPrice}</Text>;
 };
 
 export default Price;

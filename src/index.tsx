@@ -1,9 +1,9 @@
 import * as React from "react";
 import ReactDOM from "react-dom";
+import { ChakraProvider, theme } from "@chakra-ui/react";
 import { Provider } from "jotai";
 
 import App from "./components/index";
-import "./index.css";
 
 // Setup msw for mock data
 if (!CONFIG.isProd) {
@@ -13,9 +13,11 @@ if (!CONFIG.isProd) {
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider>
-      <App />
-    </Provider>
+    <ChakraProvider theme={theme}>
+      <Provider>
+        <App />
+      </Provider>
+    </ChakraProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
