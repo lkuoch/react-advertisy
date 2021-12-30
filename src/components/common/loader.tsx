@@ -1,12 +1,11 @@
+import { Center, CircularProgress } from "@chakra-ui/react";
 import React from "react";
 
 const Loader = () => {
   return (
-    <div className="ui segment" style={{ padding: "50px" }}>
-      <div className="ui active inverted dimmer">
-        <div className="ui text loader">Loading</div>
-      </div>
-    </div>
+    <Center h="50%">
+      <CircularProgress isIndeterminate color="gray.400" />
+    </Center>
   );
 };
 

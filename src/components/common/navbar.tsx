@@ -1,6 +1,6 @@
 import * as React from "react";
-import { HamburgerIcon } from "@chakra-ui/icons";
 import { Avatar, Flex, HStack, IconButton, Link, Spacer, Text, useColorModeValue, VStack } from "@chakra-ui/react";
+import MenuIcon from "@heroicons/react/outline/MenuIcon";
 
 const Navbar = () => {
   return (
@@ -13,12 +13,7 @@ const Navbar = () => {
       borderBottomColor={useColorModeValue("gray.200", "gray.700")}
       justifyContent={{ base: "space-between", md: "flex-end" }}
     >
-      <IconButton
-        display={{ base: "flex", md: "none" }}
-        variant="outline"
-        aria-label="open menu"
-        icon={<HamburgerIcon />}
-      />
+      <IconButton display={{ base: "flex", md: "none" }} variant="outline" aria-label="open menu" icon={<MenuIcon />} />
 
       <Text display={{ base: "flex" }} fontSize="2xl" fontFamily="monospace" fontWeight="bold" p={4}>
         Advertisy
