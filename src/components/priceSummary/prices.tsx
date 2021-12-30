@@ -5,7 +5,7 @@ import { Flex, HStack, Text, useColorModeValue } from "@chakra-ui/react";
 
 import { basePriceAtom, discountedPriceAtom, finalPriceAtom } from "../../features/priceSummary/atoms";
 
-const PriceSummary = () => {
+export default () => {
   const basePrice = useAtomValue(basePriceAtom);
   const basePriceColor = useColorModeValue("gray.700", "gray.100");
 
@@ -37,5 +37,3 @@ const PriceSummary = () => {
     </Flex>
   );
 };
-
-export default PriceSummary;

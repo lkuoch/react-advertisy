@@ -12,7 +12,7 @@ interface Props {
   onClose: () => void;
 }
 
-const Customers = ({ onClose }: Props) => {
+export default ({ onClose }: Props) => {
   const customers = useAtomValue(customerQueryAtom);
   const [customerId, setCustomerId] = useAtom(currentCustomerIdAtom);
 
@@ -55,5 +55,3 @@ const Customers = ({ onClose }: Props) => {
     </>
   );
 };
-
-export default Customers;

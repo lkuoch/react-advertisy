@@ -5,7 +5,7 @@ import LightModeIcon from "@heroicons/react/outline/SunIcon";
 
 interface Props extends IconButtonProps {}
 
-const DarkModeToggle = (props: Props) => {
+export default (props: Props) => {
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
@@ -16,5 +16,3 @@ const DarkModeToggle = (props: Props) => {
     />
   );
 };
-
-export default DarkModeToggle;

@@ -8,7 +8,7 @@ interface Props {
   onOpen: () => void;
 }
 
-const Navbar = ({ onOpen }: Props) => {
+export default ({ onOpen }: Props) => {
   return (
     <Flex
       alignItems="center"
@@ -53,5 +53,3 @@ const Navbar = ({ onOpen }: Props) => {
     </Flex>
   );
 };
-
-export default Navbar;

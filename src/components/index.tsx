@@ -6,7 +6,7 @@ import CustomerSection from "./customer";
 import CartSection from "./cart";
 import PriceSummarySection from "./priceSummary";
 
-export const App = () => {
+export default () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   return (
@@ -21,5 +21,3 @@ export const App = () => {
     </Box>
   );
 };
-
-export default App;

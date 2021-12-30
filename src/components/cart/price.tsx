@@ -11,7 +11,7 @@ interface Props {
   product: Product;
 }
 
-const Price = ({ product: { retailPrice, id: productId } }: Props) => {
+export default ({ product: { retailPrice, id: productId } }: Props) => {
   const newPriceColor = useColorModeValue("firebrick", "tomato");
   const { length, [0]: newPriceOffer } = useAtomValue(
     customerProductOfferAtom({ productId, offerType: OfferType.NewPrice })
@@ -28,5 +28,3 @@ const Price = ({ product: { retailPrice, id: productId } }: Props) => {
 
   return <Text>${retailPrice}</Text>;
 };
-
-export default Price;

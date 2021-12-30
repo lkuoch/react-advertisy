@@ -10,7 +10,7 @@ import UserSelection from "./userSelection";
 
 import type { Product } from "../../features/cart/types";
 
-const TableSection = () => {
+export default () => {
   const isMobile = ["base", "sm"].includes(useBreakpoint() ?? "");
   const products = useAtomValue<Product[]>(cartQueryAtom);
 
@@ -46,5 +46,3 @@ const TableSection = () => {
     </Table>
   );
 };
-
-export default TableSection;

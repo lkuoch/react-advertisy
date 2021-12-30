@@ -18,7 +18,7 @@ interface Props {
   product: Product;
 }
 
-const UserSelection = ({ product: { id: productId } }: Props) => {
+export default ({ product: { id: productId } }: Props) => {
   const customerId = useAtomValue(currentCustomerIdAtom);
   const [selection, setSelection] = useAtom(customerSelectionsAtom({ customerId, productId }));
 
@@ -34,5 +34,3 @@ const UserSelection = ({ product: { id: productId } }: Props) => {
     </FormControl>
   );
 };
-
-export default UserSelection;

@@ -1,6 +1,6 @@
 import * as React from "react";
 import ReactDOM from "react-dom";
-import { ColorModeScript, ChakraProvider, theme } from "@chakra-ui/react";
+import { ChakraProvider, localStorageManager, theme } from "@chakra-ui/react";
 import { Provider } from "jotai";
 
 import App from "./components/index";
@@ -13,9 +13,8 @@ if (!CONFIG.isProd) {
 
 ReactDOM.render(
   <React.StrictMode>
-    <ChakraProvider theme={theme}>
+    <ChakraProvider colorModeManager={localStorageManager} theme={theme}>
       <Provider>
-        <ColorModeScript />
         <App />
       </Provider>
     </ChakraProvider>

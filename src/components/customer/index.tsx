@@ -8,7 +8,7 @@ interface Props {
   onClose: () => void;
 }
 
-const CustomerSection = ({ isOpen, onClose }: Props) => {
+export default ({ isOpen, onClose }: Props) => {
   return (
     <>
       <Customers onClose={() => onClose} display={{ base: "none", md: "block" }} />
@@ -29,5 +29,3 @@ const CustomerSection = ({ isOpen, onClose }: Props) => {
     </>
   );
 };
-
-export default CustomerSection;

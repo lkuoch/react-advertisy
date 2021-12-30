@@ -8,7 +8,7 @@ interface Props {
   product: Product;
 }
 
-const Description = ({ product }: Props) => {
+export default ({ product }: Props) => {
   return (
     <VStack align="start">
       <Text>{product.description}</Text>
@@ -16,5 +16,3 @@ const Description = ({ product }: Props) => {
     </VStack>
   );
 };
-
-export default Description;

@@ -8,7 +8,7 @@ interface Props extends BoxProps {
   onClose: () => void;
 }
 
-const Customers = ({ onClose, ...rest }: Props) => {
+export default ({ onClose, ...rest }: Props) => {
   return (
     <Box
       transition="3s ease"
@@ -32,5 +32,3 @@ const Customers = ({ onClose, ...rest }: Props) => {
     </Box>
   );
 };
-
-export default Customers;
