@@ -1,19 +1,31 @@
 import * as React from "react";
-import { Avatar, Flex, HStack, IconButton, Link, Spacer, Text, useColorModeValue, VStack } from "@chakra-ui/react";
+import { Avatar, Flex, HStack, IconButton, Link, Spacer, Text, VStack, useColorModeValue } from "@chakra-ui/react";
 import MenuIcon from "@heroicons/react/outline/MenuIcon";
 
-const Navbar = () => {
+import DarkModeToggle from "./darkModeToggle";
+
+interface Props {
+  onOpen: () => void;
+}
+
+const Navbar = ({ onOpen }: Props) => {
   return (
     <Flex
+      alignItems="center"
+      height="20"
+      borderBottomColor={useColorModeValue("gray.200", "gray.700")}
+      borderBottomWidth="1px"
+      justifyContent={{ base: "space-between", md: "flex-end" }}
       ml={{ base: 0, md: 60 }}
       px={{ base: 4, md: 4 }}
-      height="20"
-      alignItems="center"
-      borderBottomWidth="1px"
-      borderBottomColor={useColorModeValue("gray.200", "gray.700")}
-      justifyContent={{ base: "space-between", md: "flex-end" }}
     >
-      <IconButton display={{ base: "flex", md: "none" }} variant="outline" aria-label="open menu" icon={<MenuIcon />} />
+      <IconButton
+        aria-label="open menu"
+        display={{ base: "flex", md: "none" }}
+        icon={<MenuIcon />}
+        onClick={onOpen}
+        variant="outline"
+      />
 
       <Text display={{ base: "flex" }} fontSize="2xl" fontFamily="monospace" fontWeight="bold" p={4}>
         Advertisy
@@ -21,7 +33,9 @@ const Navbar = () => {
 
       <Spacer display={{ sm: "none", md: "block" }} />
 
-      <HStack spacing={{ base: "0", md: "6" }}>
+      <HStack spacing={{ base: "2", md: "4" }}>
+        <DarkModeToggle aria-label="Toggle dark mode" />
+
         <Flex alignItems={"center"}>
           <HStack>
             <Link href="https://github.com/lkuoch" isExternal>

@@ -1,6 +1,6 @@
 import React from "react";
 import { useAtomValue } from "jotai/utils";
-import { Box, Text } from "@chakra-ui/react";
+import { Box, HStack, Text, useColorModeValue } from "@chakra-ui/react";
 
 import { OfferType } from "../../features/customer/types";
 import { customerProductOfferAtom } from "../../features/customer/atoms";
@@ -12,6 +12,7 @@ interface Props {
 }
 
 const SpecialOffers = ({ product: { id: productId, retailPrice } }: Props) => {
+  const textColor = useColorModeValue("gray.700", "white");
   const newPriceOffer = useAtomValue(customerProductOfferAtom({ productId, offerType: OfferType.NewPrice }));
   const xyDealOffer = useAtomValue(customerProductOfferAtom({ productId, offerType: OfferType.XYDeal }));
 
@@ -20,25 +21,28 @@ const SpecialOffers = ({ product: { id: productId, retailPrice } }: Props) => {
   return (
     <Box>
       {hasOffers && (
-        <>
-          <Text color="tomato" fontSize="lg" fontWeight={"extrabold"} p={2}>
-            SPECIAL OFFER:
-          </Text>
+        <Box border="1px" borderColor="teal.300" borderRadius="lg" borderWidth="2px" mt={2} p={2}>
+          <HStack>
+            <Text color="tomato" fontSize="lg" fontWeight={"extrabold"}>
+              SPECIAL OFFER:
+            </Text>
+            <Text>🎉</Text>
+          </HStack>
 
           <>
             {newPriceOffer.length > 0 && (
               <Text
                 as="i"
-                color="gray.700"
+                color={textColor}
                 pl={4}
               >{`We have slashed the price from $${retailPrice} -> $${newPriceOffer[0]}`}</Text>
             )}
 
             {xyDealOffer.length > 0 && (
-              <Text as="i" color="gray.700" pl={4}>{`Buy ${xyDealOffer[0]} for the price of ${xyDealOffer[1]}`}</Text>
+              <Text as="i" color={textColor} pl={4}>{`Buy ${xyDealOffer[0]} for the price of ${xyDealOffer[1]}`}</Text>
             )}
           </>
-        </>
+        </Box>
       )}
     </Box>
   );

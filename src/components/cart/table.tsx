@@ -11,7 +11,7 @@ import UserSelection from "./userSelection";
 import type { Product } from "../../features/cart/types";
 
 const TableSection = () => {
-  const isMobile = useBreakpoint() === "base";
+  const isMobile = ["base", "sm"].includes(useBreakpoint() ?? "");
   const products = useAtomValue<Product[]>(cartQueryAtom);
 
   return (
@@ -20,23 +20,23 @@ const TableSection = () => {
         <Tr>
           <Th>Name</Th>
           <Th>Description</Th>
-          <Th isNumeric>Price</Th>
-          <Th isNumeric>Quantity</Th>
+          <Th>Price</Th>
+          <Th>Quantity</Th>
         </Tr>
       </Thead>
 
       <Tbody>
         {products.map((product) => (
           <Tr key={product.id}>
-            <Td>{product.name}</Td>
+            <Td maxWidth="100px">{product.name}</Td>
 
             <Td>
               <Description product={product} />
             </Td>
-            <Td>
+            <Td maxWidth="100px">
               <Price product={product} />
             </Td>
-            <Td>
+            <Td maxWidth="100px">
               <UserSelection product={product} />
             </Td>
           </Tr>

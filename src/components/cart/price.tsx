@@ -1,7 +1,7 @@
 import React from "react";
 import { useAtomValue } from "jotai/utils";
 
-import { Flex, Text } from "@chakra-ui/react";
+import { HStack, Text, useColorModeValue } from "@chakra-ui/react";
 
 import { customerProductOfferAtom } from "../../features/customer/atoms";
 import { OfferType } from "../../features/customer/types";
@@ -12,16 +12,17 @@ interface Props {
 }
 
 const Price = ({ product: { retailPrice, id: productId } }: Props) => {
+  const newPriceColor = useColorModeValue("firebrick", "tomato");
   const { length, [0]: newPriceOffer } = useAtomValue(
     customerProductOfferAtom({ productId, offerType: OfferType.NewPrice })
   );
 
   if (length > 0) {
     return (
-      <Flex direction="row">
-        <Text color="firebrick">${newPriceOffer}</Text>
-        <Text pl={2}>🔥</Text>
-      </Flex>
+      <HStack spacing={2}>
+        <Text color={newPriceColor}>${newPriceOffer}</Text>
+        <Text>🔥</Text>
+      </HStack>
     );
   }
 

@@ -1,6 +1,6 @@
 import * as React from "react";
 import ReactDOM from "react-dom";
-import { ChakraProvider, theme } from "@chakra-ui/react";
+import { ColorModeScript, ChakraProvider, theme } from "@chakra-ui/react";
 import { Provider } from "jotai";
 
 import App from "./components/index";
@@ -15,6 +15,7 @@ ReactDOM.render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
       <Provider>
+        <ColorModeScript />
         <App />
       </Provider>
     </ChakraProvider>

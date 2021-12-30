@@ -2,7 +2,7 @@ import React from "react";
 
 import SpecialOffers from "./specialOffers";
 import type { Product } from "../../features/cart/types";
-import { Box, Text } from "@chakra-ui/react";
+import { Text, VStack } from "@chakra-ui/react";
 
 interface Props {
   product: Product;
@@ -10,10 +10,10 @@ interface Props {
 
 const Description = ({ product }: Props) => {
   return (
-    <Box>
+    <VStack align="start">
       <Text>{product.description}</Text>
       <SpecialOffers product={product} />
-    </Box>
+    </VStack>
   );
 };
 

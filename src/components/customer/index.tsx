@@ -1,11 +1,14 @@
 import * as React from "react";
-import { Drawer, DrawerContent, useDisclosure } from "@chakra-ui/react";
+import { Drawer, DrawerContent } from "@chakra-ui/react";
 
 import Customers from "./customers";
 
-const CustomerSection = () => {
-  const { isOpen, onClose } = useDisclosure();
+interface Props {
+  isOpen: boolean;
+  onClose: () => void;
+}
 
+const CustomerSection = ({ isOpen, onClose }: Props) => {
   return (
     <>
       <Customers onClose={() => onClose} display={{ base: "none", md: "block" }} />
