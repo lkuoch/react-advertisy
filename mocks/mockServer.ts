@@ -11,7 +11,7 @@ const handlers = [
     return res(ctx.status(200), ctx.json(customers));
   }),
   rest.get(`${BASE_URL}/products`, async (_, res, ctx) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
     return res(ctx.status(200), ctx.json(products));
   }),
