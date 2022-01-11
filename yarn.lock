@@ -3525,10 +3525,10 @@ jest-regex-util@^27.4.0:
   resolved "https://registry.yarnpkg.com/jest-regex-util/-/jest-regex-util-27.4.0.tgz#e4c45b52653128843d07ad94aec34393ea14fbca"
   integrity sha512-WeCpMpNnqJYMQoOjm1nTtsgbR4XHAk1u00qDoNBQoykM280+/TmgA5Qh5giC1ecy6a5d4hbSsHzpBtu5yvlbEg==
 
-jotai@1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/jotai/-/jotai-1.5.0.tgz#852770be0af377948d5325c4bf4619607bac8a70"
-  integrity sha512-fR8kLAAgkh/3tFD/eCNhhF2eWYinqeU6TAIDWlLccUFihhhcmbQs1FHkTTAFZXoq9UM9fsLqMqk54jffMKVC5Q==
+jotai@1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/jotai/-/jotai-1.5.1.tgz#c52ba67c904ea4267b1a20d5a348af5ed16b4ebe"
+  integrity sha512-6WMj3nZyxt8D3yZfgPOWmu+r/ec0vSinHfvq3UIGLrz0+KzWFaeTyODscmZEK7zISMFPiR2rPwBsKpSUirD7+A==
 
 js-levenshtein@^1.1.6:
   version "1.1.6"
