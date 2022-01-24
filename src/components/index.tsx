@@ -10,7 +10,7 @@ export default () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   return (
-    <Box maxWidth="100vw" bg={useColorModeValue("gray.50", "gray.900")}>
+    <Box maxWidth="100vw" bg={useColorModeValue("white", "gray.800")}>
       <CustomerSection isOpen={isOpen} onClose={onClose} />
       <Navbar onOpen={onOpen} />
 

@@ -26,5 +26,9 @@ export default ({ product: { retailPrice, id: productId } }: Props) => {
     );
   }
 
-  return <Text>${retailPrice}</Text>;
+  return (
+    <HStack>
+      <Text>${retailPrice}</Text>
+    </HStack>
+  );
 };
