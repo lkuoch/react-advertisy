@@ -1,0 +1,21 @@
+enum ProductOfferType {
+  NewPrice
+  XYDeal
+}
+
+type Customer implements Node {
+  """
+  Customer Id
+  """
+  id: ID!
+
+  """
+  Name of customer
+  """
+  name: String!
+
+  """
+  Offers
+  """
+  offers: [Offer]!
+}

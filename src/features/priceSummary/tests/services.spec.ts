@@ -1,5 +1,5 @@
 import { calculateDiscountSavings } from "../services";
-import { OfferType } from "../../customer/types";
+import { ProductOfferType } from "../../../schema/generated";
 
 describe("PriceSummary service", () => {
   describe("calculateDiscountSavings", () => {
@@ -8,7 +8,7 @@ describe("PriceSummary service", () => {
         qty: 1,
         price: 150.0,
         offer: {
-          type: OfferType.NewPrice,
+          type: ProductOfferType.NewPrice,
           values: [100.0],
         },
       });

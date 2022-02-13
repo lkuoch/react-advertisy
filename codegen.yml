@@ -1,0 +1,12 @@
+schema: "src/**/*.graphql"
+documents: "src/**/*.ts"
+generates:
+  ./src/schema/generated.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+    config:
+      constEnums: true
+      fetcher:
+        endpoint: "CONFIG.vars.gqlEndpoint"
+      immutableTypes: true

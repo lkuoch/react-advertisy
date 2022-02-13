@@ -1,21 +1,4 @@
-// TODO - move to GraphQL
-export enum OfferType {
-  XYDeal = "XYDeal",
-  NewPrice = "NewPrice",
-}
-
-export interface Customer {
-  id: string;
-  name: string;
-  offers?: {
-    [productId: string]: Offer[];
-  };
-}
-
-export interface Offer {
-  type: OfferType;
-  values: number[];
-}
+import { ProductOfferType } from "../../schema/generated";
 
 export interface CustomerSelectionParam {
   customerId: string;

@@ -1,20 +1,19 @@
 import React from "react";
-import { useAtomValue } from "jotai/utils";
+import { useAtomValue } from "jotai";
 
 import { HStack, Text, useColorModeValue } from "@chakra-ui/react";
 
-import { customerProductOfferAtom } from "../../features/customer/atoms";
-import { OfferType } from "../../features/customer/types";
-import type { Product } from "../../features/cart/types";
+import { ProductOfferAtom } from "../../features/customer/atoms";
+import { Product, ProductOfferType } from "../../schema/generated";
 
 interface Props {
   product: Product;
 }
 
-export default ({ product: { retailPrice, id: productId } }: Props) => {
+export default ({ product: { price, id: productId } }: Props) => {
   const newPriceColor = useColorModeValue("firebrick", "tomato");
   const { length, [0]: newPriceOffer } = useAtomValue(
-    customerProductOfferAtom({ productId, offerType: OfferType.NewPrice })
+    ProductOfferAtom({ productId, offerType: ProductOfferType.NewPrice })
   );
 
   if (length > 0) {
@@ -28,7 +27,7 @@ export default ({ product: { retailPrice, id: productId } }: Props) => {
 
   return (
     <HStack>
-      <Text>${retailPrice}</Text>
+      <Text>${price}</Text>
     </HStack>
   );
 };

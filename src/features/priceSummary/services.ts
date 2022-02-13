@@ -1,9 +1,9 @@
-import { OfferType, type Offer } from "../customer/types";
+import { ProductOffer, ProductOfferType } from "../../schema/generated";
 
 const calculateBasePrice = ({ qty, price }: { qty: number; price: number }) => qty * price;
-const calculateNewPrice = ({ offer, qty }: { offer: Offer; qty: number }) => offer.values[0] * qty;
+const calculateNewPrice = ({ offer, qty }: { offer: ProductOffer; qty: number }) => offer.values[0] * qty;
 
-const calculateXYDeal = ({ offer, qty, price }: { offer: Offer; qty: number; price: number }) => {
+const calculateXYDeal = ({ offer, qty, price }: { offer: ProductOffer; qty: number; price: number }) => {
   const [x, y] = offer.values;
 
   // Normal price
@@ -17,10 +17,10 @@ const calculateXYDeal = ({ offer, qty, price }: { offer: Offer; qty: number; pri
   return quotient * y * price + remainder * price;
 };
 
-export const calculateDiscountSavings = ({ qty, price, offer }: { qty: number; price: number; offer: Offer }) =>
+export const calculateDiscountSavings = ({ qty, price, offer }: { qty: number; price: number; offer: ProductOffer }) =>
   ({
-    [OfferType.NewPrice]: calculateBasePrice({ qty, price }) - calculateNewPrice({ qty, offer }),
-    [OfferType.XYDeal]: calculateBasePrice({ qty, price }) - calculateXYDeal({ qty, price, offer }),
+    [ProductOfferType.NewPrice]: calculateBasePrice({ qty, price }) - calculateNewPrice({ qty, offer }),
+    [ProductOfferType.XyDeal]: calculateBasePrice({ qty, price }) - calculateXYDeal({ qty, offer, price }),
   }[offer.type]);
 
 export const calculateFinalPrice = ({ basePrice, discountPrice }: { basePrice: number; discountPrice: number }) =>

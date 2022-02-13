@@ -27,7 +27,15 @@ export default ({ onOpen }: Props) => {
         variant="outline"
       />
 
-      <Text display={{ base: "flex" }} fontSize="2xl" fontFamily="monospace" fontWeight="bold" p={4}>
+      <Text
+        bgGradient="linear(to-l, #7928CA, #FF0080)"
+        bgClip="text"
+        display={{ base: "flex" }}
+        fontSize="2xl"
+        fontFamily="monospace"
+        fontWeight="bold"
+        p={4}
+      >
         Advertisy
       </Text>
 
@@ -42,7 +50,9 @@ export default ({ onOpen }: Props) => {
               <Avatar size={"sm"} src={"https://avatars.githubusercontent.com/u/36609992?v=4"} />
             </Link>
             <VStack display={{ base: "none", md: "flex" }} alignItems="flex-start" spacing="1px" ml="2">
-              <Text fontSize="sm">Lawrence Kuoch</Text>
+              <Text bgGradient="linear(to-tr, teal.300, yellow.400)" bgClip="text" fontSize="sm">
+                Lawrence Kuoch
+              </Text>
               <Text fontSize="xs" color="gray.600">
                 Admin
               </Text>

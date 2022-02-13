@@ -1,5 +1,5 @@
 import React from "react";
-import { useAtomValue } from "jotai/utils";
+import { useAtomValue } from "jotai";
 import { Table, TableCaption, Tbody, Td, Th, Thead, Tr, useBreakpoint } from "@chakra-ui/react";
 
 import { cartQueryAtom } from "../../features/cart/atoms";
@@ -8,7 +8,7 @@ import Description from "./description";
 import Price from "./price";
 import UserSelection from "./userSelection";
 
-import type { Product } from "../../features/cart/types";
+import { Product } from "../../schema/generated";
 
 export default () => {
   const isMobile = ["base", "sm"].includes(useBreakpoint() ?? "");

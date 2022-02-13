@@ -1,0 +1,27 @@
+input OfferInput {
+  customerId: ID!
+}
+
+type Offer implements Node {
+  """
+  Product Id
+  """
+  id: ID!
+
+  """
+  Product offers for customer
+  """
+  offers: [ProductOffer!]!
+}
+
+type ProductOffer {
+  """
+  Type of product offer
+  """
+  type: ProductOfferType!
+
+  """
+  Values related to calculating productg offer
+  """
+  values: [Int!]!
+}

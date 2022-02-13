@@ -1,6 +1,6 @@
 import React from "react";
+import { useAtomValue } from "jotai";
 
-import { useAtomValue } from "jotai/utils";
 import { Flex, HStack, Text, useColorModeValue } from "@chakra-ui/react";
 
 import { basePriceAtom, discountedPriceAtom, finalPriceAtom } from "../../features/priceSummary/atoms";

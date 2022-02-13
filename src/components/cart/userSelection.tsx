@@ -1,6 +1,5 @@
 import * as React from "react";
-import { useAtom } from "jotai";
-import { useAtomValue } from "jotai/utils";
+import { useAtom, useAtomValue } from "jotai";
 import {
   FormControl,
   NumberDecrementStepper,
@@ -12,7 +11,7 @@ import {
 
 import { currentCustomerIdAtom, customerSelectionsAtom } from "../../features/customer/atoms";
 
-import type { Product } from "../../features/cart/types";
+import type { Product } from "../../schema/generated";
 
 interface Props {
   product: Product;

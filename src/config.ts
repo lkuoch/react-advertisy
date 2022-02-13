@@ -1,10 +1,11 @@
-const config = (isProd: boolean) => ({
+const config = ({ isProd, baseUrl }: { isProd: boolean; baseUrl: string }) => ({
   isProd,
 
   features: {},
 
   vars: {
-    graphql_endpoint: "https://lkuoch.com",
+    baseEndpoint: baseUrl,
+    gqlEndpoint: `${baseUrl}/graphql`,
   },
 });
 

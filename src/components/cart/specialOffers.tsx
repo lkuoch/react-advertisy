@@ -1,20 +1,19 @@
 import React from "react";
-import { useAtomValue } from "jotai/utils";
+import { useAtomValue } from "jotai";
 import { Box, HStack, Text, useColorModeValue } from "@chakra-ui/react";
 
-import { OfferType } from "../../features/customer/types";
-import { customerProductOfferAtom } from "../../features/customer/atoms";
+import { ProductOfferAtom } from "../../features/customer/atoms";
 
-import type { Product } from "../../features/cart/types";
+import { Product, ProductOfferType } from "../../schema/generated";
 
 interface Props {
   product: Product;
 }
 
-export default ({ product: { id: productId, retailPrice } }: Props) => {
+export default ({ product: { id: productId, price } }: Props) => {
   const textColor = useColorModeValue("gray.700", "white");
-  const newPriceOffer = useAtomValue(customerProductOfferAtom({ productId, offerType: OfferType.NewPrice }));
-  const xyDealOffer = useAtomValue(customerProductOfferAtom({ productId, offerType: OfferType.XYDeal }));
+  const newPriceOffer = useAtomValue(ProductOfferAtom({ productId, offerType: ProductOfferType.NewPrice }));
+  const xyDealOffer = useAtomValue(ProductOfferAtom({ productId, offerType: ProductOfferType.XyDeal }));
 
   const hasOffers = newPriceOffer.length > 0 || xyDealOffer.length > 0;
 
@@ -35,7 +34,7 @@ export default ({ product: { id: productId, retailPrice } }: Props) => {
                 as="i"
                 color={textColor}
                 pl={4}
-              >{`We have slashed the price from $${retailPrice} -> $${newPriceOffer[0]}`}</Text>
+              >{`We have slashed the price from $${price} -> $${newPriceOffer[0]}`}</Text>
             )}
 
             {xyDealOffer.length > 0 && (

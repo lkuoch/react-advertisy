@@ -1,10 +1,8 @@
 import * as React from "react";
+import { useAtom, useAtomValue } from "jotai";
 
 import UserIcon from "@heroicons/react/outline/UserIcon";
 import { Flex, Icon, Link, Text } from "@chakra-ui/react";
-
-import { useAtom } from "jotai";
-import { useAtomValue } from "jotai/utils";
 
 import { currentCustomerIdAtom, customerQueryAtom } from "../../features/customer/atoms";
 

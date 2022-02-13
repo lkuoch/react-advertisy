@@ -7,14 +7,14 @@
     "isolatedModules": true,
     "jsx": "react",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "module": "ESNext",
+    "module": "es2022",
     "moduleResolution": "Node",
     "noEmit": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
     "target": "ESNext",
-    "types": ["@peeky/test"]
+    "types": ["@peeky/test", "vite/client"]
   },
   "include": ["./src/**/*"]
 }

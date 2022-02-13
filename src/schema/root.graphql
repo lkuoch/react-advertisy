@@ -1,0 +1,19 @@
+schema {
+  query: Query
+}
+
+interface Node {
+  id: ID!
+}
+
+type Query {
+  """
+  List of customers
+  """
+  Customers: [Customer]!
+
+  """
+  List of products
+  """
+  Products: [Product]!
+}

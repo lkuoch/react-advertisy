@@ -1,17 +1,20 @@
 import { atom } from "jotai";
 import { atomFamily, atomWithReducer, selectAtom } from "jotai/utils";
 import { atomWithQuery } from "jotai/query";
+import { request } from "graphql-request";
 
-import { OfferType, CustomerSelectionParam, CustomerSelectionAtom, Customer } from "./types";
+import { FetchCustomers } from "./queries";
+import { Customer, ProductOfferType } from "../../schema/generated";
+import { CustomerSelectionParam, CustomerSelectionAtom } from "./types";
 
 export const currentCustomerIdAtom = atom("");
 
 export const customerQueryAtom = atomWithQuery<Customer[], typeof Error>(() => ({
   queryKey: ["customers"],
   queryFn: () =>
-    fetch(`${CONFIG.vars.graphql_endpoint}/customers`)
-      .then((response) => response.json())
-      .catch((error) => Promise.reject(error)),
+    request(CONFIG.vars.gqlEndpoint, FetchCustomers)
+      .then(({ Customers }) => Customers)
+      .catch((err) => Error(err)),
 }));
 
 export const customerSelectionsAtom = atomFamily(
@@ -50,16 +53,23 @@ const selectNormalizedCustomers = selectAtom(customerQueryAtom, (customers) =>
   )
 );
 
-export const customerProductOfferAtom = atomFamily(
-  ({ productId, offerType }: { productId: string; offerType?: OfferType }) =>
+export const ProductOfferAtom = atomFamily(
+  ({ productId, offerType }: { productId: string; offerType?: ProductOfferType }) =>
     atom((get) => {
-      const offers = get(selectNormalizedCustomers)?.[get(currentCustomerIdAtom)]?.offers?.[productId] ?? [];
+      const offers =
+        get(selectNormalizedCustomers)?.[get(currentCustomerIdAtom)]?.offers.find(
+          (product) => product?.id === productId
+        )?.offers ?? [];
 
-      return offerType ? offers?.find(({ type }) => type === offerType)?.values ?? [] : offers;
+      return offerType ? offers?.find((productOffer) => productOffer?.type === offerType)?.values ?? [] : offers;
     }),
   (a, b) => a.productId === b.productId && a?.offerType === b?.offerType
 );
 
-export const currentCustomerProductOffersAtom = atomFamily((productId: string) =>
-  atom((get) => get(selectNormalizedCustomers)?.[get(currentCustomerIdAtom)]?.offers?.[productId] ?? [])
+export const currentProductOffersAtom = atomFamily((productId: string) =>
+  atom(
+    (get) =>
+      get(selectNormalizedCustomers)?.[get(currentCustomerIdAtom)]?.offers.find((product) => product?.id === productId)
+        ?.offers ?? []
+  )
 );

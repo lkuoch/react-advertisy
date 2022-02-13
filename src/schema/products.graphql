@@ -1,0 +1,21 @@
+type Product implements Node {
+  """
+  Product Id
+  """
+  id: ID!
+
+  """
+  Name of product
+  """
+  name: String!
+
+  """
+  Description of product
+  """
+  description: String!
+
+  """
+  Retail price
+  """
+  price: Float!
+}
