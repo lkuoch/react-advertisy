@@ -1,17 +1,17 @@
 import React from "react";
-import { useAtomValue } from "jotai";
+import { useSelector } from "react-redux";
 
 import { Flex, HStack, Text, useColorModeValue } from "@chakra-ui/react";
 
-import { basePriceAtom, discountedPriceAtom, finalPriceAtom } from "../../features/priceSummary/atoms";
+import { selectors } from "../../features/priceSummary";
 
 export default () => {
-  const basePrice = useAtomValue(basePriceAtom);
+  const basePrice = useSelector(selectors.selectBasePrice);
   const basePriceColor = useColorModeValue("gray.700", "gray.100");
 
-  const discountPrice = useAtomValue(discountedPriceAtom);
+  const discountPrice = useSelector(selectors.selectDiscountedPrice);
 
-  const finalPrice = useAtomValue(finalPriceAtom);
+  const finalPrice = useSelector(selectors.selectFinalPrice);
   const finalPriceColor = useColorModeValue("blue.700", "blue.500");
 
   return (

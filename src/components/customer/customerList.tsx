@@ -1,32 +1,33 @@
 import * as React from "react";
-import { useAtom, useAtomValue } from "jotai";
+import { useDispatch, useSelector } from "react-redux";
 
 import UserIcon from "@heroicons/react/outline/UserIcon";
 import { Flex, Icon, Link, Text } from "@chakra-ui/react";
 
-import { currentCustomerIdAtom, customerQueryAtom } from "../../features/customer/atoms";
+import { customerApi, actions, selectors } from "../../features/customer";
 
 interface Props {
   onClose: () => void;
 }
 
 export default ({ onClose }: Props) => {
-  const customers = useAtomValue(customerQueryAtom);
-  const [customerId, setCustomerId] = useAtom(currentCustomerIdAtom);
+  const dispatch = useDispatch();
+  const { isError } = customerApi.useFetchCustomersQuery();
 
-  React.useEffect(() => {
-    if (customers.length) {
-      setCustomerId(customers[0].id);
-    }
-  }, [customers.length]);
+  const customers = useSelector(selectors.entitySelectors.selectAll);
+  const customerId = useSelector(selectors.selectCurrentCustomerId);
 
   const handleCustomerSelection = (id: string) => {
     if (id !== customerId) {
-      setCustomerId(id);
+      dispatch(actions.updateCurrentCustomer(id));
     }
 
     onClose();
   };
+
+  if (isError) {
+    return <h1>Error</h1>;
+  }
 
   return (
     <>

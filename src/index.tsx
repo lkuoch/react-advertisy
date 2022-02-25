@@ -1,8 +1,9 @@
 import * as React from "react";
 import ReactDOM from "react-dom";
+import { Provider as ReduxProvider } from "react-redux";
 import { ChakraProvider, localStorageManager, theme } from "@chakra-ui/react";
-import { Provider } from "jotai";
 
+import { store } from "./store";
 import App from "./components/index";
 
 // Setup msw for mock data
@@ -14,9 +15,9 @@ if (!CONFIG.isProd) {
 ReactDOM.render(
   <React.StrictMode>
     <ChakraProvider colorModeManager={localStorageManager} theme={theme}>
-      <Provider>
+      <ReduxProvider store={store}>
         <App />
-      </Provider>
+      </ReduxProvider>
     </ChakraProvider>
   </React.StrictMode>,
   document.getElementById("root")

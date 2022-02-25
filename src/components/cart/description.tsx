@@ -2,7 +2,7 @@ import React from "react";
 import { Text, VStack } from "@chakra-ui/react";
 
 import SpecialOffers from "./specialOffers";
-import type { Product } from "../../schema/generated";
+import type { Product } from "../../types";
 
 interface Props {
   product: Product;

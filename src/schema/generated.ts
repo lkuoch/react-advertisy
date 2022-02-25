@@ -13,84 +13,70 @@ export type Scalars = {
 };
 
 export type Customer = Node & {
-  readonly __typename?: "Customer";
+  readonly __typename?: 'Customer';
   /** Customer Id */
-  readonly id: Scalars["ID"];
+  readonly id: Scalars['ID'];
   /** Name of customer */
-  readonly name: Scalars["String"];
+  readonly name: Scalars['String'];
   /** Offers */
   readonly offers: ReadonlyArray<Maybe<Offer>>;
 };
 
 export type Node = {
-  readonly id: Scalars["ID"];
+  readonly id: Scalars['ID'];
 };
 
 export type Offer = Node & {
-  readonly __typename?: "Offer";
+  readonly __typename?: 'Offer';
   /** Product Id */
-  readonly id: Scalars["ID"];
+  readonly id: Scalars['ID'];
   /** Product offers for customer */
   readonly offers: ReadonlyArray<ProductOffer>;
 };
 
 export type OfferInput = {
-  readonly customerId: Scalars["ID"];
+  readonly customerId: Scalars['ID'];
 };
 
 export type Product = Node & {
-  readonly __typename?: "Product";
+  readonly __typename?: 'Product';
   /** Description of product */
-  readonly description: Scalars["String"];
+  readonly description: Scalars['String'];
   /** Product Id */
-  readonly id: Scalars["ID"];
+  readonly id: Scalars['ID'];
   /** Name of product */
-  readonly name: Scalars["String"];
+  readonly name: Scalars['String'];
   /** Retail price */
-  readonly price: Scalars["Float"];
+  readonly price: Scalars['Float'];
 };
 
 export type ProductOffer = {
-  readonly __typename?: "ProductOffer";
+  readonly __typename?: 'ProductOffer';
   /** Type of product offer */
   readonly type: ProductOfferType;
   /** Values related to calculating productg offer */
-  readonly values: ReadonlyArray<Scalars["Int"]>;
+  readonly values: ReadonlyArray<Scalars['Int']>;
 };
 
 export const enum ProductOfferType {
-  NewPrice = "NewPrice",
-  XyDeal = "XYDeal",
-}
+  NewPrice = 'NewPrice',
+  XyDeal = 'XYDeal'
+};
 
 export type Query = {
-  readonly __typename?: "Query";
+  readonly __typename?: 'Query';
   /** List of customers */
   readonly Customers: ReadonlyArray<Maybe<Customer>>;
   /** List of products */
   readonly Products: ReadonlyArray<Maybe<Product>>;
 };
 
-export type FetchProductsQueryVariables = Exact<{ [key: string]: never }>;
+export type FetchProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type FetchProductsQuery = {
-  readonly __typename?: "Query";
-  readonly Products: ReadonlyArray<{
-    readonly __typename?: "Product";
-    readonly id: string;
-    readonly name: string;
-    readonly description: string;
-    readonly price: number;
-  } | null>;
-};
 
-export type FetchCustomersQueryVariables = Exact<{ [key: string]: never }>;
+export type FetchProductsQuery = { readonly __typename?: 'Query', readonly Products: ReadonlyArray<{ readonly __typename?: 'Product', readonly id: string, readonly name: string, readonly description: string, readonly price: number } | null> };
 
-export type FetchCustomersQuery = {
-  readonly __typename?: "Query";
-  readonly Customers: ReadonlyArray<{
-    readonly __typename?: "Customer";
-    readonly id: string;
-    readonly name: string;
-  } | null>;
-};
+export type FetchCustomersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FetchCustomersQuery = { readonly __typename?: 'Query', readonly Customers: ReadonlyArray<{ readonly __typename?: 'Customer', readonly id: string, readonly name: string } | null> };

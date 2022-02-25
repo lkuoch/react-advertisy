@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useAtom, useAtomValue } from "jotai";
+import { useDispatch, useSelector } from "react-redux";
 import {
   FormControl,
   NumberDecrementStepper,
@@ -9,25 +9,26 @@ import {
   NumberInputStepper,
 } from "@chakra-ui/react";
 
-import { currentCustomerIdAtom, customerSelectionsAtom } from "../../features/customer/atoms";
+import { actions, selectors } from "../../features/customer";
 
-import type { Product } from "../../schema/generated";
+import type { Product } from "../../types";
 
 interface Props {
   product: Product;
 }
 
 export default ({ product: { id: productId } }: Props) => {
-  const customerId = useAtomValue(currentCustomerIdAtom);
-  const [selection, setSelection] = useAtom(customerSelectionsAtom({ customerId, productId }));
+  const dispatch = useDispatch();
+
+  const qty = useSelector(selectors.selectCurrentProductQty(productId));
 
   return (
     <FormControl>
-      <NumberInput focusBorderColor="gray.500" value={selection?.qty}>
+      <NumberInput focusBorderColor="gray.500" value={qty}>
         <NumberInputField />
         <NumberInputStepper>
-          <NumberIncrementStepper onClick={() => setSelection("add")} />
-          <NumberDecrementStepper onClick={() => setSelection("remove")} />
+          <NumberIncrementStepper onClick={() => dispatch(actions.addToCart(productId))} />
+          <NumberDecrementStepper onClick={() => dispatch(actions.removeFromCart(productId))} />
         </NumberInputStepper>
       </NumberInput>
     </FormControl>
