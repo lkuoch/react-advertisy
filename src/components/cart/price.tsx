@@ -1,10 +1,10 @@
 import React from "react";
-import { useAtomValue } from "jotai";
+import { useSelector } from "react-redux";
 
 import { HStack, Text, useColorModeValue } from "@chakra-ui/react";
 
-import { ProductOfferAtom } from "../../features/customer/atoms";
-import { Product, ProductOfferType } from "../../schema/generated";
+import { selectors } from "../../features/customer";
+import { Product, ProductOfferType } from "../../types";
 
 interface Props {
   product: Product;
@@ -12,8 +12,8 @@ interface Props {
 
 export default ({ product: { price, id: productId } }: Props) => {
   const newPriceColor = useColorModeValue("firebrick", "tomato");
-  const { length, [0]: newPriceOffer } = useAtomValue(
-    ProductOfferAtom({ productId, offerType: ProductOfferType.NewPrice })
+  const { length, [0]: newPriceOffer } = useSelector(
+    selectors.selectProductOffer({ productId, offerType: ProductOfferType.NewPrice })
   );
 
   if (length > 0) {

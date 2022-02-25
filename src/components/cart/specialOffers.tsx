@@ -1,19 +1,20 @@
 import React from "react";
-import { useAtomValue } from "jotai";
+import { useSelector } from "react-redux";
 import { Box, HStack, Text, useColorModeValue } from "@chakra-ui/react";
 
-import { ProductOfferAtom } from "../../features/customer/atoms";
+import { selectors } from "../../features/customer";
 
-import { Product, ProductOfferType } from "../../schema/generated";
+import { Product, ProductOfferType } from "../../types";
 
 interface Props {
   product: Product;
 }
 
 export default ({ product: { id: productId, price } }: Props) => {
+  const xyDealOffer = useSelector(selectors.selectProductOffer({ productId, offerType: ProductOfferType.XyDeal }));
+  const newPriceOffer = useSelector(selectors.selectProductOffer({ productId, offerType: ProductOfferType.NewPrice }));
+
   const textColor = useColorModeValue("gray.700", "white");
-  const newPriceOffer = useAtomValue(ProductOfferAtom({ productId, offerType: ProductOfferType.NewPrice }));
-  const xyDealOffer = useAtomValue(ProductOfferAtom({ productId, offerType: ProductOfferType.XyDeal }));
 
   const hasOffers = newPriceOffer.length > 0 || xyDealOffer.length > 0;
 

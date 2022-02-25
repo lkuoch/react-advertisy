@@ -1,18 +1,16 @@
 import React from "react";
-import { useAtomValue } from "jotai";
+import { useSelector } from "react-redux";
 import { Table, TableCaption, Tbody, Td, Th, Thead, Tr, useBreakpoint } from "@chakra-ui/react";
 
-import { cartQueryAtom } from "../../features/cart/atoms";
+import { selectors } from "../../features/cart";
 
 import Description from "./description";
 import Price from "./price";
 import UserSelection from "./userSelection";
 
-import { Product } from "../../schema/generated";
-
 export default () => {
   const isMobile = ["base", "sm"].includes(useBreakpoint() ?? "");
-  const products = useAtomValue<Product[]>(cartQueryAtom);
+  const products = useSelector(selectors.entitySelectors.selectAll);
 
   return (
     <Table colorScheme="gray" variant="striped" {...(isMobile && { size: "sm" })}>
